@@ -18,6 +18,12 @@ import { motion } from "framer-motion";
 import { FaBars } from "react-icons/fa";
 import Sidebar from "./Components/Sidebar";
 import { MdLogout } from "react-icons/md";
+import "./App.css";
+import FslEntry from "./pages/FslEntry";
+import KurkiEntry from "./pages/KurkiEntry";
+import OthersEntry from "./pages/OthersEntry";
+import UnclaimedEntry from "./pages/UnclaimedEntry";
+// import logo from "../src/assets/Images/mainlogo.png";
 
 function App() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -52,6 +58,7 @@ function App() {
         <Sidebar isOpen={isSidebarOpen} className="fixed h-screen" />
 
         {/* Main Content - Scrollable */}
+
         <div
           className={`flex-1  transition-all ml-${
             isSidebarOpen ? "0" : "0"
@@ -82,12 +89,23 @@ function App() {
               </div>
             </div>
           </div>
+          <div className="flex justify-center bg-white p-1">
+            <img
+              src="https://vectorseek.com/wp-content/uploads/2023/09/Delhi-Police-Logo-Vector.svg-.png"
+              alt="logo"
+              className="h-28"
+            />
+          </div>
 
           {/* Animated Content Wrapper */}
           <div className="bg-white p-4 ">
             <Routes>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/malkhana-entry" element={<MalkhanEntry />} />
+              <Route path="/fsl_entry" element={<FslEntry />} />
+              <Route path="/kurki_entry" element={<KurkiEntry />} />
+              <Route path="/others_entry" element={<OthersEntry />} />
+              <Route path="/unclaimed_entry" element={<UnclaimedEntry />} />
               <Route
                 path="/seized-vehicle-entry"
                 element={<SeizedVehicleEntry />}
