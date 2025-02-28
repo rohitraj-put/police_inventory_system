@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function NotFound() {
   return (
@@ -11,9 +12,12 @@ function NotFound() {
             Oops! The page you are looking for does not exist. It might have
             been moved or deleted.
           </p>
-          <button className="bg-[#8c7a48]  text-white font-semibold px-6 py-3 rounded-md cursor-pointer">
+          <Link
+            to={"/dashboard"}
+            className="bg-[#8c7a48]  text-white font-semibold px-6 py-3 rounded-md cursor-pointer"
+          >
             HOME
-          </button>
+          </Link>
         </div>
       </div>
     </div>
