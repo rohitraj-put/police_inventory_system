@@ -13,7 +13,6 @@ import ImportData from "../src/pages/ImportData";
 import ManageUsers from "../src/pages/ManageUsers";
 import Settings from "../src/pages/Settings";
 import SeizedCashGold from "../src/pages/SeizedCashGold";
-import { motion } from "framer-motion";
 import { FaBars } from "react-icons/fa";
 import Sidebar from "./Components/Sidebar";
 import { MdLogout } from "react-icons/md";
