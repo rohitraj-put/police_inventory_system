@@ -1,23 +1,21 @@
 import { useState } from "react";
 
-export default function OthersEntry() {
+export default function UnclaimedVehicle() {
   const [formData, setFormData] = useState({
-    firNo: "",
     mudNo: "",
     gdNo: "",
-    ioName: "",
-    banam: "",
     underSection: "",
-    description: "",
-    place: "",
-    court: "",
-    firYear: "",
+    vehicleType: "Car",
+    regNo: "",
+    chassisNo: "",
+    engineNo: "",
+    colour: "",
     gdDate: "",
-    DakhilKarneWala: "",
-    caseProperty: "",
     actType: "",
-    status: "",
+    result: "",
     avatar: null,
+    vivechak: "",
+    banam: "",
   });
 
   const [error, setError] = useState("");
@@ -59,10 +57,13 @@ export default function OthersEntry() {
     });
 
     try {
-      const response = await fetch("http://localhost:5000/api/othersentry", {
-        method: "POST",
-        body: formDataToSend,
-      });
+      const response = await fetch(
+        "http://localhost:5000/api/unclaimedvehicle",
+        {
+          method: "POST",
+          body: formDataToSend,
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to submit data");
@@ -77,78 +78,66 @@ export default function OthersEntry() {
 
   return (
     <div className="w-full mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Others Entry</h2>
+      <h2 className="text-2xl font-bold mb-4">Unclaimed Vehicle Entry</h2>
       {error && <p className="text-red-500">{error}</p>}
       <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-4">
-        {Object.keys(formData).map((field) => {
-          if (field === "avatar") {
-            return (
-              <div key={field} className="col-span-3">
-                <label className="block text-gray-700 capitalize">
-                  Upload Avatar
-                </label>
-                <input
-                  type="file"
-                  name="avatar"
-                  accept="image/*"
+        {Object.keys(formData).map((field) =>
+          field !== "avatar" ? (
+            <div key={field} className={field === "result" ? "col-span-3" : ""}>
+              <label className="block text-gray-700 capitalize">{field}</label>
+              {field === "vehicleType" ? (
+                <select
+                  name={field}
+                  value={formData[field]}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded mt-1"
-                />
-                {preview && (
-                  <img
-                    src={preview}
-                    alt="Avatar Preview"
-                    className="mt-2 w-24 h-24 object-cover rounded"
-                  />
-                )}
-              </div>
-            );
-          }
-          if (field === "description") {
-            return (
-              <div key={field} className="col-span-3">
-                <label className="block text-gray-700 capitalize">
-                  Description
-                </label>
+                >
+                  <option value="Car">Car</option>
+                  <option value="Bike">Bike</option>
+                  <option value="Truck">Truck</option>
+                  <option value="Bus">Bus</option>
+                  <option value="Other">Other</option>
+                </select>
+              ) : field === "result" ? (
                 <textarea
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded mt-1"
                   rows="4"
-                />
-              </div>
-            );
-          }
-          if (field === "gdDate") {
-            return (
-              <div key={field}>
-                <label className="block text-gray-700 capitalize">
-                  GD Date
-                </label>
+                ></textarea>
+              ) : (
                 <input
-                  type="date"
+                  type={field === "gdDate" ? "date" : "text"}
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded mt-1"
                 />
-              </div>
-            );
-          }
-          return (
-            <div key={field}>
-              <label className="block text-gray-700 capitalize">{field}</label>
+              )}
+            </div>
+          ) : (
+            <div key={field} className="col-span-3">
+              <label className="block text-gray-700 capitalize">
+                Upload Avatar
+              </label>
               <input
-                type="text"
-                name={field}
-                value={formData[field]}
+                type="file"
+                name="avatar"
+                accept="image/*"
                 onChange={handleChange}
                 className="w-full p-2 border border-gray-300 rounded mt-1"
               />
+              {preview && (
+                <img
+                  src={preview}
+                  alt="Avatar Preview"
+                  className="mt-2 w-24 h-24 object-cover rounded"
+                />
+              )}
             </div>
-          );
-        })}
+          )
+        )}
         <button
           type="submit"
           className="bg-[#8c7a48] w-full text-white px-4 py-2 rounded hover:bg-[#af9859]"

@@ -16,6 +16,7 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import logo from "../assets/Images/mainlogo.png";
+import Cutlogo from "../assets/Images/cutLogo.png";
 
 const menuItems = [
   { path: "/dashboard", name: "Dashboard", icon: <FaHome /> },
@@ -31,9 +32,16 @@ const menuItems = [
     ],
   },
   {
-    path: "/seized-vehicle-entry",
     name: "Seized Vehicle Entry",
     icon: <FaBox />,
+    subItems: [
+      { path: "/m_v_act_Seizure", name: "M V Act Seizure" },
+      { path: "/arto_seizure", name: "Arto Seizure" },
+      { path: "/ipc_vehicle", name: "IPC Vehicle" },
+      { path: "/excise_vehicle", name: "Excise Vehicle" },
+      { path: "/unclaimed_vehicle", name: "Unclaimed Vehicle" },
+      { path: "/seizure_vehicle", name: "Seizure Vehicle" },
+    ],
   },
   { path: "/summon-entry", name: "Summon Entry", icon: <FaFileAlt /> },
   {
@@ -71,11 +79,7 @@ const Sidebar = ({ isOpen, setActivePage }) => {
         </div>
       ) : (
         <div className="sticky top-0 bg-[#8c7a48] z-50">
-          <img
-            className="h-12 ml-2 pt-2"
-            src="https://vectorseek.com/wp-content/uploads/2023/09/Delhi-Police-Logo-Vector.svg-.png"
-            alt="logo"
-          />
+          <img className="h-12 ml-2 pt-2" src={Cutlogo} alt="logo" />
         </div>
       )}
       <ul className="mt-8 space-y-4 p-1">

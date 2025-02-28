@@ -4,7 +4,6 @@ import LogIn from "./Auth/LogIn";
 import Register from "./Auth/Register";
 import Dashboard from "./layout/Dashboard";
 import MalkhanEntry from "../src/pages/MalkhanEntry";
-import SeizedVehicleEntry from "../src/pages/SeizedVehicleEntry";
 import SummonEntry from "../src/pages/SummonEntry";
 import MalkhanaMovement from "../src/pages/MalkhanaMovement";
 import MalkhanaRelease from "../src/pages/MalkhanaRelease";
@@ -23,6 +22,15 @@ import FslEntry from "./pages/FslEntry";
 import KurkiEntry from "./pages/KurkiEntry";
 import OthersEntry from "./pages/OthersEntry";
 import UnclaimedEntry from "./pages/UnclaimedEntry";
+import Footer from "./pages/Footer";
+
+import MVActSeizure from "./pages/MVActSeizure";
+import ArtoSeizure from "./pages/ArtoSeizure";
+import IPCVehicle from "./pages/IPCVehicle";
+import ExciseVehicle from "./pages/ExciseVehicle";
+import UnclaimedVehicle from "./pages/UnclaimedVehicle";
+import SeizureVehicle from "./pages/SeizureVehicle";
+import NotFound from "./pages/NotFound";
 // import logo from "../src/assets/Images/mainlogo.png";
 
 function App() {
@@ -106,10 +114,15 @@ function App() {
               <Route path="/kurki_entry" element={<KurkiEntry />} />
               <Route path="/others_entry" element={<OthersEntry />} />
               <Route path="/unclaimed_entry" element={<UnclaimedEntry />} />
-              <Route
-                path="/seized-vehicle-entry"
-                element={<SeizedVehicleEntry />}
-              />
+
+              {/* ------------------seized-vehicle-entr----------------- */}
+              <Route path="/m_v_act_Seizure" element={<MVActSeizure />} />
+              <Route path="/arto_seizure" element={<ArtoSeizure />} />
+              <Route path="/ipc_vehicle" element={<IPCVehicle />} />
+              <Route path="/excise_vehicle" element={<ExciseVehicle />} />
+              <Route path="/unclaimed_vehicle" element={<UnclaimedVehicle />} />
+              <Route path="/seizure_vehicle" element={<SeizureVehicle />} />
+
               <Route path="/summon-entry" element={<SummonEntry />} />
               <Route path="/malkhana-movement" element={<MalkhanaMovement />} />
               <Route path="/malkhana-release" element={<MalkhanaRelease />} />
@@ -119,8 +132,11 @@ function App() {
               <Route path="/manage-users" element={<ManageUsers />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/seized-cash-gold" element={<SeizedCashGold />} />
+              {/* ---------------Page not found ---------------- */}
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
+          <Footer />
         </div>
       </div>
     </>
