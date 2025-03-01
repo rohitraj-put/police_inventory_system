@@ -1,10 +1,10 @@
-// context/FslContext.js
+// context/SummonContext.js
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
-export const FslContext = createContext();
+export const SummonContext = createContext();
 
-export const FslProvider = ({ children }) => {
+export const SummonProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,7 +14,7 @@ export const FslProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // Get token from local storage or state
       try {
         const response = await axios.get(
-          "https://malkhanaserver.onrender.com/api/v1/fsl",
+          "https://malkhanaserver.onrender.com/api/v1/summon",
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include token in headers
@@ -33,8 +33,8 @@ export const FslProvider = ({ children }) => {
   }, []);
 
   return (
-    <FslContext.Provider value={{ data, loading, error }}>
+    <SummonContext.Provider value={{ data, loading, error }}>
       {children}
-    </FslContext.Provider>
+    </SummonContext.Provider>
   );
 };

@@ -1,10 +1,10 @@
-// context/FslContext.js
+// context/ExciseVehicleContext.js
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
-export const FslContext = createContext();
+export const ExciseVehicleContext = createContext();
 
-export const FslProvider = ({ children }) => {
+export const ExciseVehicleProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,7 +14,7 @@ export const FslProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // Get token from local storage or state
       try {
         const response = await axios.get(
-          "https://malkhanaserver.onrender.com/api/v1/fsl",
+          "https://malkhanaserver.onrender.com/api/v1/exciseVehicle",
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include token in headers
@@ -33,8 +33,8 @@ export const FslProvider = ({ children }) => {
   }, []);
 
   return (
-    <FslContext.Provider value={{ data, loading, error }}>
+    <ExciseVehicleContext.Provider value={{ data, loading, error }}>
       {children}
-    </FslContext.Provider>
+    </ExciseVehicleContext.Provider>
   );
 };

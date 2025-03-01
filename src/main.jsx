@@ -7,6 +7,13 @@ import { KurkiProvider } from "./context/KurkiContext.jsx";
 import { FslProvider } from "./context/FslContext.jsx";
 import { OtherProvider } from "./context/OtherContext.jsx";
 import { UnclaimedProvider } from "./context/UnclaimedContext.jsx";
+import { MvactProvider } from "./context/MvactContext.jsx";
+import { ArtoProvider } from "./context/ArtoContaxt.jsx";
+import { IpcVehicleProvider } from "./context/IPCVehicleContext.jsx";
+import { ExciseVehicleProvider } from "./context/ExciseVehicleContext.jsx";
+import { UnclaimedVehicleContextProvider } from "./context/UnclaimedVehicleContext.jsx";
+import { SeizureVehicleProvider } from "./context/SeizureVehicleContext.jsx";
+import { SummonProvider } from "./context/SummonContext.jsx";
 import "./index.css";
 
 // Corrected Providers Component
@@ -15,7 +22,21 @@ const Providers = ({ children }) => (
     <KurkiProvider>
       <FslProvider>
         <OtherProvider>
-          <UnclaimedProvider>{children}</UnclaimedProvider>
+          <UnclaimedProvider>
+            <MvactProvider>
+              <ArtoProvider>
+                <IpcVehicleProvider>
+                  <ExciseVehicleProvider>
+                    <UnclaimedVehicleContextProvider>
+                      <SeizureVehicleProvider>
+                        <SummonProvider> {children}</SummonProvider>
+                      </SeizureVehicleProvider>
+                    </UnclaimedVehicleContextProvider>
+                  </ExciseVehicleProvider>
+                </IpcVehicleProvider>
+              </ArtoProvider>
+            </MvactProvider>
+          </UnclaimedProvider>
         </OtherProvider>
       </FslProvider>
     </KurkiProvider>

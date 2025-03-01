@@ -1,10 +1,10 @@
-// context/FslContext.js
+// context/SeizureVehicleContext.js
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
-export const FslContext = createContext();
+export const SeizureVehicleContext = createContext();
 
-export const FslProvider = ({ children }) => {
+export const SeizureVehicleProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,7 +14,7 @@ export const FslProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // Get token from local storage or state
       try {
         const response = await axios.get(
-          "https://malkhanaserver.onrender.com/api/v1/fsl",
+          "https://malkhanaserver.onrender.com/api/v1/seizureVehicle",
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include token in headers
@@ -33,8 +33,8 @@ export const FslProvider = ({ children }) => {
   }, []);
 
   return (
-    <FslContext.Provider value={{ data, loading, error }}>
+    <SeizureVehicleContext.Provider value={{ data, loading, error }}>
       {children}
-    </FslContext.Provider>
+    </SeizureVehicleContext.Provider>
   );
 };
