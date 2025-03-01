@@ -5,6 +5,7 @@ import {
   useLocation,
   Navigate,
   useNavigate,
+  Link,
 } from "react-router-dom";
 import LogIn from "./Auth/LogIn";
 import Register from "./Auth/Register";
@@ -55,13 +56,16 @@ function App() {
   }, [location.pathname, isAuthenticated]);
 
   const LogoutHandler = () => {
-    localStorage.removeItem("token");
-    setIsAuthenticated(false);
-    navigate("/", { replace: true }); // Navigate to login without refreshing
+    const confirmLogout = window.confirm("Are you sure you want to log out?");
+    if (confirmLogout) {
+      localStorage.removeItem("token");
+      setIsAuthenticated(false);
+      navigate("/", { replace: true }); // Navigate to login without refreshing
+    }
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen">
       {/* Sidebar */}
       {isAuthenticated && (
         <Sidebar isOpen={isSidebarOpen} className="fixed h-screen" />
@@ -72,13 +76,23 @@ function App() {
         {/* Header */}
         {isAuthenticated && (
           <div className="flex justify-between items-center bg-[#8c7a48] py-1 px-2 sticky top-0 z-50 cursor-pointer">
-            <button
-              title="Toggle Sidebar"
-              onClick={() => setSidebarOpen(!isSidebarOpen)}
-              className="bg-[#8c7a48] text-white rounded transition cursor-pointer"
-            >
-              <FaBars size={28} />
-            </button>
+            <div className="flex items-center">
+              <button
+                title="Toggle Sidebar"
+                onClick={() => setSidebarOpen(!isSidebarOpen)}
+                className="bg-[#8c7a48] text-white rounded transition cursor-pointer"
+              >
+                <FaBars size={28} />
+              </button>
+              <div className="flex justify-center  p-1 rounded-full">
+                <img
+                  src="https://vectorseek.com/wp-content/uploads/2023/09/Delhi-Police-Logo-Vector.svg-.png"
+                  alt="logo"
+                  className="h-12"
+                />
+              </div>
+            </div>
+
             <h1 className="text-white font-bold text-xl">
               Peace, Service, Justice
             </h1>
@@ -89,20 +103,23 @@ function App() {
                 title="Log Out"
                 onClick={LogoutHandler}
               />
-              <div className="w-10 h-10 rounded-full overflow-hidden">
+              <Link
+                to={"/manage-users"}
+                className="w-10 h-10 rounded-full overflow-hidden"
+              >
                 <img
                   title="Profile"
                   className="w-full h-full object-cover"
                   src="https://www.pngitem.com/pimgs/m/78-786293_1240-x-1240-0-avatar-profile-icon-png.png"
                   alt="profile_image"
                 />
-              </div>
+              </Link>
             </div>
           </div>
         )}
 
         {/* Logo */}
-        {isAuthenticated && (
+        {/* {isAuthenticated && (
           <div className="flex justify-center bg-white p-1">
             <img
               src="https://vectorseek.com/wp-content/uploads/2023/09/Delhi-Police-Logo-Vector.svg-.png"
@@ -110,7 +127,7 @@ function App() {
               className="h-28"
             />
           </div>
-        )}
+        )} */}
 
         {/* Page Content */}
         <div className="bg-white p-4">
@@ -158,7 +175,7 @@ function App() {
         </div>
 
         {/* Footer */}
-        {isAuthenticated && <Footer />}
+        {/* {isAuthenticated && <Footer />} */}
       </div>
     </div>
   );

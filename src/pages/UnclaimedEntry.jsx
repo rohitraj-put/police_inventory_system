@@ -1,4 +1,7 @@
 import { useState } from "react";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import useUnclaimed from "../hooks/useUnclaimed";
 
 export default function UnclaimedEntry() {
   const [formData, setFormData] = useState({
@@ -8,7 +11,6 @@ export default function UnclaimedEntry() {
     ioName: "",
     banam: "",
     underSection: "",
-    description: "",
     place: "",
     court: "",
     firYear: "",
@@ -18,23 +20,22 @@ export default function UnclaimedEntry() {
     actType: "",
     status: "",
     avatar: null,
+    description: "",
   });
 
-  const [error, setError] = useState("");
   const [preview, setPreview] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { data, loading } = useUnclaimed();
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
-
     if (type === "file") {
       const file = files[0];
       if (file) {
         setFormData({ ...formData, avatar: file });
 
         const reader = new FileReader();
-        reader.onloadend = () => {
-          setPreview(reader.result);
-        };
+        reader.onloadend = () => setPreview(reader.result);
         reader.readAsDataURL(file);
       }
     } else {
@@ -44,118 +45,241 @@ export default function UnclaimedEntry() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
-    for (const key in formData) {
-      if (!formData[key]) {
-        setError("All fields are required");
-        return;
-      }
+    // Validate required fields
+    const missingFields = Object.keys(formData).filter(
+      (key) => key !== "avatar" && !formData[key].trim()
+    );
+
+    if (missingFields.length > 0) {
+      toast.error("All fields are required except the avatar.");
+      console.log("Missing Fields:", missingFields);
+      setIsSubmitting(false);
+      return;
     }
-    setError("");
 
+    // Prepare FormData
     const formDataToSend = new FormData();
-    Object.keys(formData).forEach((key) => {
-      formDataToSend.append(key, formData[key]);
-    });
+    Object.keys(formData).forEach((key) =>
+      formDataToSend.append(key, formData[key])
+    );
 
     try {
-      const response = await fetch("http://localhost:5000/api/unclaimedentry", {
-        method: "POST",
-        body: formDataToSend,
-      });
+      const response = await axios.post(
+        "https://malkhanaserver.onrender.com/api/v1/unclaimed",
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-      if (!response.ok) {
-        throw new Error("Failed to submit data");
+      if (response.status === 201) {
+        toast.success("Data submitted successfully!");
+        setFormData({
+          firNo: "",
+          mudNo: "",
+          gdNo: "",
+          ioName: "",
+          banam: "",
+          underSection: "",
+          place: "",
+          court: "",
+          firYear: "",
+          gdDate: "",
+          DakhilKarneWala: "",
+          caseProperty: "",
+          actType: "",
+          status: "",
+          avatar: null,
+          description: "",
+        });
+        setPreview(null);
+      } else {
+        throw new Error("Unexpected response from server");
       }
-
-      const result = await response.json();
-      console.log("Success:", result);
     } catch (error) {
-      console.error("Error:", error);
+      toast.error("Failed to submit data. Please try again.");
+      console.error("Submission Error:", error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="w-full mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Unclaimed Entry</h2>
-      {error && <p className="text-red-500">{error}</p>}
-      <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-4">
-        {Object.keys(formData).map((field) => {
-          if (field === "avatar") {
-            return (
-              <div key={field} className="col-span-3">
-                <label className="block text-gray-700 capitalize">
-                  Upload Avatar
-                </label>
-                <input
-                  type="file"
-                  name="avatar"
-                  accept="image/*"
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1"
-                />
-                {preview && (
-                  <img
-                    src={preview}
-                    alt="Avatar Preview"
-                    className="mt-2 w-24 h-24 object-cover rounded"
-                  />
-                )}
-              </div>
-            );
-          }
-          if (field === "description") {
-            return (
-              <div key={field} className="col-span-3">
-                <label className="block text-gray-700 capitalize">
-                  Description
-                </label>
+    <>
+      <div className="w-full mx-auto p-4 rounded-lg text-sm">
+        <Toaster />
+        <h2 className="text-lg font-semibold mb-4">Unclaimed Entry</h2>
+        <form onSubmit={handleSubmit} className="grid grid-cols-4 gap-4">
+          {Object.keys(formData).map((field) => (
+            <div
+              key={field}
+              className={field === "description" ? "col-span-4" : "col-span-1"}
+            >
+              <label className="block text-gray-700 text-xs font-medium capitalize">
+                {field.replace(/([A-Z])/g, " $1")}
+              </label>
+              {field === "description" ? (
                 <textarea
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1"
-                  rows="4"
+                  className="w-full p-2 border border-gray-300 rounded mt-1 h-16 text-xs"
                 />
-              </div>
-            );
-          }
-          if (field === "gdDate") {
-            return (
-              <div key={field}>
-                <label className="block text-gray-700 capitalize">
-                  GD Date
-                </label>
+              ) : field === "gdDate" ? (
                 <input
                   type="date"
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1"
+                  className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
                 />
-              </div>
-            );
-          }
-          return (
-            <div key={field}>
-              <label className="block text-gray-700 capitalize">{field}</label>
-              <input
-                type="text"
-                name={field}
-                value={formData[field]}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded mt-1"
-              />
+              ) : field !== "avatar" ? (
+                <input
+                  type="text"
+                  name={field}
+                  value={formData[field]}
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                />
+              ) : (
+                <>
+                  <input
+                    type="file"
+                    name="avatar"
+                    accept="image/*"
+                    onChange={handleChange}
+                    className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                  />
+                  {preview && (
+                    <img
+                      src={preview}
+                      alt="Avatar Preview"
+                      className="mt-2 w-24 h-24 object-cover rounded"
+                    />
+                  )}
+                </>
+              )}
             </div>
-          );
-        })}
-        <button
-          type="submit"
-          className="bg-[#8c7a48] w-full text-white px-4 py-2 rounded hover:bg-[#af9859]"
-        >
-          Submit
-        </button>
-      </form>
-    </div>
+          ))}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className={`w-80 text-white px-4 py-2 rounded col-span-4 ${
+              isSubmitting
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-[#8c7a48] hover:bg-[#af9859]"
+            }`}
+          >
+            {isSubmitting ? "Submitting..." : "Submit"}
+          </button>
+        </form>
+      </div>
+
+      {/* ____________________All unclaimed EntryData=------------ */}
+
+      <div className="mt-6">
+        <h2 className="text-lg font-semibold mb-3">All Unclaimed Entries</h2>
+        {loading ? (
+          <p className="text-gray-500">Loading entries...</p>
+        ) : data && data.length > 0 ? (
+          <div className="overflow-auto max-h-[500px] border border-gray-300 rounded-lg">
+            <table className="w-full border-collapse text-xs">
+              <thead className="sticky top-0 bg-[#8c7a48] text-white z-10">
+                <tr>
+                  {[
+                    "FIR No",
+                    "Mud No",
+                    "GD No",
+                    "IO Name",
+                    "Banam",
+                    "Under Section",
+                    "Description",
+                    "Court",
+                    "FIR Year",
+                    "GD Date",
+                    "Dakhil Karne Wala",
+                    "Act Type",
+                    "Case Property",
+                    "Status",
+                    "Avatar",
+                  ].map((header) => (
+                    <th key={header} className="border border-gray-300 p-2">
+                      {header}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((entry, index) => (
+                  <tr
+                    key={index}
+                    className="text-center border border-gray-300"
+                  >
+                    <td className="border border-gray-300 p-2">
+                      {entry.firNo}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.mudNo}
+                    </td>
+                    <td className="border border-gray-300 p-2">{entry.gdNo}</td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.ioName}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.banam}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.underSection}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.description}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.court}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.firYear}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.gdDate}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.DakhilKarneWala}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.actType}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.caseProperty}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.status}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.avatar ? (
+                        <img
+                          src={entry.avatar}
+                          alt="Avatar"
+                          className="w-10 h-10 object-cover rounded"
+                        />
+                      ) : (
+                        "No Image"
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p className="text-gray-500">No entries found.</p>
+        )}
+      </div>
+    </>
   );
 }

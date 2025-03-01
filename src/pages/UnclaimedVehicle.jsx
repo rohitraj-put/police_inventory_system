@@ -12,10 +12,10 @@ export default function UnclaimedVehicle() {
     colour: "",
     gdDate: "",
     actType: "",
-    result: "",
     avatar: null,
     vivechak: "",
     banam: "",
+    result: "",
   });
 
   const [error, setError] = useState("");
@@ -44,8 +44,8 @@ export default function UnclaimedVehicle() {
     e.preventDefault();
 
     for (const key in formData) {
-      if (!formData[key]) {
-        setError("All fields are required");
+      if (!formData[key] && key !== "avatar") {
+        setError("All fields except Avatar are required");
         return;
       }
     }
@@ -77,70 +77,77 @@ export default function UnclaimedVehicle() {
   };
 
   return (
-    <div className="w-full mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Unclaimed Vehicle Entry</h2>
+    <div className="w-full mx-auto p-4  rounded-lg text-sm">
+      <h2 className="text-lg font-semibold mb-4">Unclaimed Vehicle Entry</h2>
       {error && <p className="text-red-500">{error}</p>}
-      <form onSubmit={handleSubmit} className="grid grid-cols-3 gap-4">
-        {Object.keys(formData).map((field) =>
-          field !== "avatar" ? (
-            <div key={field} className={field === "result" ? "col-span-3" : ""}>
-              <label className="block text-gray-700 capitalize">{field}</label>
-              {field === "vehicleType" ? (
-                <select
-                  name={field}
-                  value={formData[field]}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1"
-                >
-                  <option value="Car">Car</option>
-                  <option value="Bike">Bike</option>
-                  <option value="Truck">Truck</option>
-                  <option value="Bus">Bus</option>
-                  <option value="Other">Other</option>
-                </select>
-              ) : field === "result" ? (
-                <textarea
-                  name={field}
-                  value={formData[field]}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1"
-                  rows="4"
-                ></textarea>
-              ) : (
-                <input
-                  type={field === "gdDate" ? "date" : "text"}
-                  name={field}
-                  value={formData[field]}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1"
-                />
-              )}
-            </div>
-          ) : (
-            <div key={field} className="col-span-3">
-              <label className="block text-gray-700 capitalize">
-                Upload Avatar
-              </label>
-              <input
-                type="file"
-                name="avatar"
-                accept="image/*"
+      <form onSubmit={handleSubmit} className="grid grid-cols-4 gap-4">
+        {Object.keys(formData).map((field) => (
+          <div
+            key={field}
+            className={field === "result" ? "col-span-4" : "col-span-1"}
+          >
+            <label className="block text-gray-700 text-xs font-medium capitalize">
+              {field.replace(/([A-Z])/g, " $1")}
+            </label>
+            {field === "vehicleType" ? (
+              <select
+                name={field}
+                value={formData[field]}
                 onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded mt-1"
+                className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+              >
+                <option value="Car">Car</option>
+                <option value="Bike">Bike</option>
+                <option value="Truck">Truck</option>
+                <option value="Bus">Bus</option>
+                <option value="Other">Other</option>
+              </select>
+            ) : field === "result" ? (
+              <textarea
+                name={field}
+                value={formData[field]}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded mt-1 h-16 text-xs"
               />
-              {preview && (
-                <img
-                  src={preview}
-                  alt="Avatar Preview"
-                  className="mt-2 w-24 h-24 object-cover rounded"
+            ) : field === "gdDate" ? (
+              <input
+                type="date"
+                name={field}
+                value={formData[field]}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+              />
+            ) : field !== "avatar" ? (
+              <input
+                type="text"
+                name={field}
+                value={formData[field]}
+                onChange={handleChange}
+                className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+              />
+            ) : (
+              <>
+                <input
+                  type="file"
+                  name="avatar"
+                  accept="image/*"
+                  onChange={handleChange}
+                  className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
                 />
-              )}
-            </div>
-          )
-        )}
+                {preview && (
+                  <img
+                    src={preview}
+                    alt="Avatar Preview"
+                    className="mt-2 w-24 h-24 object-cover rounded"
+                  />
+                )}
+              </>
+            )}
+          </div>
+        ))}
         <button
           type="submit"
-          className="bg-[#8c7a48] w-full text-white px-4 py-2 rounded hover:bg-[#af9859]"
+          className="bg-[#8c7a48] w-80 text-white px-4 py-2 rounded hover:bg-[#af9859] col-span-4"
         >
           Submit
         </button>
