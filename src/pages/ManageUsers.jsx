@@ -36,7 +36,7 @@ function ManageUsers() {
       <div>
         <Register />
       </div>
-      <div className="w-1/3 bg-gray-100 p-8 rounded-2xl mx-auto max-md:w-full">
+      <div className="w-1/3 bg-gray-100 p-2 rounded-2xl mx-auto max-md:w-full">
         {user ? (
           <>
             <div className="flex items-center justify-center relative z-10 mb-2.5">

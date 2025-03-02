@@ -38,6 +38,7 @@ import UnclaimedVehicle from "./pages/UnclaimedVehicle";
 import SeizureVehicle from "./pages/SeizureVehicle";
 import NotFound from "./pages/NotFound";
 import "./App.css";
+import MalkhanaHelp from "./pages/MalkhanaHelp";
 
 function App() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -168,6 +169,7 @@ function App() {
                 <Route path="/manage-users" element={<ManageUsers />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/seized-cash-gold" element={<SeizedCashGold />} />
+                <Route path="/help" element={<MalkhanaHelp />} />
                 <Route path="*" element={<NotFound />} />
               </>
             )}

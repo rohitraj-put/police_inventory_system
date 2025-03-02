@@ -226,7 +226,7 @@ export default function MalkhanEntry() {
                     "Status",
                     "Avatar",
                   ].map((header) => (
-                    <th key={header} className="border border-gray-300 p-2">
+                    <th key={header} className="border border-gray-300 p-2 ">
                       {header}
                     </th>
                   ))}
