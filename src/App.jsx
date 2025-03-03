@@ -39,6 +39,7 @@ import SeizureVehicle from "./pages/SeizureVehicle";
 import NotFound from "./pages/NotFound";
 import "./App.css";
 import MalkhanaHelp from "./pages/MalkhanaHelp";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -67,6 +68,7 @@ function App() {
 
   return (
     <div className="flex h-screen">
+      <Toaster />
       {/* Sidebar */}
       {isAuthenticated && (
         <Sidebar isOpen={isSidebarOpen} className="fixed h-screen" />

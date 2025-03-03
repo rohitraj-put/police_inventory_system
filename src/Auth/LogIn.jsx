@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
 
 function LogIn() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(localStorage.getItem("email") || "");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-
-  console.log(email, password);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,15 +19,18 @@ function LogIn() {
         { email, password }
       );
       localStorage.setItem("token", res.data.data.accessToken);
-      console.log(res.data.data.accessToken);
+      localStorage.setItem("email", email);
+      toast.success("Logged in successfully!");
       navigate("/dashboard"); // Redirect after login
     } catch (err) {
       setError("Invalid email or password");
+      toast.error("Invalid email or password");
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen p-4 dark:bg-neutral-900">
+      <Toaster />
       <div className="w-full max-w-md bg-white border border-gray-200 rounded-xl shadow-sm p-6 dark:bg-neutral-900 dark:border-neutral-700">
         <div className="w-40 h-36 mx-auto">
           <img
