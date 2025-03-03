@@ -14,7 +14,7 @@ export default function UnclaimedEntry() {
     place: "",
     court: "",
     firYear: "",
-    gdDate: "",
+    gdDate: new Date().toISOString().split("T")[0],
     DakhilKarneWala: "",
     caseProperty: "",
     actType: "",
@@ -24,7 +24,6 @@ export default function UnclaimedEntry() {
   });
 
   const [preview, setPreview] = useState(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const { data, loading } = useUnclaimed();
 
   const handleChange = (e) => {
@@ -45,7 +44,6 @@ export default function UnclaimedEntry() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
 
     // Validate required fields
     const missingFields = Object.keys(formData).filter(
@@ -55,7 +53,6 @@ export default function UnclaimedEntry() {
     if (missingFields.length > 0) {
       toast.error("All fields are required except the avatar.");
       console.log("Missing Fields:", missingFields);
-      setIsSubmitting(false);
       return;
     }
 
@@ -64,6 +61,9 @@ export default function UnclaimedEntry() {
     Object.keys(formData).forEach((key) =>
       formDataToSend.append(key, formData[key])
     );
+
+    // Show submitting toast
+    const submittingToastId = toast.loading("Data is submitting...");
 
     try {
       const response = await axios.post(
@@ -78,7 +78,9 @@ export default function UnclaimedEntry() {
       );
 
       if (response.status === 201) {
-        toast.success("Data submitted successfully!");
+        toast.success("Data submitted successfully!", {
+          id: submittingToastId,
+        });
         setFormData({
           firNo: "",
           mudNo: "",
@@ -89,7 +91,7 @@ export default function UnclaimedEntry() {
           place: "",
           court: "",
           firYear: "",
-          gdDate: "",
+          gdDate: new Date().toISOString().split("T")[0],
           DakhilKarneWala: "",
           caseProperty: "",
           actType: "",
@@ -102,10 +104,10 @@ export default function UnclaimedEntry() {
         throw new Error("Unexpected response from server");
       }
     } catch (error) {
-      toast.error("Failed to submit data. Please try again.");
+      toast.error("Failed to submit data. Please try again.", {
+        id: submittingToastId,
+      });
       console.error("Submission Error:", error);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -168,14 +170,9 @@ export default function UnclaimedEntry() {
           ))}
           <button
             type="submit"
-            disabled={isSubmitting}
-            className={`w-80 text-white px-4 py-2 rounded col-span-4 ${
-              isSubmitting
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-[#8c7a48] hover:bg-[#af9859]"
-            }`}
+            className="bg-[#8c7a48] w-80 cursor-pointer text-white px-4 py-2 rounded hover:bg-[#af9859] col-span-4"
           >
-            {isSubmitting ? "Submitting..." : "Submit"}
+            Submit
           </button>
         </form>
       </div>

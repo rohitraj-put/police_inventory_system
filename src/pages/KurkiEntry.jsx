@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { toast } from "react-hot-toast";
+import { toast, Toaster } from "react-hot-toast";
 import useKurki from "../hooks/useKurki";
 
 export default function KurkiEntry() {
@@ -14,7 +14,7 @@ export default function KurkiEntry() {
     place: "",
     court: "",
     firYear: "",
-    gdDate: "",
+    gdDate: new Date().toISOString().split("T")[0],
     DakhilKarneWala: "",
     caseProperty: "",
     actType: "",
@@ -59,6 +59,9 @@ export default function KurkiEntry() {
       formDataToSend.append(key, formData[key]);
     });
 
+    // Show submitting toast
+    const submittingToastId = toast.loading("Data is submitting...");
+
     try {
       const token = localStorage.getItem("token"); // Replace with actual token
       const response = await axios.post(
@@ -71,10 +74,35 @@ export default function KurkiEntry() {
           },
         }
       );
-      toast.success("Kurki entry submitted successfully");
+      toast.success("Kurki entry submitted successfully", {
+        id: submittingToastId,
+      });
       console.log("Success:", response.data);
+
+      // Reset form after successful submission
+      setFormData({
+        firNo: "",
+        mudNo: "",
+        gdNo: "",
+        ioName: "",
+        banam: "",
+        underSection: "",
+        place: "",
+        court: "",
+        firYear: "",
+        gdDate: new Date().toISOString().split("T")[0],
+        DakhilKarneWala: "",
+        caseProperty: "",
+        actType: "",
+        status: "",
+        avatar: null,
+        description: "",
+      });
+      setPreview(null);
     } catch (error) {
-      toast.error("Submission failed. Please try again");
+      toast.error("Submission failed. Please try again", {
+        id: submittingToastId,
+      });
       console.error("Error:", error.response ? error.response.data : error);
     }
   };
@@ -82,6 +110,7 @@ export default function KurkiEntry() {
   return (
     <>
       <div className="w-full mx-auto rounded-lg text-sm p-4">
+        <Toaster />
         <h2 className="text-lg font-semibold mb-3">Kurki Entry</h2>
         {error && <p className="text-red-500">{error}</p>}
         <form onSubmit={handleSubmit} className="grid grid-cols-4 gap-2">
@@ -138,7 +167,7 @@ export default function KurkiEntry() {
           ))}
           <button
             type="submit"
-            className="bg-[#8c7a48] w-80 text-white px-3 py-2 rounded hover:bg-[#af9859] col-span-4"
+            className="bg-[#8c7a48] w-80 cursor-pointer text-white px-3 py-2 rounded hover:bg-[#af9859] col-span-4"
           >
             Submit
           </button>

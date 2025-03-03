@@ -20,9 +20,10 @@ const SummonEntry = () => {
     lastDays: "",
     releaseDays: "",
     actType: "",
-    date: "",
-    time: "",
+    date: new Date().toISOString().split("T")[0],
+    time: new Date().toLocaleTimeString("en-US", { hour12: false }).slice(0, 5),
   });
+  console.log(formData);
 
   const entryTypes = [
     "MV Act Seizure",
@@ -48,6 +49,9 @@ const SummonEntry = () => {
       }
     }
 
+    // Show submitting toast
+    const submittingToastId = toast.loading("Data is submitting...");
+
     try {
       const response = await axios.post(
         "https://malkhanaserver.onrender.com/api/v1/summon",
@@ -60,7 +64,9 @@ const SummonEntry = () => {
         }
       );
 
-      toast.success("Summon Entry Saved Successfully!");
+      toast.success("Summon Entry Saved Successfully!", {
+        id: submittingToastId,
+      });
       console.log(response);
 
       setFormData({
@@ -75,12 +81,14 @@ const SummonEntry = () => {
         lastDays: "",
         releaseDays: "",
         actType: "",
-        date: "",
-        time: "",
+        date: new Date().toISOString().split("T")[0],
+        time: new Date()
+          .toLocaleTimeString("en-US", { hour12: false })
+          .slice(0, 5),
       });
     } catch (error) {
       console.error("Error saving summon entry:", error);
-      toast.error("Failed to save summon entry.");
+      toast.error("Failed to save summon entry.", { id: submittingToastId });
     }
   };
 
@@ -123,7 +131,7 @@ const SummonEntry = () => {
   return (
     <>
       <Toaster />
-      <div className=" min-h-screen">
+      <div className="min-h-screen">
         <div className="w-full mx-auto bg-white p-6">
           <h2 className="text-xl font-bold mb-4">Summon Entry Form</h2>
           <div className="grid grid-cols-3 max-md:grid-cols-2 gap-4">
@@ -178,7 +186,7 @@ const SummonEntry = () => {
 
         {/* ____________________All Summon EntryData=------------ */}
 
-        <div className=" my-8 bg-white">
+        <div className="my-8 bg-white">
           <h2 className="text-lg font-semibold mb-3">All Summon Entries</h2>
           {loading ? (
             <p className="text-gray-500">Loading entries...</p>

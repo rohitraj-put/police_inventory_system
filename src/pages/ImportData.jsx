@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
 import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import useImportData from "../hooks/useImportData";
 
 const ImportData = () => {
   const [file, setFile] = useState(null);
   const [data, setData] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const { importData } = useImportData();
+
+  console.log(importData);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -28,11 +34,21 @@ const ImportData = () => {
   };
 
   const handleUpload = async () => {
-    if (data.length === 0) return alert("No data to upload");
+    if (!file) {
+      toast.error("No file selected");
+      return;
+    }
+
+    setIsUploading(true);
+    const submittingToastId = toast.loading("Uploading file...");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
     try {
       const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/malkhana",
-        { data },
+        "https://malkhanaserver.onrender.com/api/v1/fileEntry",
+        formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -40,19 +56,29 @@ const ImportData = () => {
           },
         }
       );
+      toast.success("Excel file imported successfully!", {
+        id: submittingToastId,
+      });
       console.log(response.data);
-      alert("File uploaded successfully");
     } catch (error) {
+      toast.error("Upload failed", { id: submittingToastId });
       console.error("Error uploading file:", error);
-      alert("Upload failed");
+    } finally {
+      setIsUploading(false);
     }
+  };
+
+  const handleClear = () => {
+    setFile(null);
+    setData([]);
   };
 
   return (
     <div className="p-4">
+      <Toaster />
       <h2 className="text-lg font-semibold mb-3">Import Data</h2>
 
-      <div className="max-w-lg mx-auto mt-10 p-6  rounded shadow-sm">
+      <div className="max-w-lg mx-auto mt-10 p-6 rounded shadow-sm">
         <h2 className="text-xl font-bold mb-4">Upload Excel File</h2>
         <input
           type="file"
@@ -60,15 +86,56 @@ const ImportData = () => {
           onChange={handleFileChange}
           className="border p-2 w-full"
         />
-        {file && <p className="mt-2">Selected file: {file.name}</p>}
-        <button
-          onClick={handleUpload}
-          className="mt-4 bg-[#8c7a48] hover:bg-[#aa9458] text-white py-2 px-4 rounded cursor-pointer"
-          disabled={!file}
-        >
-          Upload file
-        </button>
+        {file && <p>Selected file: {file.name}</p>}
+        <div className="flex  items-center gap-4">
+          <button
+            onClick={handleUpload}
+            className="mt-4 bg-[#8c7a48] hover:bg-[#aa9458] text-white py-2 px-4 rounded cursor-pointer"
+            disabled={isUploading}
+          >
+            {isUploading ? "Uploading..." : "Upload file"}
+          </button>
+          {file && (
+            <div className="mt-2">
+              <button
+                onClick={handleClear}
+                className="mt-2 bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded cursor-pointer"
+              >
+                Clear
+              </button>
+            </div>
+          )}
+        </div>
       </div>
+      {data.length > 0 && (
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold mb-3">Preview Data</h3>
+          <div className="overflow-x-auto">
+            <table className="table-auto w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-gray-100">
+                  {Object.keys(data[0]).map((key) => (
+                    <th key={key} className="px-4 py-2 border">
+                      {key}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((row, index) => (
+                  <tr key={index} className="even:bg-gray-50">
+                    {Object.values(row).map((value, i) => (
+                      <td key={i} className="px-4 py-2 border">
+                        {value}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

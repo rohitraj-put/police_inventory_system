@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import * as XLSX from "xlsx";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import useMalkhana from "../hooks/useMalkhana";
@@ -14,7 +15,7 @@ export default function MalkhanEntry() {
     place: "",
     court: "",
     firYear: "",
-    gdDate: "",
+    gdDate: new Date().toISOString().split("T")[0],
     DakhilKarneWala: "",
     caseProperty: "",
     actType: "",
@@ -69,6 +70,9 @@ export default function MalkhanEntry() {
       }
     });
 
+    // Show submitting toast
+    const submittingToastId = toast.loading("Data is submitting...");
+
     try {
       const response = await axios.post(
         "https://malkhanaserver.onrender.com/api/v1/malkhana",
@@ -81,7 +85,7 @@ export default function MalkhanEntry() {
         }
       );
 
-      toast.success("Data submitted successfully!");
+      toast.success("Data submitted successfully!", { id: submittingToastId });
       console.log(response);
       // Reset form after successful submission
       setFormData({
@@ -94,7 +98,7 @@ export default function MalkhanEntry() {
         place: "",
         court: "",
         firYear: "",
-        gdDate: "",
+        gdDate: new Date().toISOString().split("T")[0],
         DakhilKarneWala: "",
         caseProperty: "",
         actType: "",
@@ -104,10 +108,39 @@ export default function MalkhanEntry() {
       });
       setPreview(null);
     } catch (error) {
-      toast.error("Error submitting data");
+      toast.error("Error submitting data", { id: submittingToastId });
       console.error("Error:", error.response);
       console.error("Error:", error.response?.data?.message || error.message);
     }
+  };
+
+  const handleDownload = () => {
+    const headers = [
+      "firNo",
+      "mudNo",
+      "gdNo",
+      "ioName",
+      "banam",
+      "underSection",
+      "place",
+      "court",
+      "firYear",
+      "gdDate",
+      "DakhilKarneWala",
+      "caseProperty",
+      "actType",
+      "status",
+      "avatar",
+      "description",
+    ]; // Define expected columns
+    const dataFormatted = data.map(
+      (item) => headers.map((header) => item[header] || "") // Ensure all fields exist
+    );
+
+    const worksheet = XLSX.utils.aoa_to_sheet([headers, ...dataFormatted]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Malkhana Data");
+    XLSX.writeFile(workbook, "MalkhanaData.xlsx");
   };
 
   return (
@@ -174,7 +207,7 @@ export default function MalkhanEntry() {
 
           <button
             type="submit"
-            className="bg-[#8c7a48] w-80 text-white px-3 py-2 rounded hover:bg-[#af9859] col-span-4"
+            className="bg-[#8c7a48] w-80 text-white cursor-pointer px-3 py-2 rounded hover:bg-[#af9859] col-span-4"
           >
             Submit
           </button>
@@ -201,98 +234,114 @@ export default function MalkhanEntry() {
       {/* ____________________All Malkhana EntryData=------------ */}
 
       <div className="mt-6">
-        <h2 className="text-lg font-semibold mb-3">All Malkhana Entries</h2>
+        <div className="flex justify-between items-center">
+          {" "}
+          <h2 className="text-lg font-semibold mb-3">All Malkhana Entries</h2>
+          {data && data.length > 0 && (
+            <button
+              onClick={handleDownload}
+              className="bg-[#8c7a48] text-white cursor-pointer px-3 py-2 rounded hover:bg-[#af9859] mb-2"
+            >
+              Download as Excel
+            </button>
+          )}
+        </div>
+
         {loading ? (
           <p className="text-gray-500">Loading entries...</p>
         ) : data && data.length > 0 ? (
-          <div className="overflow-auto max-h-[500px] border border-gray-300 rounded-lg">
-            <table className="w-full border-collapse text-xs">
-              <thead className="sticky top-0 bg-[#8c7a48] text-white z-10">
-                <tr>
-                  {[
-                    "FIR No",
-                    "Mud No",
-                    "GD No",
-                    "IO Name",
-                    "Banam",
-                    "Under Section",
-                    "Description",
-                    "Court",
-                    "FIR Year",
-                    "GD Date",
-                    "Dakhil Karne Wala",
-                    "Act Type",
-                    "Case Property",
-                    "Status",
-                    "Avatar",
-                  ].map((header) => (
-                    <th key={header} className="border border-gray-300 p-2 ">
-                      {header}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((entry, index) => (
-                  <tr
-                    key={index}
-                    className="text-center border border-gray-300"
-                  >
-                    <td className="border border-gray-300 p-2">
-                      {entry.firNo}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.mudNo}
-                    </td>
-                    <td className="border border-gray-300 p-2">{entry.gdNo}</td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.ioName}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.banam}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.underSection}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.description}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.court}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.firYear}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.gdDate}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.DakhilKarneWala}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.actType}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.caseProperty}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.status}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.avatar ? (
-                        <img
-                          src={entry.avatar}
-                          alt="Avatar"
-                          className="w-10 h-10 object-cover rounded"
-                        />
-                      ) : (
-                        "No Image"
-                      )}
-                    </td>
+          <div>
+            <div className="overflow-auto max-h-[500px] border border-gray-300 rounded-lg">
+              <table className="w-full border-collapse text-xs">
+                <thead className="sticky top-0 bg-[#8c7a48] text-white z-10">
+                  <tr>
+                    {[
+                      "FIR No",
+                      "Mud No",
+                      "GD No",
+                      "IO Name",
+                      "Banam",
+                      "Under Section",
+                      "Description",
+                      "Court",
+                      "FIR Year",
+                      "GD Date",
+                      "Dakhil Karne Wala",
+                      "Act Type",
+                      "Case Property",
+                      "Status",
+                      "Avatar",
+                    ].map((header) => (
+                      <th key={header} className="border border-gray-300 p-2 ">
+                        {header}
+                      </th>
+                    ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {data.map((entry, index) => (
+                    <tr
+                      key={index}
+                      className="text-center border border-gray-300"
+                    >
+                      <td className="border border-gray-300 p-2">
+                        {entry.firNo}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {entry.mudNo}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {entry.gdNo}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {entry.ioName}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {entry.banam}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {entry.underSection}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {entry.description}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {entry.court}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {entry.firYear}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {entry.gdDate}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {entry.DakhilKarneWala}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {entry.actType}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {entry.caseProperty}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {entry.status}
+                      </td>
+                      <td className="border border-gray-300 p-2">
+                        {entry.avatar ? (
+                          <img
+                            src={entry.avatar}
+                            alt="Avatar"
+                            className="w-10 h-10 object-cover rounded"
+                          />
+                        ) : (
+                          "No Image"
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         ) : (
           <p className="text-gray-500">No entries found.</p>

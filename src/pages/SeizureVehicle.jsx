@@ -13,7 +13,7 @@ export default function SeizureVehicle() {
     chassisNo: "",
     engineNo: "",
     colour: "",
-    gdDate: "",
+    gdDate: new Date().toISOString().split("T")[0],
     actType: "",
     avatar: null,
     vivechak: "",
@@ -22,6 +22,7 @@ export default function SeizureVehicle() {
     vehicleOwner: "",
     result: "",
   });
+  console.log(formData);
 
   const [preview, setPreview] = useState(null);
   const { data, loading } = useSeizureVehicle();
@@ -58,6 +59,9 @@ export default function SeizureVehicle() {
       formDataToSend.append(key, formData[key]);
     });
 
+    // Show submitting toast
+    const submittingToastId = toast.loading("Data is submitting...");
+
     try {
       const response = await axios.post(
         "https://malkhanaserver.onrender.com/api/v1/seizureVehicle",
@@ -70,30 +74,28 @@ export default function SeizureVehicle() {
         }
       );
 
-      if (response.status === 200) {
-        toast.success("Data submitted successfully");
-        setFormData({
-          mudNo: "",
-          gdNo: "",
-          underSection: "",
-          vehicleType: "Car",
-          regNo: "",
-          chassisNo: "",
-          engineNo: "",
-          colour: "",
-          gdDate: "",
-          actType: "",
-          avatar: null,
-          vivechak: "",
-          firNo: "",
-          banam: "",
-          vehicleOwner: "",
-          result: "",
-        });
-        setPreview(null);
-      }
+      toast.success("Data submitted successfully", { id: submittingToastId });
+      setFormData({
+        mudNo: "",
+        gdNo: "",
+        underSection: "",
+        vehicleType: "Car",
+        regNo: "",
+        chassisNo: "",
+        engineNo: "",
+        colour: "",
+        gdDate: new Date().toISOString().split("T")[0],
+        actType: "",
+        avatar: null,
+        vivechak: "",
+        firNo: "",
+        banam: "",
+        vehicleOwner: "",
+        result: "",
+      });
+      setPreview(null);
     } catch (error) {
-      toast.error("Failed to submit data");
+      toast.error("Failed to submit data", { id: submittingToastId });
       console.error("Error:", error);
     }
   };
@@ -170,7 +172,7 @@ export default function SeizureVehicle() {
           ))}
           <button
             type="submit"
-            className="bg-[#8c7a48] w-80 text-white px-4 py-2 rounded hover:bg-[#af9859] col-span-4"
+            className="bg-[#8c7a48] w-80 cursor-pointer text-white px-4 py-2 rounded hover:bg-[#af9859] col-span-4"
           >
             Submit
           </button>
@@ -196,7 +198,7 @@ export default function SeizureVehicle() {
                     "Under Section",
                     "Vehicle Type",
                     "Reg No",
-                    "chassis No",
+                    "Chassis No",
                     "Vivechak",
                     "Engine No",
                     "Colour",
@@ -222,7 +224,6 @@ export default function SeizureVehicle() {
                       {entry.mudNo}
                     </td>
                     <td className="border border-gray-300 p-2">{entry.gdNo}</td>
-
                     <td className="border border-gray-300 p-2">
                       {entry.underSection}
                     </td>

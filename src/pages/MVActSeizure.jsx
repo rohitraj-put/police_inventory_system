@@ -13,13 +13,12 @@ export default function MVActSeizure() {
     chassisNo: "",
     engineNo: "",
     colour: "",
-    gdDate: "",
+    gdDate: new Date().toISOString().split("T")[0],
     actType: "",
     avatar: null,
     result: "",
   });
 
-  const [error, setError] = useState("");
   const [preview, setPreview] = useState(null);
   const { data, loading } = useMvact();
   console.log(data);
@@ -47,17 +46,18 @@ export default function MVActSeizure() {
 
     for (const key in formData) {
       if (!formData[key] && key !== "avatar") {
-        setError("All fields except Avatar are required");
         toast.error("All fields except Avatar are required");
         return;
       }
     }
-    setError("");
 
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
       formDataToSend.append(key, formData[key]);
     });
+
+    // Show submitting toast
+    const submittingToastId = toast.loading("Data is submitting...");
 
     try {
       const response = await axios.post(
@@ -71,10 +71,27 @@ export default function MVActSeizure() {
         }
       );
 
-      toast.success("Form submitted successfully!");
+      toast.success("Form submitted successfully!", { id: submittingToastId });
       console.log("Success:", response.data);
+
+      // Reset form after successful submission
+      setFormData({
+        mudNo: "",
+        gdNo: "",
+        underSection: "",
+        vehicleType: "Car",
+        regNo: "",
+        chassisNo: "",
+        engineNo: "",
+        colour: "",
+        gdDate: new Date().toISOString().split("T")[0],
+        actType: "",
+        avatar: null,
+        result: "",
+      });
+      setPreview(null);
     } catch (error) {
-      toast.error("Error submitting form");
+      toast.error("Error submitting form", { id: submittingToastId });
       console.error("Error:", error);
     }
   };
@@ -84,7 +101,6 @@ export default function MVActSeizure() {
       <div className="w-full mx-auto p-4 rounded-lg text-sm">
         <Toaster />
         <h2 className="text-lg font-semibold mb-4">MV Act Seizure Entry</h2>
-        {error && <p className="text-red-500">{error}</p>}
         <form onSubmit={handleSubmit} className="grid grid-cols-4 gap-4">
           {Object.keys(formData).map((field) => (
             <div
@@ -152,17 +168,17 @@ export default function MVActSeizure() {
           ))}
           <button
             type="submit"
-            className="bg-[#8c7a48] w-80 text-white px-4 py-2 rounded hover:bg-[#af9859] col-span-4"
+            className="bg-[#8c7a48] w-80 cursor-pointer text-white px-4 py-2 rounded hover:bg-[#af9859] col-span-4"
           >
             Submit
           </button>
         </form>
       </div>
 
-      {/* ____________________All M V Atc EntryData=------------ */}
+      {/* ____________________All MV Act EntryData=------------ */}
 
       <div className="mt-6">
-        <h2 className="text-lg font-semibold mb-3">All M V Act Entries</h2>
+        <h2 className="text-lg font-semibold mb-3">All MV Act Entries</h2>
         {loading ? (
           <p className="text-gray-500">Loading entries...</p>
         ) : data && data.length > 0 ? (
@@ -176,7 +192,7 @@ export default function MVActSeizure() {
                     "Under Section",
                     "Vehicle Type",
                     "Reg No",
-                    "chassis No",
+                    "Chassis No",
                     "Engine No",
                     "Colour",
                     "GD Date",
@@ -200,7 +216,6 @@ export default function MVActSeizure() {
                       {entry.mudNo}
                     </td>
                     <td className="border border-gray-300 p-2">{entry.gdNo}</td>
-
                     <td className="border border-gray-300 p-2">
                       {entry.underSection}
                     </td>

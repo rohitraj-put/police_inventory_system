@@ -14,7 +14,7 @@ export default function FslEntry() {
     place: "",
     court: "",
     firYear: "",
-    gdDate: "",
+    gdDate: new Date().toISOString().split("T")[0],
     DakhilKarneWala: "",
     caseProperty: "",
     actType: "",
@@ -58,6 +58,9 @@ export default function FslEntry() {
       formDataToSend.append(key, formData[key]);
     });
 
+    // Show submitting toast
+    const submittingToastId = toast.loading("Data is submitting...");
+
     try {
       const token = localStorage.getItem("token"); // Replace with actual token
       const response = await axios.post(
@@ -70,12 +73,33 @@ export default function FslEntry() {
           },
         }
       );
-      toast.success("Form submitted successfully!");
+      toast.success("Form submitted successfully!", { id: submittingToastId });
       console.log("Success:", response.data);
+
+      // Reset form after successful submission
+      setFormData({
+        firNo: "",
+        mudNo: "",
+        gdNo: "",
+        ioName: "",
+        banam: "",
+        underSection: "",
+        place: "",
+        court: "",
+        firYear: "",
+        gdDate: new Date().toISOString().split("T")[0],
+        DakhilKarneWala: "",
+        caseProperty: "",
+        actType: "",
+        status: "",
+        avatar: null,
+        description: "",
+      });
+      setPreview(null);
     } catch (error) {
       console.error("Error:", error);
       setError("Failed to submit data");
-      toast.error("Submission failed. Try again.");
+      toast.error("Submission failed. Try again.", { id: submittingToastId });
     }
   };
 
@@ -139,7 +163,7 @@ export default function FslEntry() {
           ))}
           <button
             type="submit"
-            className="bg-[#8c7a48] w-80 text-white px-3 py-2 rounded hover:bg-[#af9859] col-span-4"
+            className="bg-[#8c7a48] w-80 cursor-pointer text-white px-3 py-2 rounded hover:bg-[#af9859] col-span-4"
           >
             Submit
           </button>

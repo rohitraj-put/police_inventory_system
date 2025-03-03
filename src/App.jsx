@@ -11,7 +11,7 @@ import LogIn from "./Auth/LogIn";
 import Register from "./Auth/Register";
 import Dashboard from "./layout/Dashboard";
 import Sidebar from "./Components/Sidebar";
-import Footer from "./pages/Footer";
+import Footer from "./Components/Footer";
 import { FaBars } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
 
@@ -118,7 +118,6 @@ function App() {
             </div>
           </div>
         )}
-
         {/* Logo */}
         {/* {isAuthenticated && (
           <div className="flex justify-center bg-white p-1">
@@ -129,7 +128,6 @@ function App() {
             />
           </div>
         )} */}
-
         {/* Page Content */}
         <div className="bg-white p-4">
           <Routes>
@@ -175,8 +173,7 @@ function App() {
             )}
           </Routes>
         </div>
-
-        {/* Footer */}
+        {/* <Footer /> */}
         {/* {isAuthenticated && <Footer />} */}
       </div>
     </div>

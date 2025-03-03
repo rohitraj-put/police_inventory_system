@@ -14,7 +14,7 @@ export default function OthersEntry() {
     place: "",
     court: "",
     firYear: "",
-    gdDate: "",
+    gdDate: new Date().toISOString().split("T")[0],
     DakhilKarneWala: "",
     caseProperty: "",
     actType: "",
@@ -59,6 +59,9 @@ export default function OthersEntry() {
       formDataToSend.append(key, formData[key]);
     });
 
+    // Show submitting toast
+    const submittingToastId = toast.loading("Data is submitting...");
+
     try {
       const response = await axios.post(
         "https://malkhanaserver.onrender.com/api/v1/other",
@@ -72,7 +75,9 @@ export default function OthersEntry() {
       );
 
       if (response.status === 201) {
-        toast.success("Data submitted successfully!");
+        toast.success("Data submitted successfully!", {
+          id: submittingToastId,
+        });
         setFormData({
           firNo: "",
           mudNo: "",
@@ -83,7 +88,7 @@ export default function OthersEntry() {
           place: "",
           court: "",
           firYear: "",
-          gdDate: "",
+          gdDate: new Date().toISOString().split("T")[0],
           DakhilKarneWala: "",
           caseProperty: "",
           actType: "",
@@ -96,7 +101,9 @@ export default function OthersEntry() {
         throw new Error("Unexpected response from server");
       }
     } catch (error) {
-      toast.error("Failed to submit data. Please try again.");
+      toast.error("Failed to submit data. Please try again.", {
+        id: submittingToastId,
+      });
       console.error("Error:", error);
     }
   };
@@ -160,7 +167,7 @@ export default function OthersEntry() {
           ))}
           <button
             type="submit"
-            className="bg-[#8c7a48] w-80 text-white px-4 py-2 rounded hover:bg-[#af9859] col-span-4"
+            className="bg-[#8c7a48] w-80 cursor-pointer text-white px-4 py-2 rounded hover:bg-[#af9859] col-span-4"
           >
             Submit
           </button>

@@ -74,7 +74,7 @@ const Sidebar = ({ isOpen, setActivePage }) => {
       {isOpen ? (
         <div className="sticky top-0 bg-[#8c7a48] z-50">
           <div className="sticky top-0 bg-white z-50">
-            <img className="h-18 pl-2 py-2" src={logo} alt="logo" />
+            <img className="h-16 pl-2 py-2" src={logo} alt="logo" />
           </div>
         </div>
       ) : (

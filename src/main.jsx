@@ -14,6 +14,7 @@ import { ExciseVehicleProvider } from "./context/ExciseVehicleContext.jsx";
 import { UnclaimedVehicleContextProvider } from "./context/UnclaimedVehicleContext.jsx";
 import { SeizureVehicleProvider } from "./context/SeizureVehicleContext.jsx";
 import { SummonProvider } from "./context/SummonContext.jsx";
+import { ImportDataProvider } from "./context/ImportDataContext.jsx";
 import "./index.css";
 
 // Corrected Providers Component
@@ -29,7 +30,9 @@ const Providers = ({ children }) => (
                   <ExciseVehicleProvider>
                     <UnclaimedVehicleContextProvider>
                       <SeizureVehicleProvider>
-                        <SummonProvider> {children}</SummonProvider>
+                        <SummonProvider>
+                          <ImportDataProvider>{children}</ImportDataProvider>
+                        </SummonProvider>
                       </SeizureVehicleProvider>
                     </UnclaimedVehicleContextProvider>
                   </ExciseVehicleProvider>

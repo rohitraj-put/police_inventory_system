@@ -13,7 +13,7 @@ export default function UnclaimedVehicle() {
     chassisNo: "",
     engineNo: "",
     colour: "",
-    gdDate: "",
+    gdDate: new Date().toISOString().split("T")[0],
     actType: "",
     avatar: null,
     vivechak: "",
@@ -21,7 +21,6 @@ export default function UnclaimedVehicle() {
     result: "",
   });
 
-  const [error, setError] = useState("");
   const [preview, setPreview] = useState(null);
   const { data, loading } = useUnclaimedVehicle();
 
@@ -46,16 +45,18 @@ export default function UnclaimedVehicle() {
 
     for (const key in formData) {
       if (!formData[key] && key !== "avatar") {
-        setError("All fields except Avatar are required");
+        toast.error("All fields except Avatar are required");
         return;
       }
     }
-    setError("");
 
     const formDataToSend = new FormData();
     Object.keys(formData).forEach((key) => {
       formDataToSend.append(key, formData[key]);
     });
+
+    // Show submitting toast
+    const submittingToastId = toast.loading("Data is submitting...");
 
     try {
       const response = await axios.post(
@@ -69,7 +70,7 @@ export default function UnclaimedVehicle() {
         }
       );
 
-      toast.success("Data submitted successfully!");
+      toast.success("Data submitted successfully!", { id: submittingToastId });
       console.log(response);
       setFormData({
         mudNo: "",
@@ -80,7 +81,7 @@ export default function UnclaimedVehicle() {
         chassisNo: "",
         engineNo: "",
         colour: "",
-        gdDate: "",
+        gdDate: new Date().toISOString().split("T")[0],
         actType: "",
         avatar: null,
         vivechak: "",
@@ -89,7 +90,7 @@ export default function UnclaimedVehicle() {
       });
       setPreview(null);
     } catch (error) {
-      toast.error("Failed to submit data");
+      toast.error("Failed to submit data", { id: submittingToastId });
       console.error("Error:", error);
     }
   };
@@ -99,7 +100,6 @@ export default function UnclaimedVehicle() {
       <div className="w-full mx-auto p-4 rounded-lg text-sm">
         <Toaster />
         <h2 className="text-lg font-semibold mb-4">Unclaimed Vehicle Entry</h2>
-        {error && <p className="text-red-500">{error}</p>}
         <form onSubmit={handleSubmit} className="grid grid-cols-4 gap-4">
           {Object.keys(formData).map((field) => (
             <div
@@ -167,7 +167,7 @@ export default function UnclaimedVehicle() {
           ))}
           <button
             type="submit"
-            className="bg-[#8c7a48] w-80 text-white px-4 py-2 rounded hover:bg-[#af9859] col-span-4"
+            className="bg-[#8c7a48] w-80 cursor-pointer text-white px-4 py-2 rounded hover:bg-[#af9859] col-span-4"
           >
             Submit
           </button>
@@ -193,7 +193,7 @@ export default function UnclaimedVehicle() {
                     "Under Section",
                     "Vehicle Type",
                     "Reg No",
-                    "chassis No",
+                    "Chassis No",
                     "Vivechak",
                     "Engine No",
                     "Colour",
