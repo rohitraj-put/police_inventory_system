@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Register() {
   const fields = [
@@ -83,14 +84,23 @@ function Register() {
                 className="w-full py-3 px-4 border rounded-lg text-sm dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400"
               />
             ))}
-            <button
-              type="submit"
-              className="w-full py-3 px-4 text-sm font-medium text-white bg-[#A38F58] rounded-lg hover:bg-[#8c7a48] focus:outline-none cursor-pointer"
-            >
-              Register
-            </button>
           </div>
+          <button
+            type="submit"
+            className="w-full py-3 px-4 text-sm mt-4 font-medium text-white bg-[#A38F58] rounded-lg hover:bg-[#8c7a48] focus:outline-none cursor-pointer"
+          >
+            Register
+          </button>
         </form>
+        <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400 text-center">
+          You have an account?{" "}
+          <Link
+            className="text-blue-600 hover:underline dark:text-blue-500"
+            to={"/"}
+          >
+            Login here
+          </Link>
+        </p>
       </div>
     </div>
   );

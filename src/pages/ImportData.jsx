@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import useImportData from "../hooks/useImportData";
 
 const ImportData = () => {
@@ -75,7 +75,6 @@ const ImportData = () => {
 
   return (
     <div className="p-4">
-      <Toaster />
       <h2 className="text-lg font-semibold mb-3">Import Data</h2>
 
       <div className="max-w-lg mx-auto mt-10 p-6 rounded shadow-sm">

@@ -1,7 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import useOther from "../hooks/useOther";
+import exportToExcel from "../Excel/exportToExcel";
+import { MdDelete } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
 
 export default function OthersEntry() {
   const [formData, setFormData] = useState({
@@ -24,7 +27,8 @@ export default function OthersEntry() {
   });
 
   const [preview, setPreview] = useState(null);
-  const { data, loading } = useOther();
+  const [searchParams, setSearchParams] = useState({ firNo: "", mudNo: "" });
+  const { data, loading, deleteItem } = useOther();
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -108,10 +112,21 @@ export default function OthersEntry() {
     }
   };
 
+  const handleSearchChange = (e) => {
+    const { name, value } = e.target;
+    setSearchParams({ ...searchParams, [name]: value });
+  };
+
+  const filteredData = data?.filter((entry) => {
+    return (
+      (searchParams.firNo === "" || entry.firNo.includes(searchParams.firNo)) &&
+      (searchParams.mudNo === "" || entry.mudNo.includes(searchParams.mudNo))
+    );
+  });
+
   return (
     <>
       <div className="w-full mx-auto p-4 rounded-lg text-sm">
-        <Toaster />
         <h2 className="text-lg font-semibold mb-4">Others Entry</h2>
         <form onSubmit={handleSubmit} className="grid grid-cols-4 gap-4">
           {Object.keys(formData).map((field) => (
@@ -177,10 +192,40 @@ export default function OthersEntry() {
       {/* ____________________All Other EntryData=------------ */}
 
       <div className="mt-6">
-        <h2 className="text-lg font-semibold mb-3">All Other Entries</h2>
+        <div className="flex justify-between items-center">
+          <h2 className="text-lg font-semibold mb-3">All Other Entries</h2>
+          {data && data.length > 0 && (
+            <button
+              onClick={() => exportToExcel(data)}
+              className="bg-[#8c7a48] text-white cursor-pointer px-3 py-2 rounded hover:bg-[#af9859] mb-2"
+            >
+              Download as Excel
+            </button>
+          )}
+        </div>
+
+        <div className="flex mb-4">
+          <input
+            type="text"
+            name="firNo"
+            value={searchParams.firNo}
+            onChange={handleSearchChange}
+            placeholder="Search by FIR No"
+            className="p-2 border border-gray-300 rounded mr-2 text-xs"
+          />
+          <input
+            type="text"
+            name="mudNo"
+            value={searchParams.mudNo}
+            onChange={handleSearchChange}
+            placeholder="Search by Mud No"
+            className="p-2 border border-gray-300 rounded text-xs"
+          />
+        </div>
+
         {loading ? (
           <p className="text-gray-500">Loading entries...</p>
-        ) : data && data.length > 0 ? (
+        ) : filteredData && filteredData.length > 0 ? (
           <div className="overflow-auto max-h-[500px] border border-gray-300 rounded-lg">
             <table className="w-full border-collapse text-xs">
               <thead className="sticky top-0 bg-[#8c7a48] text-white z-10">
@@ -201,6 +246,7 @@ export default function OthersEntry() {
                     "Case Property",
                     "Status",
                     "Avatar",
+                    "Action",
                   ].map((header) => (
                     <th key={header} className="border border-gray-300 p-2">
                       {header}
@@ -209,7 +255,7 @@ export default function OthersEntry() {
                 </tr>
               </thead>
               <tbody>
-                {data.map((entry, index) => (
+                {filteredData.map((entry, index) => (
                   <tr
                     key={index}
                     className="text-center border border-gray-300"
@@ -264,6 +310,22 @@ export default function OthersEntry() {
                       ) : (
                         "No Image"
                       )}
+                    </td>
+                    <td className="border border-gray-300 p-2 flex items-center">
+                      <button
+                        onClick={() => deleteItem(entry._id)}
+                        className=" text-rose-600 px-2 py-1 rounded  cursor-pointer"
+                        title="Delete"
+                      >
+                        <MdDelete size={24} />
+                      </button>
+                      <button
+                        // onClick={() => deleteItem(entry._id)}
+                        className=" text-blue-600 px-2 py-1 rounded  cursor-pointer"
+                        title="Update"
+                      >
+                        <FaEdit size={24} />
+                      </button>
                     </td>
                   </tr>
                 ))}

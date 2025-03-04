@@ -1,11 +1,11 @@
-// context/ArtoContext.js
+// context/MalkhanaReleaseContext.js
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-export const ArtoContext = createContext();
+export const MalkhanaReleaseContext = createContext();
 
-export const ArtoProvider = ({ children }) => {
+export const MalkhanaReleaseProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,7 +15,7 @@ export const ArtoProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // Get token from local storage or state
       try {
         const response = await axios.get(
-          "https://malkhanaserver.onrender.com/api/v1/artoSeizure",
+          "https://malkhanaserver.onrender.com/api/v1/release",
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include token in headers
@@ -31,13 +31,13 @@ export const ArtoProvider = ({ children }) => {
     };
 
     fetchData();
-  }, [data]);
+  }, []);
 
   const deleteItem = async (id) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
     try {
       const response = await axios.delete(
-        `https://malkhanaserver.onrender.com/api/v1/artoSeizure/${id}`,
+        `https://malkhanaserver.onrender.com/api/v1/release/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`, // Include token in headers
@@ -54,8 +54,10 @@ export const ArtoProvider = ({ children }) => {
   };
 
   return (
-    <ArtoContext.Provider value={{ data, loading, error, deleteItem }}>
+    <MalkhanaReleaseContext.Provider
+      value={{ data, loading, error, deleteItem }}
+    >
       {children}
-    </ArtoContext.Provider>
+    </MalkhanaReleaseContext.Provider>
   );
 };

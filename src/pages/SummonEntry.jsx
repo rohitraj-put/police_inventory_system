@@ -2,11 +2,13 @@ import React, { useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import useSummon from "../hooks/useSummon";
+import { MdDelete } from "react-icons/md";
+import { FaEdit } from "react-icons/fa";
 
 const SummonEntry = () => {
-  const { data, loading } = useSummon();
+  const { data, loading, deleteItem } = useSummon();
 
   const [formData, setFormData] = useState({
     entryType: "",
@@ -130,7 +132,6 @@ const SummonEntry = () => {
 
   return (
     <>
-      <Toaster />
       <div className="min-h-screen">
         <div className="w-full mx-auto bg-white p-6">
           <h2 className="text-xl font-bold mb-4">Summon Entry Form</h2>
@@ -209,6 +210,7 @@ const SummonEntry = () => {
                       "last Days",
                       "release Days",
                       "act Type",
+                      "Action",
                     ].map((header) => (
                       <th key={header} className="border border-gray-300 p-2">
                         {header}
@@ -261,6 +263,22 @@ const SummonEntry = () => {
                       </td>
                       <td className="border border-gray-300 p-2 capitalize">
                         {entry.actType}
+                      </td>
+                      <td className="border border-gray-300 p-2 flex items-center">
+                        <button
+                          onClick={() => deleteItem(entry._id)}
+                          className=" text-rose-600 px-2 py-1 rounded  cursor-pointer"
+                          title="Delete"
+                        >
+                          <MdDelete size={24} />
+                        </button>
+                        <button
+                          // onClick={() => deleteItem(entry._id)}
+                          className=" text-blue-600 px-2 py-1 rounded  cursor-pointer"
+                          title="Update"
+                        >
+                          <FaEdit size={24} />
+                        </button>
                       </td>
                     </tr>
                   ))}

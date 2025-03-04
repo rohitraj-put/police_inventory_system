@@ -1,11 +1,11 @@
-// context/ArtoContext.js
+// context/SeizedCashGoldContext.js
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-export const ArtoContext = createContext();
+export const SeizedCashGoldContext = createContext();
 
-export const ArtoProvider = ({ children }) => {
+export const SeizedCashGoldProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,7 +15,7 @@ export const ArtoProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // Get token from local storage or state
       try {
         const response = await axios.get(
-          "https://malkhanaserver.onrender.com/api/v1/artoSeizure",
+          "https://malkhanaserver.onrender.com/api/v1/seized",
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include token in headers
@@ -37,7 +37,7 @@ export const ArtoProvider = ({ children }) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
     try {
       const response = await axios.delete(
-        `https://malkhanaserver.onrender.com/api/v1/artoSeizure/${id}`,
+        `https://malkhanaserver.onrender.com/api/v1/seized/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`, // Include token in headers
@@ -54,8 +54,10 @@ export const ArtoProvider = ({ children }) => {
   };
 
   return (
-    <ArtoContext.Provider value={{ data, loading, error, deleteItem }}>
+    <SeizedCashGoldContext.Provider
+      value={{ data, loading, error, deleteItem }}
+    >
       {children}
-    </ArtoContext.Provider>
+    </SeizedCashGoldContext.Provider>
   );
 };

@@ -1,6 +1,7 @@
 // context/UnclaimedContext.js
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export const UnclaimedContext = createContext();
 
@@ -30,10 +31,30 @@ export const UnclaimedProvider = ({ children }) => {
     };
 
     fetchData();
-  }, []);
+  }, [data]);
+
+  const deleteItem = async (id) => {
+    const token = localStorage.getItem("token"); // Get token from local storage or state
+    try {
+      const response = await axios.delete(
+        `https://malkhanaserver.onrender.com/api/v1/unclaimed/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include token in headers
+          },
+        }
+      );
+      // Filter out the deleted item from the data state
+      setData(data.filter((item) => item.id !== id));
+      toast.success(response?.data?.message);
+    } catch (err) {
+      setError(err.response?.data?.message || err.message);
+      toast.success(err.response?.data?.message || err.message);
+    }
+  };
 
   return (
-    <UnclaimedContext.Provider value={{ data, loading, error }}>
+    <UnclaimedContext.Provider value={{ data, loading, error, deleteItem }}>
       {children}
     </UnclaimedContext.Provider>
   );
