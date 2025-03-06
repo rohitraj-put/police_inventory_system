@@ -78,8 +78,8 @@ const Sidebar = ({ isOpen, setActivePage }) => {
           </div>
         </div>
       ) : (
-        <div className="sticky top-0 bg-[#8c7a48] z-50">
-          <img className="h-12 ml-2 pt-2" src={Cutlogo} alt="logo" />
+        <div className="sticky top-0 bg-white z-50 h-16 border">
+          <img className="h-12 mx-0.5 mt-2" src={Cutlogo} alt="logo" />
         </div>
       )}
       <ul className="mt-8 space-y-4 p-1">

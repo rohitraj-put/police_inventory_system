@@ -1,4 +1,3 @@
-// context/SeizedCashGoldContext.js
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -31,7 +30,7 @@ export const SeizedCashGoldProvider = ({ children }) => {
     };
 
     fetchData();
-  }, [data]);
+  }, []); // Empty dependency array ensures this runs only once
 
   const deleteItem = async (id) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
@@ -45,11 +44,12 @@ export const SeizedCashGoldProvider = ({ children }) => {
         }
       );
       // Filter out the deleted item from the data state
-      setData(data.filter((item) => item.id !== id));
+      setData((prevData) => prevData.filter((item) => item.id !== id));
       toast.success(response?.data?.message);
+      console.log(response?.data);
     } catch (err) {
       setError(err.response?.data?.message || err.message);
-      toast.success(err.response?.data?.message || err.message);
+      toast.error(err.response?.data?.message || err.message);
     }
   };
 

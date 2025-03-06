@@ -45,7 +45,7 @@ function GenerateBarcode() {
 
   return (
     <div className="p-5">
-      <SMS />
+      {/* <SMS /> */}
       <h2>Barcode Generator</h2>
       <div className="flex flex-row max-md:flex-col items-center">
         {barcodes.map((value, index) => (

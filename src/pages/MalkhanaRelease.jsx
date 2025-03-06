@@ -4,7 +4,8 @@ import toast from "react-hot-toast";
 import useMalkhanaRelease from "../hooks/useMalkhanaRelease";
 import exportToExcel from "../Excel/exportToExcel";
 import { MdDelete } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaPrint } from "react-icons/fa";
+import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
 
 export default function MalkhanaRelease() {
   const [formData, setFormData] = useState({
@@ -49,7 +50,7 @@ export default function MalkhanaRelease() {
 
     for (const key in formData) {
       if (!formData[key] && key !== "avatar" && key !== "documentImage") {
-        toast.error("All fields except Avatar and Document Image are required");
+        toast.error("All fields are required");
         return;
       }
     }
@@ -73,7 +74,7 @@ export default function MalkhanaRelease() {
         }
       );
 
-      toast.success("Data submitted successfully!", { id: submittingToastId });
+      toast.success(response.data.message, { id: submittingToastId });
       console.log(response);
       setFormData({
         entryType: "Type1",
@@ -90,7 +91,7 @@ export default function MalkhanaRelease() {
       setPreviewAvatar(null);
       setPreviewDocument(null);
     } catch (error) {
-      toast.error("Failed to submit data", { id: submittingToastId });
+      toast.error(error.response.data.message, { id: submittingToastId });
       console.error("Error:", error);
     }
   };
@@ -277,6 +278,13 @@ export default function MalkhanaRelease() {
                           title="Update"
                         >
                           <FaEdit size={24} />
+                        </button>
+                        <button
+                          onClick={() => PrintMalkhanaEntry(entry)}
+                          className=" text-green-600 px-2 py-1 rounded  cursor-pointer"
+                          title="Print"
+                        >
+                          <FaPrint size={24} />
                         </button>
                       </td>
                     </tr>

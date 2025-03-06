@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
@@ -9,9 +9,37 @@ function LogIn() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (email && localStorage.getItem("token")) {
+      const autoLogin = async () => {
+        const loadingToastId = toast.loading("Logging in automatically...");
+
+        try {
+          const res = await axios.post(
+            "https://malkhanaserver.onrender.com/api/v1/users/login",
+            { email, password }
+          );
+          localStorage.setItem("token", res.data.data.accessToken);
+          localStorage.setItem("email", email);
+          toast.dismiss(loadingToastId);
+          toast.success("Logged in successfully!");
+          navigate("/dashboard"); // Redirect after login
+        } catch (err) {
+          toast.dismiss(loadingToastId);
+          setError("Invalid email or password");
+          toast.error("Invalid email or password");
+        }
+      };
+
+      autoLogin();
+    }
+  }, [email, password, navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
+    const loadingToastId = toast.loading("Logging in...");
 
     try {
       const res = await axios.post(
@@ -20,9 +48,11 @@ function LogIn() {
       );
       localStorage.setItem("token", res.data.data.accessToken);
       localStorage.setItem("email", email);
+      toast.dismiss(loadingToastId);
       toast.success("Logged in successfully!");
       navigate("/dashboard"); // Redirect after login
     } catch (err) {
+      toast.dismiss(loadingToastId);
       setError("Invalid email or password");
       toast.error("Invalid email or password");
     }

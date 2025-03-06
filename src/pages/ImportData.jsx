@@ -56,7 +56,7 @@ const ImportData = () => {
           },
         }
       );
-      toast.success("Excel file imported successfully!", {
+      toast.success(response.data.message, {
         id: submittingToastId,
       });
       console.log(response.data);

@@ -4,7 +4,8 @@ import toast from "react-hot-toast";
 import useOther from "../hooks/useOther";
 import exportToExcel from "../Excel/exportToExcel";
 import { MdDelete } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaPrint } from "react-icons/fa";
+import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
 
 export default function OthersEntry() {
   const [formData, setFormData] = useState({
@@ -53,7 +54,7 @@ export default function OthersEntry() {
 
     for (const key in formData) {
       if (!formData[key] && key !== "avatar") {
-        toast.error("All fields except Avatar are required!");
+        toast.error("All fields are required!");
         return;
       }
     }
@@ -79,7 +80,7 @@ export default function OthersEntry() {
       );
 
       if (response.status === 201) {
-        toast.success("Data submitted successfully!", {
+        toast.success(response.data.message, {
           id: submittingToastId,
         });
         setFormData({
@@ -105,7 +106,7 @@ export default function OthersEntry() {
         throw new Error("Unexpected response from server");
       }
     } catch (error) {
-      toast.error("Failed to submit data. Please try again.", {
+      toast.error(error.response.data.message, {
         id: submittingToastId,
       });
       console.error("Error:", error);
@@ -246,6 +247,7 @@ export default function OthersEntry() {
                     "Case Property",
                     "Status",
                     "Avatar",
+                    "Tracking By",
                     "Action",
                   ].map((header) => (
                     <th key={header} className="border border-gray-300 p-2">
@@ -311,6 +313,9 @@ export default function OthersEntry() {
                         "No Image"
                       )}
                     </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.trackingBy}
+                    </td>
                     <td className="border border-gray-300 p-2 flex items-center">
                       <button
                         onClick={() => deleteItem(entry._id)}
@@ -325,6 +330,13 @@ export default function OthersEntry() {
                         title="Update"
                       >
                         <FaEdit size={24} />
+                      </button>
+                      <button
+                        onClick={() => PrintMalkhanaEntry(entry)}
+                        className=" text-green-600 px-2 py-1 rounded  cursor-pointer"
+                        title="Print"
+                      >
+                        <FaPrint size={24} />
                       </button>
                     </td>
                   </tr>

@@ -4,7 +4,8 @@ import toast from "react-hot-toast";
 import useArto from "../hooks/useArto";
 import exportToExcel from "../Excel/exportToExcel";
 import { MdDelete } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaPrint } from "react-icons/fa";
+import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
 
 export default function ArtoSeizure() {
   const [formData, setFormData] = useState({
@@ -24,7 +25,9 @@ export default function ArtoSeizure() {
 
   const [preview, setPreview] = useState(null);
   const [searchParams, setSearchParams] = useState({ mudNo: "", gdNo: "" });
-  const { data, loading, deleteItem } = useArto();
+  const { data, loading, deleteItem, updateItem } = useArto();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editId, setEditId] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -50,7 +53,7 @@ export default function ArtoSeizure() {
 
     for (const key in formData) {
       if (!formData[key] && key !== "avatar") {
-        toast.error("All fields except Avatar are required");
+        toast.error("All fields are required");
         return;
       }
     }
@@ -64,17 +67,29 @@ export default function ArtoSeizure() {
     const submittingToastId = toast.loading("Data is submitting...");
 
     try {
-      const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/artoSeizure",
-        formDataToSend,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      toast.success("Data submitted successfully", { id: submittingToastId });
+      const response = isEditing
+        ? await axios.patch(
+            `https://malkhanaserver.onrender.com/api/v1/artoSeizure/${editId}`,
+            formDataToSend,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          )
+        : await axios.post(
+            "https://malkhanaserver.onrender.com/api/v1/artoSeizure",
+            formDataToSend,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
+
+      toast.success(response.data.message, { id: submittingToastId });
       console.log("Success:", response.data);
       // Reset form after successful submission
       setFormData({
@@ -92,8 +107,10 @@ export default function ArtoSeizure() {
         result: "",
       });
       setPreview(null);
+      setIsEditing(false);
+      setEditId(null);
     } catch (error) {
-      toast.error("Failed to submit data", { id: submittingToastId });
+      toast.error(error.response.data.message, { id: submittingToastId });
       console.error("Error:", error);
     }
   };
@@ -101,6 +118,14 @@ export default function ArtoSeizure() {
   const handleSearchChange = (e) => {
     const { name, value } = e.target;
     setSearchParams({ ...searchParams, [name]: value });
+  };
+
+  const handleEdit = (entry) => {
+    setIsEditing(true);
+    setEditId(entry._id);
+    const { createdAt, updatedAt, __v, _id, ...editableData } = entry; // Exclude fields
+    setFormData(editableData);
+    setPreview(entry.avatar);
   };
 
   const filteredData = data?.filter((entry) => {
@@ -113,7 +138,9 @@ export default function ArtoSeizure() {
   return (
     <>
       <div className="w-full mx-auto p-4 rounded-lg text-sm">
-        <h2 className="text-lg font-semibold mb-4">Arto Seizure Entry</h2>
+        <h2 className="text-lg font-semibold mb-4">
+          {isEditing ? "Edit" : "Arto"} Seizure Entry
+        </h2>
         <form onSubmit={handleSubmit} className="grid grid-cols-4 gap-4">
           {Object.keys(formData).map((field) => (
             <div
@@ -183,7 +210,7 @@ export default function ArtoSeizure() {
             type="submit"
             className="bg-[#8c7a48] w-80 cursor-pointer text-white px-4 py-2 rounded hover:bg-[#af9859] col-span-4"
           >
-            Submit
+            {isEditing ? "Update" : "Submit"}
           </button>
         </form>
       </div>
@@ -310,11 +337,18 @@ export default function ArtoSeizure() {
                         <MdDelete size={24} />
                       </button>
                       <button
-                        // onClick={() => deleteItem(entry._id)}
+                        onClick={() => handleEdit(entry)}
                         className=" text-blue-600 px-2 py-1 rounded  cursor-pointer"
                         title="Update"
                       >
                         <FaEdit size={24} />
+                      </button>
+                      <button
+                        onClick={() => PrintMalkhanaEntry(entry)}
+                        className=" text-green-600 px-2 py-1 rounded  cursor-pointer"
+                        title="Print"
+                      >
+                        <FaPrint size={24} />
                       </button>
                     </td>
                   </tr>

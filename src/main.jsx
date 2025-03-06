@@ -17,41 +17,45 @@ import { SummonProvider } from "./context/SummonContext.jsx";
 import { ImportDataProvider } from "./context/ImportDataContext.jsx";
 import { MalkhanaReleaseProvider } from "./context/MalkhanaReleaseContext.jsx";
 import { SeizedCashGoldProvider } from "./context/SeizedCashGoldContext.jsx";
+import { ThemeProvider } from "./Theme/ThemeContext.jsx";
+import { AllDataProvider } from "./context/AllDataContext.jsx";
 import "./index.css";
 
 // Corrected Providers Component
 const Providers = ({ children }) => (
-  <MalkhanaProvider>
-    <KurkiProvider>
-      <FslProvider>
-        <OtherProvider>
-          <UnclaimedProvider>
-            <MvactProvider>
-              <ArtoProvider>
-                <IpcVehicleProvider>
-                  <ExciseVehicleProvider>
-                    <UnclaimedVehicleContextProvider>
-                      <SeizureVehicleProvider>
-                        <SummonProvider>
-                          <ImportDataProvider>
-                            <MalkhanaReleaseProvider>
-                              <SeizedCashGoldProvider>
-                                {children}
-                              </SeizedCashGoldProvider>
-                            </MalkhanaReleaseProvider>
-                          </ImportDataProvider>
-                        </SummonProvider>
-                      </SeizureVehicleProvider>
-                    </UnclaimedVehicleContextProvider>
-                  </ExciseVehicleProvider>
-                </IpcVehicleProvider>
-              </ArtoProvider>
-            </MvactProvider>
-          </UnclaimedProvider>
-        </OtherProvider>
-      </FslProvider>
-    </KurkiProvider>
-  </MalkhanaProvider>
+  <ThemeProvider>
+    <MalkhanaProvider>
+      <KurkiProvider>
+        <FslProvider>
+          <OtherProvider>
+            <UnclaimedProvider>
+              <MvactProvider>
+                <ArtoProvider>
+                  <IpcVehicleProvider>
+                    <ExciseVehicleProvider>
+                      <UnclaimedVehicleContextProvider>
+                        <SeizureVehicleProvider>
+                          <SummonProvider>
+                            <ImportDataProvider>
+                              <MalkhanaReleaseProvider>
+                                <SeizedCashGoldProvider>
+                                  <AllDataProvider> {children}</AllDataProvider>
+                                </SeizedCashGoldProvider>
+                              </MalkhanaReleaseProvider>
+                            </ImportDataProvider>
+                          </SummonProvider>
+                        </SeizureVehicleProvider>
+                      </UnclaimedVehicleContextProvider>
+                    </ExciseVehicleProvider>
+                  </IpcVehicleProvider>
+                </ArtoProvider>
+              </MvactProvider>
+            </UnclaimedProvider>
+          </OtherProvider>
+        </FslProvider>
+      </KurkiProvider>
+    </MalkhanaProvider>
+  </ThemeProvider>
 );
 
 createRoot(document.getElementById("root")).render(

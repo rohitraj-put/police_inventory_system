@@ -66,7 +66,7 @@ const SummonEntry = () => {
         }
       );
 
-      toast.success("Summon Entry Saved Successfully!", {
+      toast.success(response.data.message, {
         id: submittingToastId,
       });
       console.log(response);
@@ -89,7 +89,7 @@ const SummonEntry = () => {
           .slice(0, 5),
       });
     } catch (error) {
-      console.error("Error saving summon entry:", error);
+      console.error(error.response.data.message, error);
       toast.error("Failed to save summon entry.", { id: submittingToastId });
     }
   };

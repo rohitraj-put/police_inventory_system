@@ -2,6 +2,9 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import useSeizedCashGold from "../hooks/useSeizedCashGold";
+import { MdDelete } from "react-icons/md";
+import { FaEdit, FaPrint } from "react-icons/fa";
+import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
 
 export default function SeizedCashGold() {
   const [formData, setFormData] = useState({
@@ -16,8 +19,10 @@ export default function SeizedCashGold() {
     descriptions: "",
   });
 
+  console.log(formData);
+
   const [preview, setPreview] = useState(null);
-  const { data, loading } = useSeizedCashGold();
+  const { data, loading, deleteItem } = useSeizedCashGold();
   console.log(data);
 
   const handleChange = (e) => {
@@ -51,7 +56,7 @@ export default function SeizedCashGold() {
 
     for (const key of requiredFields) {
       if (!formData[key]) {
-        toast.error("All fields except Avatar are required");
+        toast.error("All fields are required");
         return;
       }
     }
@@ -75,7 +80,7 @@ export default function SeizedCashGold() {
         }
       );
 
-      toast.success("Data submitted successfully", { id: submittingToastId });
+      toast.success(response.data.message, { id: submittingToastId });
       setFormData({
         firNo: "",
         mudNo: "",
@@ -89,7 +94,7 @@ export default function SeizedCashGold() {
       });
       setPreview(null);
     } catch (error) {
-      toast.error("Failed to submit data", { id: submittingToastId });
+      toast.error(error.response.data.message, { id: submittingToastId });
       console.error("Error:", error);
     }
   };
@@ -219,6 +224,7 @@ export default function SeizedCashGold() {
                   "Expected Amount",
                   "Descriptions",
                   "Avatar",
+                  "Action",
                 ].map((header) => (
                   <th key={header} className="border border-gray-300 p-2">
                     {header}
@@ -229,11 +235,8 @@ export default function SeizedCashGold() {
             <tbody>
               {data.map((entry, index) => (
                 <tr key={index} className="text-center border border-gray-300">
-                  <td className="border border-gray-300 p-2">{entry.mudNo}</td>
-                  <td className="border border-gray-300 p-2">{entry.gdNo}</td>
                   <td className="border border-gray-300 p-2">{entry.firNo}</td>
                   <td className="border border-gray-300 p-2">{entry.mudNo}</td>
-                  <td className="border border-gray-300 p-2">{entry.regNo}</td>
                   <td className="border border-gray-300 p-2">
                     {entry.policeStation}
                   </td>
@@ -262,6 +265,29 @@ export default function SeizedCashGold() {
                     ) : (
                       "No Image"
                     )}
+                  </td>
+                  <td className="border border-gray-300 p-2 flex items-center">
+                    <button
+                      onClick={() => deleteItem(entry._id)}
+                      className=" text-rose-600 px-2 py-1 rounded  cursor-pointer"
+                      title="Delete"
+                    >
+                      <MdDelete size={24} />
+                    </button>
+                    <button
+                      // onClick={() => deleteItem(entry._id)}
+                      className=" text-blue-600 px-2 py-1 rounded  cursor-pointer"
+                      title="Update"
+                    >
+                      <FaEdit size={24} />
+                    </button>
+                    <button
+                      onClick={() => PrintMalkhanaEntry(entry)}
+                      className=" text-green-600 px-2 py-1 rounded  cursor-pointer"
+                      title="Print"
+                    >
+                      <FaPrint size={24} />
+                    </button>
                   </td>
                 </tr>
               ))}

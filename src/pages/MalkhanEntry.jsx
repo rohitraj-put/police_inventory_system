@@ -5,6 +5,8 @@ import useMalkhana from "../hooks/useMalkhana";
 import exportToExcel from "../Excel/exportToExcel";
 import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
+import { FaPrint } from "react-icons/fa";
+import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
 
 export default function MalkhanEntry() {
   const [formData, setFormData] = useState({
@@ -34,6 +36,7 @@ export default function MalkhanEntry() {
     mudNo: "",
   });
   const { data, loading, deleteItem } = useMalkhana();
+  console.log(data);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -59,8 +62,8 @@ export default function MalkhanEntry() {
     // Validate empty fields (except avatar)
     for (const key in formData) {
       if (!formData[key] && key !== "avatar") {
-        setError("All fields are required except the avatar.");
-        toast.error("All fields are required except the avatar.");
+        setError("All fields are required.");
+        toast.error("All fields are required.");
         return;
       }
     }
@@ -91,7 +94,7 @@ export default function MalkhanEntry() {
         }
       );
 
-      toast.success("Data submitted successfully!", { id: submittingToastId });
+      toast.success(response.data.message, { id: submittingToastId });
       console.log(response);
       // Reset form after successful submission
       setFormData({
@@ -114,7 +117,7 @@ export default function MalkhanEntry() {
       });
       setPreview(null);
     } catch (error) {
-      toast.error("Error submitting data", { id: submittingToastId });
+      toast.error(error.response.data.message, { id: submittingToastId });
       console.error("Error:", error.response);
       console.error("Error:", error.response?.data?.message || error.message);
     }
@@ -283,6 +286,7 @@ export default function MalkhanEntry() {
                       "Case Property",
                       "Status",
                       "Avatar",
+                      "Tracking By",
                       "Actions",
                     ].map((header) => (
                       <th key={header} className="border border-gray-300 p-2 ">
@@ -353,6 +357,9 @@ export default function MalkhanEntry() {
                           "No Image"
                         )}
                       </td>
+                      <td className="border border-gray-300 p-2">
+                        {entry.trackingBy}
+                      </td>
                       <td className="border border-gray-300 p-2 flex items-center">
                         <button
                           onClick={() => deleteItem(entry._id)}
@@ -362,11 +369,18 @@ export default function MalkhanEntry() {
                           <MdDelete size={24} />
                         </button>
                         <button
-                          // onClick={() => deleteItem(entry._id)}
+                          // onClick={() => updateItem(entry._id)}
                           className=" text-blue-600 px-2 py-1 rounded  cursor-pointer"
                           title="Update"
                         >
                           <FaEdit size={24} />
+                        </button>
+                        <button
+                          onClick={() => PrintMalkhanaEntry(entry)}
+                          className=" text-green-600 px-2 py-1 rounded  cursor-pointer"
+                          title="Print"
+                        >
+                          <FaPrint size={24} />
                         </button>
                       </td>
                     </tr>

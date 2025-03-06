@@ -4,7 +4,8 @@ import toast from "react-hot-toast";
 import useUnclaimed from "../hooks/useUnclaimed";
 import exportToExcel from "../Excel/exportToExcel";
 import { MdDelete } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaPrint } from "react-icons/fa";
+import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
 
 export default function UnclaimedEntry() {
   const [formData, setFormData] = useState({
@@ -55,7 +56,7 @@ export default function UnclaimedEntry() {
     );
 
     if (missingFields.length > 0) {
-      toast.error("All fields are required except the avatar.");
+      toast.error("All fields are required");
       console.log("Missing Fields:", missingFields);
       return;
     }
@@ -82,7 +83,7 @@ export default function UnclaimedEntry() {
       );
 
       if (response.status === 201) {
-        toast.success("Data submitted successfully!", {
+        toast.success(response.data.message, {
           id: submittingToastId,
         });
         setFormData({
@@ -108,7 +109,7 @@ export default function UnclaimedEntry() {
         throw new Error("Unexpected response from server");
       }
     } catch (error) {
-      toast.error("Failed to submit data. Please try again.", {
+      toast.error(error.response.data.message, {
         id: submittingToastId,
       });
       console.error("Submission Error:", error);
@@ -329,6 +330,13 @@ export default function UnclaimedEntry() {
                         title="Update"
                       >
                         <FaEdit size={24} />
+                      </button>
+                      <button
+                        onClick={() => PrintMalkhanaEntry(entry)}
+                        className=" text-green-600 px-2 py-1 rounded  cursor-pointer"
+                        title="Print"
+                      >
+                        <FaPrint size={24} />
                       </button>
                     </td>
                   </tr>

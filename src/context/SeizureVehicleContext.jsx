@@ -1,4 +1,3 @@
-// context/SeizureVehicleContext.js
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -31,7 +30,7 @@ export const SeizureVehicleProvider = ({ children }) => {
     };
 
     fetchData();
-  }, [data]);
+  }, []);
 
   const deleteItem = async (id) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
@@ -49,13 +48,34 @@ export const SeizureVehicleProvider = ({ children }) => {
       toast.success(response?.data?.message);
     } catch (err) {
       setError(err.response?.data?.message || err.message);
-      toast.success(err.response?.data?.message || err.message);
+      toast.error(err.response?.data?.message || err.message);
+    }
+  };
+
+  const updateItem = async (id, updatedItem) => {
+    const token = localStorage.getItem("token"); // Get token from local storage or state
+    try {
+      const response = await axios.put(
+        `https://malkhanaserver.onrender.com/api/v1/seizureVehicle/${id}`,
+        updatedItem,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include token in headers
+          },
+        }
+      );
+      // Update the item in the data state
+      setData(data.map((item) => (item.id === id ? response.data.data : item)));
+      toast.success(response?.data?.message);
+    } catch (err) {
+      setError(err.response?.data?.message || err.message);
+      toast.error(err.response?.data?.message || err.message);
     }
   };
 
   return (
     <SeizureVehicleContext.Provider
-      value={{ data, loading, error, deleteItem }}
+      value={{ data, loading, error, deleteItem, updateItem }}
     >
       {children}
     </SeizureVehicleContext.Provider>

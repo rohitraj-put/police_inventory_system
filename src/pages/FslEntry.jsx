@@ -4,7 +4,8 @@ import toast from "react-hot-toast";
 import useFsl from "../hooks/useFsl";
 import exportToExcel from "../Excel/exportToExcel";
 import { MdDelete } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaPrint } from "react-icons/fa";
+import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
 
 export default function FslEntry() {
   const [formData, setFormData] = useState({
@@ -50,7 +51,7 @@ export default function FslEntry() {
     e.preventDefault();
     for (const key in formData) {
       if (!formData[key] && key !== "avatar") {
-        setError("All fields except Avatar are required");
+        setError("All fields  are required");
         toast.error("Please fill all required fields");
         return;
       }
@@ -77,7 +78,7 @@ export default function FslEntry() {
           },
         }
       );
-      toast.success("Form submitted successfully!", { id: submittingToastId });
+      toast.success(response.data.message, { id: submittingToastId });
       console.log("Success:", response.data);
 
       // Reset form after successful submission
@@ -103,7 +104,7 @@ export default function FslEntry() {
     } catch (error) {
       console.error("Error:", error);
       setError("Failed to submit data");
-      toast.error("Submission failed. Try again.", { id: submittingToastId });
+      toast.error(error.response.data.message, { id: submittingToastId });
     }
   };
 
@@ -319,6 +320,13 @@ export default function FslEntry() {
                         title="Update"
                       >
                         <FaEdit size={24} />
+                      </button>
+                      <button
+                        onClick={() => PrintMalkhanaEntry(entry)}
+                        className=" text-green-600 px-2 py-1 rounded  cursor-pointer"
+                        title="Print"
+                      >
+                        <FaPrint size={24} />
                       </button>
                     </td>
                   </tr>
