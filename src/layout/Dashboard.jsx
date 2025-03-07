@@ -119,13 +119,12 @@ function Dashboard() {
       <div className="">
         <div className="flex justify-between items-center">
           {" "}
+          {/* <h2>{navigator.userAgentData.brands[1].brand}</h2> */}
           <h2 className="text-lg font-medium uppercase">Dashboard</h2>
           <h2 className="text-lg font-medium uppercase">ID - FERPR5534C</h2>
         </div>
         {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="loader"></div>
-          </div>
+          <div className="">Please Wait Data Loading.....</div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-5">
             {dashboardCards.map((card) => (

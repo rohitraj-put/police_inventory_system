@@ -18,7 +18,8 @@ export default function MalkhanaIsReturn() {
 
   const [preview, setPreview] = useState(null);
   const [mudNumbers, setMudNumbers] = useState([]);
-  const { data, move, loading } = useAllData();
+  const { data, loading, returnData } = useAllData();
+  console.log(returnData);
 
   useEffect(() => {
     if (formData.firNo) {
@@ -199,11 +200,11 @@ export default function MalkhanaIsReturn() {
         </form>
       </div>
 
-      {/* <h2 className="text-lg font-semibold mb-4">All Move Movement Entry</h2>
+      <h2 className="text-lg font-semibold mb-4">All Return Entry</h2>
 
       {loading ? (
         <p className="text-gray-500">Loading entries...</p>
-      ) : move && move.length > 0 ? (
+      ) : returnData && returnData.length > 0 ? (
         <div>
           <div className="overflow-auto max-h-[500px] border border-gray-300 rounded-lg">
             <table className="w-full border-collapse text-xs">
@@ -213,7 +214,7 @@ export default function MalkhanaIsReturn() {
                     "fir No",
                     "mud No",
                     "entry Type",
-                    "taken Out By",
+                    "received  By",
                     "tracking By",
                     "description",
                     "avatar",
@@ -229,7 +230,7 @@ export default function MalkhanaIsReturn() {
                 </tr>
               </thead>
               <tbody>
-                {move.map((entry, index) => (
+                {returnData.map((entry, index) => (
                   <tr
                     key={index}
                     className="text-center border border-gray-300"
@@ -280,7 +281,7 @@ export default function MalkhanaIsReturn() {
         </div>
       ) : (
         <p className="text-gray-500">No entries found.</p>
-      )} */}
+      )}
     </>
   );
 }

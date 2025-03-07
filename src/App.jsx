@@ -41,6 +41,7 @@ import "./App.css";
 import MalkhanaHelp from "./pages/MalkhanaHelp";
 import { Toaster } from "react-hot-toast";
 import MalkhanaIsReturn from "./pages/MalkhanaIsReturn";
+import OfflineNotification from "./OfflineNotification";
 
 function App() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -69,6 +70,7 @@ function App() {
 
   return (
     <div className="flex h-screen">
+      <OfflineNotification />
       <Toaster />
       {/* Sidebar */}
       {isAuthenticated && (

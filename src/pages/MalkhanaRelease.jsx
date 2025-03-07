@@ -272,13 +272,13 @@ export default function MalkhanaRelease() {
                         >
                           <MdDelete size={24} />
                         </button>
-                        <button
-                          // onClick={() => deleteItem(entry._id)}
+                        {/* <button
+                          onClick={() => deleteItem(entry._id)}
                           className=" text-blue-600 px-2 py-1 rounded  cursor-pointer"
                           title="Update"
                         >
                           <FaEdit size={24} />
-                        </button>
+                        </button> */}
                         <button
                           onClick={() => PrintMalkhanaEntry(entry)}
                           className=" text-green-600 px-2 py-1 rounded  cursor-pointer"

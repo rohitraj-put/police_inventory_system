@@ -114,7 +114,7 @@ const ImportData = () => {
               <thead>
                 <tr className="bg-gray-100">
                   {Object.keys(data[0]).map((key) => (
-                    <th key={key} className="px-4 py-2 border">
+                    <th key={key} className="px-4 py-2 border uppercase">
                       {key}
                     </th>
                   ))}

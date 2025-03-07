@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 function Register() {
   const fields = [
@@ -29,6 +30,17 @@ function Register() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const checkEmailExists = async (email) => {
+    const apiKey = "YOUR_API_KEY";
+
+    const response2 = await fetch(
+      `https://anotheremailverificationapi.com/check?apikey=${apiKey}&email=${email}`
+    );
+    const data2 = await response2.json();
+
+    return data2.isValid;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -40,16 +52,25 @@ function Register() {
     }
 
     try {
+      const emailExists = await checkEmailExists(formData.email);
+
+      if (!emailExists) {
+        toast.error("Email does not exist! Please enter a valid email.");
+        return;
+      }
+
       await axios.post(
         "https://malkhanaserver.onrender.com/api/v1/users/ragister",
         formData
       );
       setSuccess("Registration successful! You can now log in.");
+      toast.success("Registration successful! You can now log in.");
       setFormData(
         fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {})
       );
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
+      toast.error(err.response?.data?.message || "Registration failed");
     }
   };
 
@@ -102,6 +123,7 @@ function Register() {
           </Link>
         </p>
       </div>
+      <Toaster />
     </div>
   );
 }

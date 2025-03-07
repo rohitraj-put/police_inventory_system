@@ -8,6 +8,7 @@ export const AllDataContext = createContext();
 export const AllDataProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [move, setMove] = useState([]);
+  const [returnData, setReturnData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -49,13 +50,33 @@ export const AllDataProvider = ({ children }) => {
     }
   };
 
+  const fetchReturnData = async () => {
+    const token = localStorage.getItem("token"); // Get token from local storage or state
+    try {
+      const response = await axios.get(
+        "https://malkhanaserver.onrender.com/api/v1/return",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include token in headers
+          },
+        }
+      );
+      setReturnData(response.data.data);
+    } catch (err) {
+      setError(err.response?.data?.message || err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchData();
     fetchMoveData();
+    fetchReturnData();
   }, [data, move]);
 
   return (
-    <AllDataContext.Provider value={{ data, loading, error, move }}>
+    <AllDataContext.Provider value={{ data, loading, error, move, returnData }}>
       {children}
     </AllDataContext.Provider>
   );
