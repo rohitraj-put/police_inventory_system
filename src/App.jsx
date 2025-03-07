@@ -40,6 +40,7 @@ import NotFound from "./pages/NotFound";
 import "./App.css";
 import MalkhanaHelp from "./pages/MalkhanaHelp";
 import { Toaster } from "react-hot-toast";
+import MalkhanaIsReturn from "./pages/MalkhanaIsReturn";
 
 function App() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -161,6 +162,10 @@ function App() {
                 <Route
                   path="/malkhana-movement"
                   element={<MalkhanaMovement />}
+                />
+                <Route
+                  path="/malkhana-movement-is-return"
+                  element={<MalkhanaIsReturn />}
                 />
                 <Route path="/malkhana-release" element={<MalkhanaRelease />} />
                 <Route path="/generate-barcode" element={<GenerateBarcode />} />

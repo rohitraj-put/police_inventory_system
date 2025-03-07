@@ -56,7 +56,7 @@ const menuItems = [
     icon: <FaMoneyBill />,
   },
   { path: "/generate-barcode", name: "Generate Bar Code", icon: <FaQrcode /> },
-  { path: "/reports", name: "Reports", icon: <FaFileAlt /> },
+  // { path: "/reports", name: "Reports", icon: <FaFileAlt /> },
   { path: "/import-data", name: "Import Data", icon: <FaFileImport /> },
   { path: "/manage-users", name: "Manage Users", icon: <FaUsers /> },
   { path: "/settings", name: "Settings", icon: <FaCog /> },

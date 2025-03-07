@@ -28,7 +28,8 @@ export default function IPCVehicle() {
 
   const [preview, setPreview] = useState(null);
   const [searchParams, setSearchParams] = useState({ mudNo: "", gdNo: "" });
-  const { data, loading, deleteItem } = useIpc();
+  const { data, loading, deleteItem, updateItem } = useIpc();
+  const [editingId, setEditingId] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -54,7 +55,7 @@ export default function IPCVehicle() {
 
     for (const key in formData) {
       if (!formData[key] && key !== "avatar") {
-        toast.error("All fields  are required");
+        toast.error("All fields are required");
         return;
       }
     }
@@ -113,6 +114,70 @@ export default function IPCVehicle() {
     setSearchParams({ ...searchParams, [name]: value });
   };
 
+  const handleEditClick = (entry) => {
+    setEditingId(entry._id);
+    setFormData({
+      mudNo: entry.mudNo,
+      gdNo: entry.gdNo,
+      underSection: entry.underSection,
+      vehicleType: entry.vehicleType,
+      regNo: entry.regNo,
+      chassisNo: entry.chassisNo,
+      vivechak: entry.vivechak,
+      engineNo: entry.engineNo,
+      colour: entry.colour,
+      gdDate: entry.gdDate,
+      actType: entry.actType,
+      avatar: entry.avatar,
+      firNo: entry.firNo,
+      vehicleOwner: entry.vehicleOwner,
+      result: entry.result,
+    });
+    setPreview(entry.avatar);
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    const formDataToSend = new FormData();
+    Object.keys(formData).forEach((key) => {
+      formDataToSend.append(key, formData[key]);
+    });
+
+    const submittingToastId = toast.loading("Updating data...");
+
+    try {
+      const response = await updateItem(editingId, formDataToSend);
+
+      toast.success(response.data.message, { id: submittingToastId });
+      console.log("Update Success:", response.data);
+
+      // Reset form after successful update
+      setFormData({
+        mudNo: "",
+        gdNo: "",
+        underSection: "",
+        vehicleType: "Car",
+        regNo: "",
+        chassisNo: "",
+        vivechak: "",
+        engineNo: "",
+        colour: "",
+        gdDate: new Date().toISOString().split("T")[0],
+        actType: "",
+        avatar: null,
+        firNo: "",
+        vehicleOwner: "",
+        result: "",
+      });
+      setEditingId(null);
+      setPreview(null);
+    } catch (error) {
+      toast.error(error.response.data.message, { id: submittingToastId });
+      console.error("Error:", error);
+    }
+  };
+
   const filteredData = data?.filter((entry) => {
     return (
       (searchParams.mudNo === "" || entry.mudNo.includes(searchParams.mudNo)) &&
@@ -123,8 +188,13 @@ export default function IPCVehicle() {
   return (
     <>
       <div className="w-full mx-auto p-4 rounded-lg text-sm">
-        <h2 className="text-lg font-semibold mb-4">IPC Vehicle Entry</h2>
-        <form onSubmit={handleSubmit} className="grid grid-cols-4 gap-4">
+        <h2 className="text-lg font-semibold mb-4">
+          {editingId ? "Update IPC Vehicle Entry" : "IPC Vehicle Entry"}
+        </h2>
+        <form
+          onSubmit={editingId ? handleUpdate : handleSubmit}
+          className="grid grid-cols-4 gap-4"
+        >
           {Object.keys(formData).map((field) => (
             <div
               key={field}
@@ -193,12 +263,12 @@ export default function IPCVehicle() {
             type="submit"
             className="bg-[#8c7a48] w-80 cursor-pointer text-white px-4 py-2 rounded hover:bg-[#af9859] col-span-4"
           >
-            Submit
+            {editingId ? "Update Entry" : "Submit"}
           </button>
         </form>
       </div>
 
-      {/* ____________________All ipc Vehicle EntryData=------------ */}
+      {/* ____________________All IPC Vehicle EntryData=------------ */}
 
       <div className="mt-6">
         <div className="flex justify-between items-center">
@@ -332,7 +402,7 @@ export default function IPCVehicle() {
                         <MdDelete size={24} />
                       </button>
                       <button
-                        // onClick={() => deleteItem(entry._id)}
+                        onClick={() => handleEditClick(entry)}
                         className=" text-blue-600 px-2 py-1 rounded  cursor-pointer"
                         title="Update"
                       >

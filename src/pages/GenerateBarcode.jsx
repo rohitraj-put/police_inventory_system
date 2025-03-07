@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import Barcode from "react-barcode";
-import SMS from "../Components/SMS";
 
 function GenerateBarcode() {
   const [barcodes, setBarcodes] = useState(["123456789"]);

@@ -59,7 +59,7 @@ function LogIn() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen p-4 dark:bg-neutral-900">
+    <div className="flex items-center justify-center p-2 dark:bg-neutral-900">
       <Toaster />
       <div className="w-full max-w-md bg-white border border-gray-200 rounded-xl shadow-sm p-6 dark:bg-neutral-900 dark:border-neutral-700">
         <div className="w-40 h-36 mx-auto">

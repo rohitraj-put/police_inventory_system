@@ -55,7 +55,7 @@ export const SeizureVehicleProvider = ({ children }) => {
   const updateItem = async (id, updatedItem) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
     try {
-      const response = await axios.put(
+      const response = await axios.patch(
         `https://malkhanaserver.onrender.com/api/v1/seizureVehicle/${id}`,
         updatedItem,
         {

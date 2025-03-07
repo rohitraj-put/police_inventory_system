@@ -28,7 +28,8 @@ export default function ExciseVehicle() {
 
   const [preview, setPreview] = useState(null);
   const [searchParams, setSearchParams] = useState({ mudNo: "", gdNo: "" });
-  const { data, loading, deleteItem } = useExciseVehicle();
+  const { data, loading, deleteItem, updateItem } = useExciseVehicle();
+  const [editingId, setEditingId] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -111,6 +112,70 @@ export default function ExciseVehicle() {
     setSearchParams({ ...searchParams, [name]: value });
   };
 
+  const handleEditClick = (entry) => {
+    setEditingId(entry._id);
+    setFormData({
+      mudNo: entry.mudNo,
+      gdNo: entry.gdNo,
+      underSection: entry.underSection,
+      vehicleType: entry.vehicleType,
+      regNo: entry.regNo,
+      chassisNo: entry.chassisNo,
+      engineNo: entry.engineNo,
+      colour: entry.colour,
+      gdDate: entry.gdDate,
+      actType: entry.actType,
+      avatar: entry.avatar,
+      vivechak: entry.vivechak,
+      firNo: entry.firNo,
+      banam: entry.banam,
+      result: entry.result,
+    });
+    setPreview(entry.avatar);
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    const formDataToSend = new FormData();
+    Object.keys(formData).forEach((key) => {
+      formDataToSend.append(key, formData[key]);
+    });
+
+    const submittingToastId = toast.loading("Updating data...");
+
+    try {
+      const response = await updateItem(editingId, formDataToSend);
+
+      toast.success(response.data.message, { id: submittingToastId });
+      console.log("Update Success:", response.data);
+
+      // Reset form after successful update
+      setFormData({
+        mudNo: "",
+        gdNo: "",
+        underSection: "",
+        vehicleType: "Car",
+        regNo: "",
+        chassisNo: "",
+        engineNo: "",
+        colour: "",
+        gdDate: new Date().toISOString().split("T")[0],
+        actType: "",
+        avatar: null,
+        vivechak: "",
+        firNo: "",
+        banam: "",
+        result: "",
+      });
+      setEditingId(null);
+      setPreview(null);
+    } catch (error) {
+      toast.error(error.response.data.message, { id: submittingToastId });
+      console.error("Error:", error);
+    }
+  };
+
   const filteredData = data?.filter((entry) => {
     return (
       (searchParams.mudNo === "" || entry.mudNo.includes(searchParams.mudNo)) &&
@@ -121,8 +186,13 @@ export default function ExciseVehicle() {
   return (
     <>
       <div className="w-full mx-auto p-4 rounded-lg text-sm">
-        <h2 className="text-lg font-semibold mb-4">Excise Vehicle Entry</h2>
-        <form onSubmit={handleSubmit} className="grid grid-cols-4 gap-4">
+        <h2 className="text-lg font-semibold mb-4">
+          {editingId ? "Update Excise Vehicle Entry" : "Excise Vehicle Entry"}
+        </h2>
+        <form
+          onSubmit={editingId ? handleUpdate : handleSubmit}
+          className="grid grid-cols-4 gap-4"
+        >
           {Object.keys(formData).map((field) => (
             <div
               key={field}
@@ -191,7 +261,7 @@ export default function ExciseVehicle() {
             type="submit"
             className="bg-[#8c7a48] w-80 cursor-pointer text-white px-4 py-2 rounded hover:bg-[#af9859] col-span-4"
           >
-            Submit
+            {editingId ? "Update Entry" : "Submit"}
           </button>
         </form>
       </div>
@@ -330,7 +400,7 @@ export default function ExciseVehicle() {
                         <MdDelete size={24} />
                       </button>
                       <button
-                        // onClick={() => deleteItem(entry._id)}
+                        onClick={() => handleEditClick(entry)}
                         className=" text-blue-600 px-2 py-1 rounded  cursor-pointer"
                         title="Update"
                       >

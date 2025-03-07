@@ -29,7 +29,8 @@ export default function OthersEntry() {
 
   const [preview, setPreview] = useState(null);
   const [searchParams, setSearchParams] = useState({ firNo: "", mudNo: "" });
-  const { data, loading, deleteItem } = useOther();
+  const { data, loading, deleteItem, updateItem } = useOther();
+  const [editingId, setEditingId] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -125,11 +126,80 @@ export default function OthersEntry() {
     );
   });
 
+  const handleEditClick = (entry) => {
+    setEditingId(entry._id);
+    setFormData({
+      firNo: entry.firNo,
+      mudNo: entry.mudNo,
+      gdNo: entry.gdNo,
+      ioName: entry.ioName,
+      banam: entry.banam,
+      underSection: entry.underSection,
+      place: entry.place,
+      court: entry.court,
+      firYear: entry.firYear,
+      gdDate: entry.gdDate,
+      DakhilKarneWala: entry.DakhilKarneWala,
+      caseProperty: entry.caseProperty,
+      actType: entry.actType,
+      status: entry.status,
+      avatar: entry.avatar,
+      description: entry.description,
+    });
+    setPreview(entry.avatar);
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    const formDataToSend = new FormData();
+    Object.keys(formData).forEach((key) => {
+      formDataToSend.append(key, formData[key]);
+    });
+
+    const submittingToastId = toast.loading("Updating data...");
+
+    try {
+      const response = await updateItem(editingId, formDataToSend);
+
+      toast.success(response.data.message, { id: submittingToastId });
+      console.log("Update Success:", response.data);
+
+      // Reset form after successful update
+      setFormData({
+        firNo: "",
+        mudNo: "",
+        gdNo: "",
+        ioName: "",
+        banam: "",
+        underSection: "",
+        place: "",
+        court: "",
+        firYear: "",
+        gdDate: new Date().toISOString().split("T")[0],
+        DakhilKarneWala: "",
+        caseProperty: "",
+        actType: "",
+        status: "",
+        avatar: null,
+        description: "",
+      });
+      setEditingId(null);
+      setPreview(null);
+    } catch (error) {
+      toast.error(error.response.data.message, { id: submittingToastId });
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <>
       <div className="w-full mx-auto p-4 rounded-lg text-sm">
         <h2 className="text-lg font-semibold mb-4">Others Entry</h2>
-        <form onSubmit={handleSubmit} className="grid grid-cols-4 gap-4">
+        <form
+          onSubmit={editingId ? handleUpdate : handleSubmit}
+          className="grid grid-cols-4 gap-4"
+        >
           {Object.keys(formData).map((field) => (
             <div
               key={field}
@@ -325,7 +395,7 @@ export default function OthersEntry() {
                         <MdDelete size={24} />
                       </button>
                       <button
-                        // onClick={() => deleteItem(entry._id)}
+                        onClick={() => handleEditClick(entry)}
                         className=" text-blue-600 px-2 py-1 rounded  cursor-pointer"
                         title="Update"
                       >

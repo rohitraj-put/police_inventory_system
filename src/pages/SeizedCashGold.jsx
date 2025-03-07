@@ -22,7 +22,8 @@ export default function SeizedCashGold() {
   console.log(formData);
 
   const [preview, setPreview] = useState(null);
-  const { data, loading, deleteItem } = useSeizedCashGold();
+  const { data, loading, deleteItem, updateItem } = useSeizedCashGold();
+  const [editingId, setEditingId] = useState(null);
   console.log(data);
 
   const handleChange = (e) => {
@@ -99,11 +100,66 @@ export default function SeizedCashGold() {
     }
   };
 
+  const handleEditClick = (entry) => {
+    setEditingId(entry._id);
+    setFormData({
+      firNo: entry.firNo,
+      mudNo: entry.mudNo,
+      policeStation: entry.policeStation,
+      seizedItem: entry.seizedItem,
+      avatar: entry.avatar,
+      itemName: entry.itemName,
+      itemQty: entry.itemQty,
+      expectedAmt: entry.expectedAmt,
+      descriptions: entry.descriptions,
+    });
+    setPreview(entry.avatar);
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+
+    const formDataToSend = new FormData();
+    Object.keys(formData).forEach((key) => {
+      formDataToSend.append(key, formData[key]);
+    });
+
+    const submittingToastId = toast.loading("Updating data...");
+
+    try {
+      const response = await updateItem(editingId, formDataToSend);
+
+      toast.success(response.data.message, { id: submittingToastId });
+      console.log("Update Success:", response.data);
+
+      // Reset form after successful update
+      setFormData({
+        firNo: "",
+        mudNo: "",
+        policeStation: "",
+        seizedItem: "",
+        avatar: null,
+        itemName: "",
+        itemQty: "",
+        expectedAmt: "",
+        descriptions: "",
+      });
+      setEditingId(null);
+      setPreview(null);
+    } catch (error) {
+      toast.error(error.response.data.message, { id: submittingToastId });
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <>
       <div className="w-full mx-auto p-4 rounded-lg text-sm">
         <h2 className="text-lg font-semibold mb-4">Seized Cash/Metal Entry</h2>
-        <form onSubmit={handleSubmit} className="grid grid-cols-4 gap-4">
+        <form
+          onSubmit={editingId ? handleUpdate : handleSubmit}
+          className="grid grid-cols-4 gap-4"
+        >
           {Object.keys(formData).map((field) =>
             field !== "itemName" &&
             field !== "itemQty" &&
@@ -275,7 +331,7 @@ export default function SeizedCashGold() {
                       <MdDelete size={24} />
                     </button>
                     <button
-                      // onClick={() => deleteItem(entry._id)}
+                      onClick={() => handleEditClick(entry)}
                       className=" text-blue-600 px-2 py-1 rounded  cursor-pointer"
                       title="Update"
                     >

@@ -4,14 +4,13 @@ import toast from "react-hot-toast";
 import useAllData from "../hooks/useAllData";
 import { FaPrint } from "react-icons/fa";
 import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
-import { Link } from "react-router-dom";
 
-export default function MalkhanaMovement() {
+export default function MalkhanaIsReturn() {
   const [formData, setFormData] = useState({
     entryType: "Malkhana_Entry",
     firNo: "",
     mudNo: "",
-    takenOutBy: "",
+    receivedBy: "",
     trackingBy: "",
     avatar: null,
     description: "",
@@ -67,7 +66,7 @@ export default function MalkhanaMovement() {
 
     try {
       const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/move",
+        "https://malkhanaserver.onrender.com/api/v1/return",
         formDataToSend,
         {
           headers: {
@@ -82,7 +81,7 @@ export default function MalkhanaMovement() {
         entryType: "Malkhana_Entry",
         firNo: "",
         mudNo: "",
-        takenOutBy: "",
+        receivedBy: "",
         trackingBy: "",
         avatar: null,
         description: "",
@@ -97,16 +96,9 @@ export default function MalkhanaMovement() {
   return (
     <>
       <div className="w-full mx-auto p-4 rounded-lg text-sm">
-        <div className="flex justify-between items-center py-2">
-          <h2 className="text-lg font-semibold mb-4">Move Movement Entry</h2>
-          <Link
-            to={"/malkhana-movement-is-return"}
-            className=" bg-amber-400 px-4 py-2 rounded-3xl font-bold"
-          >
-            {" "}
-            Return Entry
-          </Link>
-        </div>
+        <h2 className="text-lg font-semibold mb-4">
+          Move Movement Return Entry
+        </h2>
         <form onSubmit={handleSubmit} className="grid grid-cols-4 gap-4">
           {Object.keys(formData).map((field) => (
             <div
@@ -207,7 +199,7 @@ export default function MalkhanaMovement() {
         </form>
       </div>
 
-      <h2 className="text-lg font-semibold mb-4">All Move Movement Entry</h2>
+      {/* <h2 className="text-lg font-semibold mb-4">All Move Movement Entry</h2>
 
       {loading ? (
         <p className="text-gray-500">Loading entries...</p>
@@ -252,7 +244,7 @@ export default function MalkhanaMovement() {
                       {entry.entryType.replace(/_/g, " ")}
                     </td>
                     <td className="border border-gray-300 p-2 capitalize">
-                      {entry.takenOutBy}
+                      {entry.receivedBy}
                     </td>
                     <td className="border border-gray-300 p-2 capitalize">
                       {entry.trackingBy}
@@ -288,7 +280,7 @@ export default function MalkhanaMovement() {
         </div>
       ) : (
         <p className="text-gray-500">No entries found.</p>
-      )}
+      )} */}
     </>
   );
 }
