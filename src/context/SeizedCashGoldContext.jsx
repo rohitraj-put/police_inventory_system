@@ -14,7 +14,7 @@ export const SeizedCashGoldProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // Get token from local storage or state
       try {
         const response = await axios.get(
-          "https://malkhanaserver.onrender.com/api/v1/seized",
+          "https://malkhanaserver-production.up.railway.app/api/v1/seized",
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include token in headers
@@ -36,7 +36,7 @@ export const SeizedCashGoldProvider = ({ children }) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
     try {
       const response = await axios.delete(
-        `https://malkhanaserver.onrender.com/api/v1/seized/${id}`,
+        `https://malkhanaserver-production.up.railway.app/api/v1/seized/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`, // Include token in headers
@@ -57,7 +57,7 @@ export const SeizedCashGoldProvider = ({ children }) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
     try {
       const response = await axios.patch(
-        `https://malkhanaserver.onrender.com/api/v1/seized/${id}`,
+        `https://malkhanaserver-production.up.railway.app/api/v1/seized/${id}`,
         updatedItem,
         {
           headers: {

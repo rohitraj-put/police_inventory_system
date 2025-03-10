@@ -73,7 +73,7 @@ export default function UnclaimedEntry() {
 
     try {
       const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/unclaimed",
+        "https://malkhanaserver-production.up.railway.app/api/v1/unclaimed",
         formDataToSend,
         {
           headers: {

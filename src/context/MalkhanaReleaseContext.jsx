@@ -15,7 +15,7 @@ export const MalkhanaReleaseProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // Get token from local storage or state
       try {
         const response = await axios.get(
-          "https://malkhanaserver.onrender.com/api/v1/release",
+          "https://malkhanaserver-production.up.railway.app/api/v1/release",
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include token in headers
@@ -37,7 +37,7 @@ export const MalkhanaReleaseProvider = ({ children }) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
     try {
       const response = await axios.delete(
-        `https://malkhanaserver.onrender.com/api/v1/release/${id}`,
+        `https://malkhanaserver-production.up.railway.app/api/v1/release/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`, // Include token in headers

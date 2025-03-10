@@ -14,7 +14,7 @@ export const IpcVehicleProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // Get token from local storage or state
       try {
         const response = await axios.get(
-          "https://malkhanaserver.onrender.com/api/v1/ipcVehicle",
+          "https://malkhanaserver-production.up.railway.app/api/v1/ipcVehicle",
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include token in headers
@@ -36,7 +36,7 @@ export const IpcVehicleProvider = ({ children }) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
     try {
       const response = await axios.delete(
-        `https://malkhanaserver.onrender.com/api/v1/ipcVehicle/${id}`,
+        `https://malkhanaserver-production.up.railway.app/api/v1/ipcVehicle/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`, // Include token in headers
@@ -56,7 +56,7 @@ export const IpcVehicleProvider = ({ children }) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
     try {
       const response = await axios.patch(
-        `https://malkhanaserver.onrender.com/api/v1/ipcVehicle/${id}`,
+        `https://malkhanaserver-production.up.railway.app/api/v1/ipcVehicle/${id}`,
         updatedData,
         {
           headers: {

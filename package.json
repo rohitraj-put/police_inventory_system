@@ -13,6 +13,7 @@
     "@material/button": "^14.0.0",
     "@tailwindcss/vite": "^4.0.9",
     "axios": "^1.8.1",
+    "date-fns": "^4.1.0",
     "framer-motion": "^12.4.7",
     "html2canvas": "^1.4.1",
     "jspdf-autotable": "^5.0.2",

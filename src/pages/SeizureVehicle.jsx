@@ -73,7 +73,7 @@ export default function SeizureVehicle() {
     try {
       const response = isEditing
         ? await axios.put(
-            `https://malkhanaserver.onrender.com/api/v1/seizureVehicle/${editId}`,
+            `https://malkhanaserver-production.up.railway.app/api/v1/seizureVehicle/${editId}`,
             formDataToSend,
             {
               headers: {
@@ -83,7 +83,7 @@ export default function SeizureVehicle() {
             }
           )
         : await axios.post(
-            "https://malkhanaserver.onrender.com/api/v1/seizureVehicle",
+            "https://malkhanaserver-production.up.railway.app/api/v1/seizureVehicle",
             formDataToSend,
             {
               headers: {

@@ -10,8 +10,6 @@ const ImportData = () => {
   const [isUploading, setIsUploading] = useState(false);
   const { importData } = useImportData();
 
-  console.log(importData);
-
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
@@ -47,7 +45,7 @@ const ImportData = () => {
 
     try {
       const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/fileEntry",
+        "https://malkhanaserver-production.up.railway.app/api/v1/fileEntry",
         formData,
         {
           headers: {
@@ -73,6 +71,17 @@ const ImportData = () => {
     setData([]);
   };
 
+  const excludedFields = ["_id", "updatedAt", "createdAt", "__v"];
+
+  const filteredData = importData.map((row) =>
+    Object.fromEntries(
+      Object.entries(row).filter(([key]) => !excludedFields.includes(key))
+    )
+  );
+
+  const filteredKeys =
+    filteredData.length > 0 ? Object.keys(filteredData[0]) : [];
+
   return (
     <div className="p-4">
       <h2 className="text-lg font-semibold mb-3">Import Data</h2>
@@ -86,7 +95,7 @@ const ImportData = () => {
           className="border p-2 w-full"
         />
         {file && <p>Selected file: {file.name}</p>}
-        <div className="flex  items-center gap-4">
+        <div className="flex items-center gap-4">
           <button
             onClick={handleUpload}
             className="mt-4 bg-[#8c7a48] hover:bg-[#aa9458] text-white py-2 px-4 rounded cursor-pointer"
@@ -106,6 +115,7 @@ const ImportData = () => {
           )}
         </div>
       </div>
+      {/* ---------------------Preview Data-------------------- */}
       {data.length > 0 && (
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-3">Preview Data</h3>
@@ -122,6 +132,36 @@ const ImportData = () => {
               </thead>
               <tbody>
                 {data.map((row, index) => (
+                  <tr key={index} className="even:bg-gray-50">
+                    {Object.values(row).map((value, i) => (
+                      <td key={i} className="px-4 py-2 border">
+                        {value}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+      {/* ---------------------Import data-------------------- */}
+      {filteredKeys.length > 0 && (
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold mb-3">All Import Data</h3>
+          <div className="overflow-x-auto">
+            <table className="table-auto w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-gray-100">
+                  {filteredKeys.map((key) => (
+                    <th key={key} className="px-4 py-2 border uppercase">
+                      {key}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {filteredData.map((row, index) => (
                   <tr key={index} className="even:bg-gray-50">
                     {Object.values(row).map((value, i) => (
                       <td key={i} className="px-4 py-2 border">

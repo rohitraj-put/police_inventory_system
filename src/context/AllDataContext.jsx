@@ -16,7 +16,7 @@ export const AllDataProvider = ({ children }) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
     try {
       const response = await axios.get(
-        "https://malkhanaserver.onrender.com/api/v1/move/alldata",
+        "https://malkhanaserver-production.up.railway.app/api/v1/move/alldata",
         {
           headers: {
             Authorization: `Bearer ${token}`, // Include token in headers
@@ -35,7 +35,7 @@ export const AllDataProvider = ({ children }) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
     try {
       const response = await axios.get(
-        "https://malkhanaserver.onrender.com/api/v1/move",
+        "https://malkhanaserver-production.up.railway.app/api/v1/move",
         {
           headers: {
             Authorization: `Bearer ${token}`, // Include token in headers
@@ -54,7 +54,7 @@ export const AllDataProvider = ({ children }) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
     try {
       const response = await axios.get(
-        "https://malkhanaserver.onrender.com/api/v1/return",
+        "https://malkhanaserver-production.up.railway.app/api/v1/return",
         {
           headers: {
             Authorization: `Bearer ${token}`, // Include token in headers

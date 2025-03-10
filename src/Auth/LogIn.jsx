@@ -16,7 +16,7 @@ function LogIn() {
 
         try {
           const res = await axios.post(
-            "https://malkhanaserver.onrender.com/api/v1/users/login",
+            "https://malkhanaserver-production.up.railway.app/api/v1/users/login",
             { email, password }
           );
           localStorage.setItem("token", res.data.data.accessToken);
@@ -43,7 +43,7 @@ function LogIn() {
 
     try {
       const res = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/users/login",
+        "https://malkhanaserver-production.up.railway.app/api/v1/users/login",
         { email, password }
       );
       localStorage.setItem("token", res.data.data.accessToken);

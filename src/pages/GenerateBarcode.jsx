@@ -1,7 +1,5 @@
 import React, { useState, useRef } from "react";
 import Barcode from "react-barcode";
-import TranslateComponent from "../layout/TranslateComponent";
-import SMS from "../Components/SMS";
 
 function GenerateBarcode() {
   const [barcodes, setBarcodes] = useState(["123456789"]);
@@ -46,8 +44,6 @@ function GenerateBarcode() {
 
   return (
     <div className="p-5">
-      {/* <SMS /> */}
-      {/* <TranslateComponent /> */}
       <h2>Barcode Generator</h2>
       <div className="flex flex-row max-md:flex-col items-center">
         {barcodes.map((value, index) => (

@@ -5,6 +5,7 @@
 }
 
 
+
 /* Width for both vertical and horizontal scrollbars */
 ::-webkit-scrollbar {
     width: 4px;
@@ -28,4 +29,12 @@
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #bd9f4d;
+}
+
+
+
+@media (max-width: 768px) {
+    .max-md-w-0 {
+        width: 0;
+    }
 }

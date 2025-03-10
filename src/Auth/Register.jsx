@@ -60,7 +60,7 @@ function Register() {
       }
 
       await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/users/ragister",
+        "https://malkhanaserver-production.up.railway.app/api/v1/users/ragister",
         formData
       );
       setSuccess("Registration successful! You can now log in.");

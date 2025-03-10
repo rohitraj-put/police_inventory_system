@@ -70,7 +70,7 @@ export default function OthersEntry() {
 
     try {
       const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/other",
+        "https://malkhanaserver-production.up.railway.app/api/v1/other",
         formDataToSend,
         {
           headers: {

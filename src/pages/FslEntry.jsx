@@ -70,7 +70,7 @@ export default function FslEntry() {
     try {
       const token = localStorage.getItem("token"); // Replace with actual token
       const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/fsl",
+        "https://malkhanaserver-production.up.railway.app/api/v1/fsl",
         formDataToSend,
         {
           headers: {

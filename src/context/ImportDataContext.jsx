@@ -14,7 +14,7 @@ export const ImportDataProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // Get token from local storage or state
       try {
         const response = await axios.get(
-          "https://malkhanaserver.onrender.com/api/v1/fileEntry",
+          "https://malkhanaserver-production.up.railway.app/api/v1/fileEntry",
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include token in headers

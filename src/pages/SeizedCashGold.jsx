@@ -71,7 +71,7 @@ export default function SeizedCashGold() {
 
     try {
       const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/seized",
+        "https://malkhanaserver-production.up.railway.app/api/v1/seized",
         formDataToSend,
         {
           headers: {

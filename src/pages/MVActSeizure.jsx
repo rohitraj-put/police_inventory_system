@@ -66,7 +66,7 @@ export default function MVActSeizure() {
 
     try {
       const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/mvact",
+        "https://malkhanaserver-production.up.railway.app/api/v1/mvact",
         formDataToSend,
         {
           headers: {

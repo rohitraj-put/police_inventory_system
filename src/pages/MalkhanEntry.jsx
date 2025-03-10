@@ -85,7 +85,7 @@ export default function MalkhanEntry() {
 
     try {
       const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/malkhana",
+        "https://malkhanaserver-production.up.railway.app/api/v1/malkhana",
         formDataToSend,
         {
           headers: {

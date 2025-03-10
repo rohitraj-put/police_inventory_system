@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { FaUsers, FaFileAlt, FaBoxOpen } from "react-icons/fa";
 import { RiMotorbikeFill } from "react-icons/ri";
 import { GrDocumentVerified, GrDocumentPerformance } from "react-icons/gr";
 import { TbTruckReturn } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import useAllData from "../hooks/useAllData";
+import { isToday, isYesterday, subDays } from "date-fns";
 
 function Dashboard() {
   const { data: AllData = [], loading } = useAllData();
-  const [showTable, setShowTable] = useState(false);
+  const [showTable, setShowTable] = useState([]);
   const [bgColor, setBgColor] = useState("");
   const [color, setColor] = useState("");
   const [title, setTitle] = useState("");
+  const [filter, setFilter] = useState("all");
+  const tableRef = useRef(null);
 
   const dashboardCards = [
     {
@@ -19,7 +22,7 @@ function Dashboard() {
       count: "40",
       title: "Total Users",
       icon: <FaUsers size={28} />,
-      bg: "bg-green-400",
+      bg: "bg-[#CECAB1]",
       text: "text-white",
     },
     ...AllData.map((entry, index) => ({
@@ -34,6 +37,8 @@ function Dashboard() {
         setBgColor(getBgColor(entry.collection));
         setColor(getTextColor(entry.collection));
         setTitle(`Total ${entry.collection.replace(/_/g, " ")}`);
+        setFilter("all");
+        scrollToTable();
       },
     })),
   ];
@@ -63,47 +68,32 @@ function Dashboard() {
   }
 
   function getBgColor(collection) {
-    switch (collection) {
-      case "Malkhana_Entry":
-        return "bg-yellow-400";
-      case "FSL_Entry":
-        return "bg-[#f1d790]";
-      case "Kurki_Entry":
-        return "bg-[#f1d790]";
-      case "Other_Entry":
-        return "bg-blue-600";
-      case "Unclaimed_Entry":
-      case "Unclaimed_Vehicle":
-        return "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500";
-      case "MVAct_Seizure":
-      case "ARTO_Seizure":
-      case "IPC_Vehicle":
-      case "Excise_Vehicle":
-      case "Seizure_Vehicle":
-        return "bg-blue-400";
-      default:
-        return "bg-gray-400";
-    }
+    return "bg-[#CECAB1]";
   }
 
   function getTextColor(collection) {
-    switch (collection) {
-      case "Malkhana_Entry":
-      case "FSL_Entry":
-      case "Kurki_Entry":
-        return "text-black";
-      case "Other_Entry":
-      case "Unclaimed_Entry":
-      case "Unclaimed_Vehicle":
-        return "text-white";
-      case "MVAct_Seizure":
-      case "ARTO_Seizure":
-      case "IPC_Vehicle":
-      case "Excise_Vehicle":
-      case "Seizure_Vehicle":
-        return "text-white";
+    return "text-white";
+  }
+
+  function scrollToTable() {
+    if (tableRef.current) {
+      tableRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
+  function filterData(data, filter) {
+    const today = new Date();
+    switch (filter) {
+      case "today":
+        return data.filter((item) => isToday(new Date(item.createdAt)));
+      case "yesterday":
+        return data.filter((item) => isYesterday(new Date(item.createdAt)));
+      case "last_30_days":
+        return data.filter(
+          (item) => new Date(item.createdAt) >= subDays(today, 30)
+        );
       default:
-        return "text-black";
+        return data;
     }
   }
 
@@ -114,12 +104,12 @@ function Dashboard() {
       ? Object.keys(showTable[0]).filter((key) => !excludedKeys.includes(key))
       : [];
 
+  const filteredTableData = filterData(showTable, filter);
+
   return (
     <>
       <div className="">
         <div className="flex justify-between items-center">
-          {" "}
-          {/* <h2>{navigator.userAgentData.brands[1].brand}</h2> */}
           <h2 className="text-lg font-medium uppercase">Dashboard</h2>
           <h2 className="text-lg font-medium uppercase">ID - FERPR5534C</h2>
         </div>
@@ -129,10 +119,14 @@ function Dashboard() {
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-5">
             {dashboardCards.map((card) => (
               <Link
+                style={{
+                  background:
+                    "url(https://feeds.abplive.com/onecms/images/uploaded-images/2023/12/02/4c090f7ce8caeeba9918cc05bedd66e21701534424958853_original.jpg?impolicy=abp_cdn&imwidth=1200&height=675)",
+                }}
                 key={card.id}
                 to="#"
                 onClick={card.onClick}
-                className={`transform hover:scale-105 transition duration-300 shadow-lg rounded-lg p-5 ${card.bg}`}
+                className={`transform hover:scale-105 transition duration-300 shadow-lg rounded-lg p-5 ${card.bg} `}
               >
                 <div className="flex justify-between items-center">
                   <div className={`${card.text}`}>{card.icon}</div>
@@ -140,7 +134,7 @@ function Dashboard() {
                     <div className={`text-3xl font-bold ${card.text}`}>
                       {card.count}
                     </div>
-                    <div className={`text-base ${card.text} capitalize`}>
+                    <div className={` font-bold ${card.text} capitalize `}>
                       {card.title}
                     </div>
                   </div>
@@ -151,40 +145,62 @@ function Dashboard() {
         )}
       </div>
 
-      <h2 className={` text-lg font-bold my-8 uppercase`}>{title}</h2>
+      {showTable.length > 0 && (
+        <div ref={tableRef}>
+          <h2 className={` text-lg font-bold my-8 uppercase`}>{title}</h2>
 
-      {showTable && (
-        <div className="overflow-x-auto">
-          <table className="min-w-full border border-[#f1d790]">
-            <thead>
-              <tr className={`${bgColor} ${color} capitalize`}>
-                {tableHeaders.map((header) => (
-                  <th key={header} className="px-4 py-2 text-sm border">
-                    {header.replace(/([A-Z])/g, " $1").toUpperCase()}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {showTable.map((movement, index) => (
-                <tr key={index} className="text-black">
-                  {tableHeaders.map((key) => (
-                    <td key={key} className="px-4 py-2 border">
-                      {key === "avatar" ? (
-                        <img
-                          src={movement[key]}
-                          alt="Avatar"
-                          className="w-10 h-10"
-                        />
-                      ) : (
-                        movement[key]
-                      )}
-                    </td>
+          <div className="flex justify-end items-center mb-4 gap-2">
+            Filter Data :{" "}
+            <select
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+              className="p-2 border border-gray-300 rounded"
+            >
+              <option value="all">All</option>
+              <option value="today">Today</option>
+              <option value="yesterday">Yesterday</option>
+              <option value="last_30_days">Last 30 Days</option>
+            </select>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="min-w-full border border-[#f1d790]">
+              <thead>
+                <tr
+                  className={`${bgColor} ${color} capitalize`}
+                  style={{
+                    background:
+                      "url(https://feeds.abplive.com/onecms/images/uploaded-images/2023/12/02/4c090f7ce8caeeba9918cc05bedd66e21701534424958853_original.jpg?impolicy=abp_cdn&imwidth=1200&height=675)",
+                  }}
+                >
+                  {tableHeaders.map((header) => (
+                    <th key={header} className="px-4 py-2 text-sm border">
+                      {header.replace(/([A-Z])/g, " $1").toUpperCase()}
+                    </th>
                   ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredTableData.map((movement, index) => (
+                  <tr key={index} className="text-black">
+                    {tableHeaders.map((key) => (
+                      <td key={key} className="px-4 py-2 border">
+                        {key === "avatar" ? (
+                          <img
+                            src={movement[key]}
+                            alt="Avatar"
+                            className="w-10 h-10"
+                          />
+                        ) : (
+                          movement[key]
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </>

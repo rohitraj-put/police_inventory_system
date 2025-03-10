@@ -71,7 +71,7 @@ export default function KurkiEntry() {
     try {
       const token = localStorage.getItem("token"); // Replace with actual token
       const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/kurki",
+        "https://malkhanaserver-production.up.railway.app/api/v1/kurki",
         formDataToSend,
         {
           headers: {

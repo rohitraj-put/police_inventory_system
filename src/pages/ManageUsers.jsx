@@ -9,7 +9,7 @@ function ManageUsers() {
     const fetchUserDetails = async () => {
       try {
         const response = await fetch(
-          "https://malkhanaserver.onrender.com/api/v1/users/current-user",
+          "https://malkhanaserver-production.up.railway.app/api/v1/users/current-user",
           {
             method: "GET",
             headers: {

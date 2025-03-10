@@ -15,7 +15,7 @@ export const KurkiProvider = ({ children }) => {
       const token = localStorage.getItem("token"); // Get token from local storage or state
       try {
         const response = await axios.get(
-          "https://malkhanaserver.onrender.com/api/v1/kurki",
+          "https://malkhanaserver-production.up.railway.app/api/v1/kurki",
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include token in headers
@@ -37,7 +37,7 @@ export const KurkiProvider = ({ children }) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
     try {
       const response = await axios.delete(
-        `https://malkhanaserver.onrender.com/api/v1/kurki/${id}`,
+        `https://malkhanaserver-production.up.railway.app/api/v1/kurki/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`, // Include token in headers
@@ -57,7 +57,7 @@ export const KurkiProvider = ({ children }) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
     try {
       const response = await axios.patch(
-        `https://malkhanaserver.onrender.com/api/v1/kurki/${id}`,
+        `https://malkhanaserver-production.up.railway.app/api/v1/kurki/${id}`,
         updatedData,
         {
           headers: {

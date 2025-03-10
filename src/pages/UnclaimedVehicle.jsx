@@ -66,7 +66,7 @@ export default function UnclaimedVehicle() {
 
     try {
       const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/unclaimedVehicle",
+        "https://malkhanaserver-production.up.railway.app/api/v1/unclaimedVehicle",
         formDataToSend,
         {
           headers: {

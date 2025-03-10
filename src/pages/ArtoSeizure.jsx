@@ -69,7 +69,7 @@ export default function ArtoSeizure() {
     try {
       const response = isEditing
         ? await axios.patch(
-            `https://malkhanaserver.onrender.com/api/v1/artoSeizure/${editId}`,
+            `https://malkhanaserver-production.up.railway.app/api/v1/artoSeizure/${editId}`,
             formDataToSend,
             {
               headers: {
@@ -79,7 +79,7 @@ export default function ArtoSeizure() {
             }
           )
         : await axios.post(
-            "https://malkhanaserver.onrender.com/api/v1/artoSeizure",
+            "https://malkhanaserver-production.up.railway.app/api/v1/artoSeizure",
             formDataToSend,
             {
               headers: {

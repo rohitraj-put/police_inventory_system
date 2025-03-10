@@ -72,7 +72,7 @@ export default function IPCVehicle() {
       const token = localStorage.getItem("token"); // Replace with the actual token
 
       const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/ipcVehicle",
+        "https://malkhanaserver-production.up.railway.app/api/v1/ipcVehicle",
         formDataToSend,
         {
           headers: {

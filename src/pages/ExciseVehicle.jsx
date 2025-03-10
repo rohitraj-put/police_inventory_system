@@ -70,7 +70,7 @@ export default function ExciseVehicle() {
 
     try {
       const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/exciseVehicle",
+        "https://malkhanaserver-production.up.railway.app/api/v1/exciseVehicle",
         formDataToSend,
         {
           headers: {

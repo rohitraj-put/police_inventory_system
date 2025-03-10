@@ -64,7 +64,7 @@ export default function MalkhanaRelease() {
 
     try {
       const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/release",
+        "https://malkhanaserver-production.up.railway.app/api/v1/release",
         formDataToSend,
         {
           headers: {

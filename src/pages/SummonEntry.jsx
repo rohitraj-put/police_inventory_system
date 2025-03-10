@@ -56,7 +56,7 @@ const SummonEntry = () => {
 
     try {
       const response = await axios.post(
-        "https://malkhanaserver.onrender.com/api/v1/summon",
+        "https://malkhanaserver-production.up.railway.app/api/v1/summon",
         formData,
         {
           headers: {
@@ -272,13 +272,13 @@ const SummonEntry = () => {
                         >
                           <MdDelete size={24} />
                         </button>
-                        <button
-                          // onClick={() => deleteItem(entry._id)}
+                        {/* <button
+                          onClick={() => deleteItem(entry._id)}
                           className=" text-blue-600 px-2 py-1 rounded  cursor-pointer"
                           title="Update"
                         >
                           <FaEdit size={24} />
-                        </button>
+                        </button> */}
                       </td>
                     </tr>
                   ))}
