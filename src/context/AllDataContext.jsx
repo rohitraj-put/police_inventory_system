@@ -73,7 +73,7 @@ export const AllDataProvider = ({ children }) => {
     fetchData();
     fetchMoveData();
     fetchReturnData();
-  }, [data, move]);
+  }, []);
 
   return (
     <AllDataContext.Provider value={{ data, loading, error, move, returnData }}>

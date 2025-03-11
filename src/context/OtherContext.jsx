@@ -31,7 +31,7 @@ export const OtherProvider = ({ children }) => {
     };
 
     fetchData();
-  }, [data]);
+  }, []);
 
   const deleteItem = async (id) => {
     const token = localStorage.getItem("token"); // Get token from local storage or state
