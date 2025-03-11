@@ -3,8 +3,6 @@ import toast from "react-hot-toast";
 
 const OfflineNotification = () => {
   const [isOnline, setIsOnline] = useState(navigator.onLine);
-  console.log(isOnline);
-  console.log(navigator);
 
   useEffect(() => {
     const handleOnline = () => {

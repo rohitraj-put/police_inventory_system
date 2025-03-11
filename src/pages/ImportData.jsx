@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -9,6 +9,7 @@ const ImportData = () => {
   const [data, setData] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const { importData } = useImportData();
+  console.log(importData);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];

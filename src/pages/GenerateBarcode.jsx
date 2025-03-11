@@ -1,9 +1,12 @@
 import React, { useState, useRef } from "react";
 import Barcode from "react-barcode";
+import useAllData from "../hooks/useAllData";
 
 function GenerateBarcode() {
   const [barcodes, setBarcodes] = useState(["123456789"]);
   const printRef = useRef();
+  const { data } = useAllData();
+  console.log(data);
 
   const handleAddBarcode = () => {
     if (barcodes.length < 3) {
