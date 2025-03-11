@@ -59,9 +59,9 @@ function LogIn() {
   };
 
   return (
-    <div className="flex items-center justify-center p-2 dark:bg-neutral-900">
+    <div className="flex items-center justify-center p-2 ">
       <Toaster />
-      <div className="w-full max-w-md bg-white border border-gray-200 rounded-xl shadow-sm p-6 dark:bg-neutral-900 dark:border-neutral-700">
+      <div className="w-full max-w-md bg-white border border-gray-200 rounded-xl shadow-sm p-6 ">
         <div className="w-40 h-36 mx-auto">
           <img
             className="h-full w-full"
@@ -70,36 +70,30 @@ function LogIn() {
           />
         </div>
         <div className="text-center mt-4">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-            Sign In
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-800 ">Sign In</h1>
         </div>
         {error && <p className="text-red-500 text-center">{error}</p>}
         <div className="mt-5">
           <form onSubmit={handleSubmit}>
             <div className="grid gap-y-4">
               <div>
-                <label className="block text-sm mb-2 dark:text-white">
-                  Email address
-                </label>
+                <label className="block text-sm mb-2 ">Email address</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="w-full py-3 px-4 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400"
+                  className="w-full py-3 px-4 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500  "
                 />
               </div>
               <div>
-                <label className="block text-sm mb-2 dark:text-white">
-                  Password
-                </label>
+                <label className="block text-sm mb-2 ">Password</label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="w-full py-3 px-4 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400"
+                  className="w-full py-3 px-4 border border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500 "
                 />
               </div>
               <button
