@@ -1,5 +1,5 @@
-import React, { useState, useRef } from "react";
-import Barcode from "react-barcode";
+import React, { useState, useRef, useEffect } from "react";
+import JsBarcode from "jsbarcode";
 import useAllData from "../hooks/useAllData";
 
 function GenerateBarcode() {
@@ -45,6 +45,21 @@ function GenerateBarcode() {
     printWindow.document.close();
   };
 
+  useEffect(() => {
+    barcodes.forEach((value, index) => {
+      if (value.length >= 3) {
+        JsBarcode(`#barcode-${index}`, value, {
+          format: "CODE128",
+          width: 2,
+          height: 100,
+          displayValue: true,
+          background: "#fff",
+          lineColor: "#000",
+        });
+      }
+    });
+  }, [barcodes]);
+
   return (
     <div className="p-5">
       <h2>Barcode Generator</h2>
@@ -73,15 +88,7 @@ function GenerateBarcode() {
           (value, index) =>
             value.length >= 3 && (
               <div key={index} className="mb-4">
-                <Barcode
-                  value={value}
-                  format="CODE128"
-                  width={2}
-                  height={100}
-                  displayValue={true}
-                  background="#fff"
-                  lineColor="#000"
-                />
+                <svg id={`barcode-${index}`}></svg>
               </div>
             )
         )}
