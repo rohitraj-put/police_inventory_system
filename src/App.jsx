@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Route,
-  Routes,
-  useLocation,
-  Navigate,
-  useNavigate,
-  Link,
-} from "react-router-dom";
+import { Route, Routes, Navigate, useNavigate, Link } from "react-router-dom";
 import LogIn from "./Auth/LogIn";
 import Register from "./Auth/Register";
 import Dashboard from "./layout/Dashboard";
@@ -45,19 +38,13 @@ import OfflineNotification from "./OfflineNotification";
 
 function App() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
-  const location = useLocation();
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsAuthenticated(!!token);
-  }, [location.pathname]); // Re-check authentication on route change
-
-  useEffect(() => {
-    console.log("Current Path:", location.pathname);
-    console.log("Authenticated:", isAuthenticated);
-  }, [location.pathname, isAuthenticated]);
+  }, []); // Check authentication on component mount
 
   const LogoutHandler = () => {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
@@ -123,16 +110,6 @@ function App() {
             </div>
           </div>
         )}
-        {/* Logo */}
-        {/* {isAuthenticated && (
-          <div className="flex justify-center bg-white p-1">
-            <img
-              src="https://vectorseek.com/wp-content/uploads/2023/09/Delhi-Police-Logo-Vector.svg-.png"
-              alt="logo"
-              className="h-28"
-            />
-          </div>
-        )} */}
         {/* Page Content */}
         <div className="bg-white p-4">
           <Routes>
@@ -182,7 +159,6 @@ function App() {
             )}
           </Routes>
         </div>
-        {/* <Footer /> */}
         {/* {isAuthenticated && <Footer />} */}
       </div>
     </div>

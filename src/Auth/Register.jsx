@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 function Register() {
   const fields = [
@@ -76,7 +76,7 @@ function Register() {
 
   return (
     <div className="flex items-center justify-center gap-16 max-md:flex-col min-h-screen p-4 dark:bg-neutral-900">
-      <div className="w-full max-w-md bg-white border border-gray-200 rounded-xl shadow-sm p-6 dark:bg-neutral-900 dark:border-neutral-700">
+      <div className="w-full max-w-md bg-white border border-gray-200 rounded-xl shadow-sm p-6 ">
         <div className="w-40 h-36 mx-auto">
           <img
             className="h-full w-full"
@@ -85,7 +85,7 @@ function Register() {
           />
         </div>
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
+          <h1 className="text-2xl font-bold text-gray-800 ">
             Registration Form
           </h1>
         </div>
@@ -102,7 +102,7 @@ function Register() {
                 required
                 value={formData[name]}
                 onChange={handleChange}
-                className="w-full py-3 px-4 border rounded-lg text-sm dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400"
+                className="w-full py-3 px-4 border rounded-lg text-sm "
               />
             ))}
           </div>
@@ -113,17 +113,13 @@ function Register() {
             Register
           </button>
         </form>
-        <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400 text-center">
+        <p className="mt-2 text-sm text-gray-600  text-center">
           You have an account?{" "}
-          <Link
-            className="text-blue-600 hover:underline dark:text-blue-500"
-            to={"/"}
-          >
+          <Link className="text-blue-600 hover:underline " to={"/"}>
             Login here
           </Link>
         </p>
       </div>
-      <Toaster />
     </div>
   );
 }
