@@ -171,7 +171,9 @@ export default function MalkhanEntry() {
     try {
       const response = await updateItem(editingId, formDataToSend);
 
-      toast.success(response.data.message, { id: submittingToastId });
+      toast.dismiss(submittingToastId); // Dismiss loading toast
+      toast.success(response.data.message);
+
       console.log("Update Success:", response.data);
 
       // Reset form after successful update
@@ -196,7 +198,7 @@ export default function MalkhanEntry() {
       setEditingId(null);
       setPreview(null);
     } catch (error) {
-      toast.error(error.response.data.message, { id: submittingToastId });
+      toast.dismiss(submittingToastId); // Dismiss loading toast
       console.error("Error:", error);
     }
   };

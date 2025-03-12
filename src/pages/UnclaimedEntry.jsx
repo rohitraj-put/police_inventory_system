@@ -165,7 +165,8 @@ export default function UnclaimedEntry() {
     try {
       const response = await updateItem(editingId, formDataToSend);
 
-      toast.success(response.data.message, { id: submittingToastId });
+      toast.dismiss(submittingToastId);
+      toast.success(response.data.message);
       console.log("Update Success:", response.data);
 
       // Reset form after successful update
@@ -190,7 +191,7 @@ export default function UnclaimedEntry() {
       setEditingId(null);
       setPreview(null);
     } catch (error) {
-      toast.error(error.response.data.message, { id: submittingToastId });
+      toast.dismiss(submittingToastId);
       console.error("Error:", error);
     }
   };
@@ -321,6 +322,7 @@ export default function UnclaimedEntry() {
                     "Case Property",
                     "Status",
                     "Avatar",
+                    "Tracking By",
                     "Action",
                   ].map((header) => (
                     <th key={header} className="border border-gray-300 p-2">
@@ -375,6 +377,7 @@ export default function UnclaimedEntry() {
                     <td className="border border-gray-300 p-2">
                       {entry.status}
                     </td>
+
                     <td className="border border-gray-300 p-2">
                       {entry.avatar ? (
                         <img
@@ -385,6 +388,9 @@ export default function UnclaimedEntry() {
                       ) : (
                         "No Image"
                       )}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.trackingBy}
                     </td>
                     <td className="border border-gray-300 p-2 flex items-center">
                       <button

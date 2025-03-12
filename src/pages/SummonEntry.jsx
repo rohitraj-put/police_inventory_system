@@ -5,7 +5,6 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import useSummon from "../hooks/useSummon";
 import { MdDelete } from "react-icons/md";
-import { FaEdit } from "react-icons/fa";
 
 const SummonEntry = () => {
   const { data, loading, deleteItem } = useSummon();

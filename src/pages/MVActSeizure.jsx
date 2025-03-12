@@ -145,7 +145,8 @@ export default function MVActSeizure() {
     try {
       const response = await updateItem(editingId, formDataToSend);
 
-      toast.success(response.data.message, { id: submittingToastId });
+      toast.dismiss(submittingToastId);
+      toast.success(response.data.message);
       console.log("Update Success:", response.data);
 
       // Reset form after successful update
@@ -166,7 +167,7 @@ export default function MVActSeizure() {
       setEditingId(null);
       setPreview(null);
     } catch (error) {
-      toast.error(error.response.data.message, { id: submittingToastId });
+      toast.dismiss(submittingToastId);
       console.error("Error:", error);
     }
   };

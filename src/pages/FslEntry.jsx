@@ -157,7 +157,8 @@ export default function FslEntry() {
     try {
       const response = await updateItem(editingId, formDataToSend);
 
-      toast.success(response.data.message, { id: submittingToastId });
+      toast.dismiss(submittingToastId);
+      toast.success(response.data.message);
       console.log("Update Success:", response.data);
 
       // Reset form after successful update
@@ -182,7 +183,7 @@ export default function FslEntry() {
       setEditingId(null);
       setPreview(null);
     } catch (error) {
-      toast.error(error.response.data.message, { id: submittingToastId });
+      toast.dismiss(submittingToastId);
       console.error("Error:", error);
     }
   };
@@ -311,6 +312,7 @@ export default function FslEntry() {
                     "Case Property",
                     "Status",
                     "Avatar",
+                    "Tracking By",
                     "Action",
                   ].map((header) => (
                     <th key={header} className="border border-gray-300 p-2">
@@ -375,6 +377,9 @@ export default function FslEntry() {
                       ) : (
                         "No Image"
                       )}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.trackingBy}
                     </td>
                     <td className="border border-gray-300 p-2 flex items-center">
                       <button
