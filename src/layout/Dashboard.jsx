@@ -35,7 +35,7 @@ function Dashboard() {
       : []),
     ...AllData.map((entry, index) => {
       const filteredData = entry.data.filter((data) => 
-        data.district === user?.district && (user?.policeStation ? data.policeStation === user?.policeStation : true)
+        data.district === user?.district && (user?.role === "Admin" || (user?.role === "User" && data.policeStation === user?.policeStation))
       );
       return ({
         count: filteredData.length,
