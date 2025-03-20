@@ -4,13 +4,26 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 
 function Register() {
+  const districts = [
+    "Central Delhi",
+    "East Delhi",
+    "New Delhi",
+    "North Delhi",
+    "North East Delhi",
+    "North West Delhi",
+    "Shahdara",
+    "South Delhi",
+    "South East Delhi",
+    "South West Delhi",
+    "West Delhi",
+  ];
+
   const fields = [
     { name: "fullName", type: "text", placeholder: "Full Name" },
     { name: "policeStation", type: "text", placeholder: "Police Station" },
     { name: "mobile", type: "text", placeholder: "Mobile" },
     { name: "email", type: "email", placeholder: "Email" },
     { name: "designation", type: "text", placeholder: "Designation" },
-    { name: "role", type: "text", placeholder: "Role" },
     { name: "password", type: "password", placeholder: "Password" },
     {
       name: "confirmPassword",
@@ -20,7 +33,10 @@ function Register() {
   ];
 
   const [formData, setFormData] = useState(
-    fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {})
+    fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {
+      district: "",
+      role: "",
+    })
   );
 
   const [error, setError] = useState("");
@@ -28,17 +44,6 @@ function Register() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const checkEmailExists = async (email) => {
-    const apiKey = "YOUR_API_KEY";
-
-    const response2 = await fetch(
-      `https://anotheremailverificationapi.com/check?apikey=${apiKey}&email=${email}`
-    );
-    const data2 = await response2.json();
-
-    return data2.isValid;
   };
 
   const handleSubmit = async (e) => {
@@ -52,13 +57,6 @@ function Register() {
     }
 
     try {
-      const emailExists = await checkEmailExists(formData.email);
-
-      if (!emailExists) {
-        toast.error("Email does not exist! Please enter a valid email.");
-        return;
-      }
-
       await axios.post(
         "https://malkhanaserver-production.up.railway.app/api/v1/users/ragister",
         formData
@@ -66,7 +64,10 @@ function Register() {
       setSuccess("Registration successful! You can now log in.");
       toast.success("Registration successful! You can now log in.");
       setFormData(
-        fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {})
+        fields.reduce(
+          (acc, field) => ({ ...acc, [field.name]: "" }),
+          { district: "", role: "" }
+        )
       );
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
@@ -75,7 +76,7 @@ function Register() {
   };
 
   return (
-    <div className="flex items-center justify-center gap-16 max-md:flex-col min-h-screen p-4 dark:bg-neutral-900">
+    <div className="flex items-center justify-center gap-16 max-md:flex-col min-h-screen p-4 ">
       <div className="w-full max-w-md bg-white border border-gray-200 rounded-xl shadow-sm p-6 ">
         <div className="w-40 h-36 mx-auto">
           <img
@@ -105,6 +106,35 @@ function Register() {
                 className="w-full py-3 px-4 border rounded-lg text-sm "
               />
             ))}
+            <select
+              name="district"
+              value={formData.district}
+              onChange={handleChange}
+              required
+              className="w-full py-3 px-4 border rounded-lg text-sm"
+            >
+              <option value="" disabled>
+                Select District
+              </option>
+              {districts.map((district, index) => (
+                <option key={index} value={district}>
+                  {district}
+                </option>
+              ))}
+            </select>
+            <select
+              name="role"
+              value={formData.role}
+              onChange={handleChange}
+              required
+              className="w-full py-3 px-4 border rounded-lg text-sm"
+            >
+              <option value="" disabled>
+                Select Role
+              </option>
+              <option value="Admin">Admin</option>
+              <option value="User">User</option>
+            </select>
           </div>
           <button
             type="submit"

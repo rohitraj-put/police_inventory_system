@@ -6,6 +6,7 @@ import exportToExcel from "../Excel/exportToExcel";
 import { MdDelete } from "react-icons/md";
 import { FaEdit, FaPrint } from "react-icons/fa";
 import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
+import useUser from "../hooks/useUser";
 
 export default function KurkiEntry() {
   const [formData, setFormData] = useState({
@@ -32,7 +33,12 @@ export default function KurkiEntry() {
   const [searchParams, setSearchParams] = useState({ firNo: "", mudNo: "" });
   const { data, loading, deleteItem, updateItem } = useKurki();
   const [editingId, setEditingId] = useState(null);
-  console.log(data);
+
+  const {user}=useUser()
+
+  const singalData=data.filter((item)=>item.policeStation===user?.policeStation)
+
+
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -118,10 +124,10 @@ export default function KurkiEntry() {
     setSearchParams({ ...searchParams, [name]: value });
   };
 
-  const filteredData = data?.filter((entry) => {
+  const filteredData = singalData?.filter((entry) => {
     return (
-      (searchParams.firNo === "" || entry.firNo.includes(searchParams.firNo)) &&
-      (searchParams.mudNo === "" || entry.mudNo.includes(searchParams.mudNo))
+      (searchParams.firNo === "" || entry.firNo?.includes(searchParams.firNo)) &&
+      (searchParams.mudNo === "" || entry.mudNo?.includes(searchParams.mudNo))
     );
   });
 

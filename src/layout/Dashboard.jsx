@@ -6,6 +6,7 @@ import { TbTruckReturn } from "react-icons/tb";
 import { Link } from "react-router-dom";
 import useAllData from "../hooks/useAllData";
 import { isToday, isYesterday, subDays } from "date-fns";
+import useUser from "../hooks/useUser";
 
 function Dashboard() {
   const { data: AllData = [], loading } = useAllData();
@@ -16,31 +17,42 @@ function Dashboard() {
   const [filter, setFilter] = useState("all");
   const tableRef = useRef(null);
 
+  const { user, allUser } = useUser();
+  const totalUser = allUser?.filter((userA) => userA.district === user?.district);
+  console.log(totalUser);
+
   const dashboardCards = [
-    {
-      id: 1,
-      count: "40",
-      title: "Total Users",
-      icon: <FaUsers size={28} />,
-      bg: "bg-[#CECAB1]",
-      text: "text-white",
-    },
-    ...AllData.map((entry, index) => ({
-      id: index + 2,
-      count: entry.data.length,
-      title: `Total ${entry.collection.replace(/_/g, " ")}`,
-      icon: getIcon(entry.collection),
-      bg: getBgColor(entry.collection),
-      text: getTextColor(entry.collection),
-      onClick: () => {
-        setShowTable(entry.data);
-        setBgColor(getBgColor(entry.collection));
-        setColor(getTextColor(entry.collection));
-        setTitle(`Total ${entry.collection.replace(/_/g, " ")}`);
-        setFilter("all");
-        scrollToTable();
-      },
-    })),
+    ...(user?.role === "Admin"
+      ? [
+          {
+            count: totalUser?.length,
+            title: "Total Users",
+            icon: <FaUsers size={28} />,
+            bg: "bg-yellow-600",
+            text: "text-white",
+          },
+        ]
+      : []),
+    ...AllData.map((entry, index) => {
+      const filteredData = entry.data.filter((data) => 
+        data.district === user?.district && (user?.policeStation ? data.policeStation === user?.policeStation : true)
+      );
+      return ({
+        count: filteredData.length,
+        title: `Total ${entry.collection.replace(/_/g, " ")}`,
+        icon: getIcon(entry.collection),
+        bg: getBgColor(entry.collection),
+        text: getTextColor(entry.collection),
+        onClick: () => {
+          setShowTable(filteredData);
+          setBgColor(getBgColor(entry.collection));
+          setColor(getTextColor(entry.collection));
+          setTitle(`Total ${entry.collection.replace(/_/g, " ")}`);
+          setFilter("all");
+          scrollToTable();
+        },
+      });
+    }),
   ];
 
   function getIcon(collection) {
@@ -68,11 +80,48 @@ function Dashboard() {
   }
 
   function getBgColor(collection) {
-    return "bg-[#CECAB1]";
+    switch (collection) {
+      case "Malkhana_Entry":
+        return "bg-green-500";
+      case "FSL_Entry":
+        return "bg-rose-500";
+      case "Kurki_Entry":
+        return "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500";
+      case "Other_Entry":
+        return "bg-blue-600";
+      case "Unclaimed_Entry":
+      case "Unclaimed_Vehicle":
+        return "bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500";
+      case "MVAct_Seizure":
+      case "ARTO_Seizure":
+      case "IPC_Vehicle":
+      case "Excise_Vehicle":
+      case "Seizure_Vehicle":
+        return "bg-blue-400";
+      default:
+        return "bg-gray-400";
+    }
   }
 
   function getTextColor(collection) {
-    return "text-white";
+    switch (collection) {
+      case "Malkhana_Entry":
+      case "FSL_Entry":
+      case "Kurki_Entry":
+        return "text-white";
+      case "Other_Entry":
+      case "Unclaimed_Entry":
+      case "Unclaimed_Vehicle":
+        return "text-white";
+      case "MVAct_Seizure":
+      case "ARTO_Seizure":
+      case "IPC_Vehicle":
+      case "Excise_Vehicle":
+      case "Seizure_Vehicle":
+        return "text-white";
+      default:
+        return "text-black";
+    }
   }
 
   function scrollToTable() {
@@ -117,13 +166,9 @@ function Dashboard() {
           <div className="">Please Wait Data Loading.....</div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-5">
-            {dashboardCards.map((card) => (
+            {dashboardCards.map((card, index) => (
               <Link
-                style={{
-                  background:
-                    "url(https://feeds.abplive.com/onecms/images/uploaded-images/2023/12/02/4c090f7ce8caeeba9918cc05bedd66e21701534424958853_original.jpg?impolicy=abp_cdn&imwidth=1200&height=675)",
-                }}
-                key={card.id}
+                key={index}
                 to="#"
                 onClick={card.onClick}
                 className={`transform hover:scale-105 transition duration-300 shadow-lg rounded-lg p-5 ${card.bg} `}
@@ -166,13 +211,7 @@ function Dashboard() {
           <div className="overflow-x-auto">
             <table className="min-w-full border border-[#f1d790]">
               <thead>
-                <tr
-                  className={`${bgColor} ${color} capitalize`}
-                  style={{
-                    background:
-                      "url(https://feeds.abplive.com/onecms/images/uploaded-images/2023/12/02/4c090f7ce8caeeba9918cc05bedd66e21701534424958853_original.jpg?impolicy=abp_cdn&imwidth=1200&height=675)",
-                  }}
-                >
+                <tr className={`${bgColor} ${color} capitalize`}>
                   {tableHeaders.map((header) => (
                     <th key={header} className="px-4 py-2 text-sm border">
                       {header.replace(/([A-Z])/g, " $1").toUpperCase()}

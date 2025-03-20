@@ -20,9 +20,11 @@ import { SeizedCashGoldProvider } from "./context/SeizedCashGoldContext.jsx";
 import { ThemeProvider } from "./Theme/ThemeContext.jsx";
 import { AllDataProvider } from "./context/AllDataContext.jsx";
 import "./index.css";
+import { UserContextProvider } from "./context/UserContext.jsx";
 
 // Corrected Providers Component
 const Providers = ({ children }) => (
+  <UserContextProvider>
   <ThemeProvider>
     <MalkhanaProvider>
       <KurkiProvider>
@@ -56,6 +58,7 @@ const Providers = ({ children }) => (
       </KurkiProvider>
     </MalkhanaProvider>
   </ThemeProvider>
+  </UserContextProvider>
 );
 
 createRoot(document.getElementById("root")).render(

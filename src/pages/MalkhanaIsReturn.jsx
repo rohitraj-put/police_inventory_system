@@ -19,7 +19,7 @@ export default function MalkhanaIsReturn() {
   const [preview, setPreview] = useState(null);
   const [mudNumbers, setMudNumbers] = useState([]);
   const { data, loading, returnData } = useAllData();
-  console.log(returnData);
+
 
   useEffect(() => {
     if (formData.firNo) {

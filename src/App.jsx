@@ -44,7 +44,7 @@ function App() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     setIsAuthenticated(!!token);
-  }, []); // Check authentication on component mount
+  }, []); 
 
   const LogoutHandler = () => {
     const confirmLogout = window.confirm("Are you sure you want to log out?");

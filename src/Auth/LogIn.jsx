@@ -22,8 +22,9 @@ function LogIn() {
           localStorage.setItem("token", res.data.data.accessToken);
           localStorage.setItem("email", email);
           toast.dismiss(loadingToastId);
-          toast.success("Logged in successfully!");
           navigate("/dashboard"); // Redirect after login
+          toast.success("Logged in successfully!");
+         
         } catch (err) {
           toast.dismiss(loadingToastId);
           setError("Invalid email or password");

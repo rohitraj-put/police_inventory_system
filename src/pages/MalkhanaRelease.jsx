@@ -6,6 +6,7 @@ import exportToExcel from "../Excel/exportToExcel";
 import { MdDelete } from "react-icons/md";
 import { FaEdit, FaPrint } from "react-icons/fa";
 import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
+import useUser from "../hooks/useUser";
 
 export default function MalkhanaRelease() {
   const [formData, setFormData] = useState({
@@ -24,7 +25,11 @@ export default function MalkhanaRelease() {
   const [previewAvatar, setPreviewAvatar] = useState(null);
   const [previewDocument, setPreviewDocument] = useState(null);
   const { data, loading, deleteItem } = useMalkhanaRelease();
-  console.log(data);
+
+  const {user}=useUser()
+
+  const singalData=data.filter((item)=>item.policeStation===user?.policeStation)
+
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -175,9 +180,9 @@ export default function MalkhanaRelease() {
           <h2 className="text-lg font-semibold mb-3">
             All Malkhana Release Entries
           </h2>
-          {data && data.length > 0 && (
+          {singalData && singalData?.length > 0 && (
             <button
-              onClick={() => exportToExcel(data)}
+              onClick={() => exportToExcel(singalData)}
               className="bg-[#8c7a48] text-white cursor-pointer px-3 py-2 rounded hover:bg-[#af9859] mb-2"
             >
               Download as Excel
@@ -187,7 +192,7 @@ export default function MalkhanaRelease() {
 
         {loading ? (
           <p className="text-gray-500">Loading entries...</p>
-        ) : data && data.length > 0 ? (
+        ) : singalData && singalData?.length > 0 ? (
           <div>
             <div className="overflow-auto max-h-[500px] border border-gray-300 rounded-lg">
               <table className="w-full border-collapse text-xs">

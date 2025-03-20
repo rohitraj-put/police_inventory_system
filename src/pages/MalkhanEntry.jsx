@@ -7,6 +7,7 @@ import { MdDelete } from "react-icons/md";
 import { FaEdit } from "react-icons/fa";
 import { FaPrint } from "react-icons/fa";
 import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
+import useUser from "../hooks/useUser";
 
 export default function MalkhanEntry() {
   const [formData, setFormData] = useState({
@@ -37,7 +38,11 @@ export default function MalkhanEntry() {
   });
   const { data, loading, deleteItem, updateItem } = useMalkhana();
   const [editingId, setEditingId] = useState(null);
-  console.log(data);
+  const {user}=useUser()
+
+  const singalData=data.filter((item)=>item.policeStation===user?.policeStation)
+  console.log(singalData)
+
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -129,10 +134,10 @@ export default function MalkhanEntry() {
     setSearchCriteria({ ...searchCriteria, [name]: value });
   };
 
-  const filteredData = data?.filter(
+  const filteredData = singalData?.filter(
     (entry) =>
-      entry.firNo.includes(searchCriteria.firNo) &&
-      entry.mudNo.includes(searchCriteria.mudNo)
+      entry.firNo?.includes(searchCriteria.firNo) &&
+      entry.mudNo?.includes(searchCriteria.mudNo)
   );
 
   const handleEditClick = (entry) => {

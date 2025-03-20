@@ -5,9 +5,15 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import useSummon from "../hooks/useSummon";
 import { MdDelete } from "react-icons/md";
+import useUser from "../hooks/useUser";
 
 const SummonEntry = () => {
   const { data, loading, deleteItem } = useSummon();
+
+  const {user}=useUser()
+
+  const singalData=data.filter((item)=>item.policeStation===user?.policeStation)
+
 
   const [formData, setFormData] = useState({
     entryType: "",
@@ -190,7 +196,7 @@ const SummonEntry = () => {
           <h2 className="text-lg font-semibold mb-3">All Summon Entries</h2>
           {loading ? (
             <p className="text-gray-500">Loading entries...</p>
-          ) : data && data.length > 0 ? (
+          ) : singalData && singalData.length > 0 ? (
             <div className="overflow-auto max-h-[500px] border border-gray-300 rounded-lg">
               <table className="w-full border-collapse text-xs">
                 <thead className="sticky top-0 bg-[#8c7a48] text-white z-10 capitalize">
@@ -218,7 +224,7 @@ const SummonEntry = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((entry, index) => (
+                  {singalData?.map((entry, index) => (
                     <tr
                       key={index}
                       className="text-center border border-gray-300 cursor-pointer"
