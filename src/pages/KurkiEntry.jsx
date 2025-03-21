@@ -270,9 +270,9 @@ export default function KurkiEntry() {
       <div className="mt-6">
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-semibold mb-3">All Kurki Entries</h2>
-          {data && data.length > 0 && (
+          {singalData && singalData.length > 0 && (
             <button
-              onClick={() => exportToExcel(data)}
+              onClick={() => exportToExcel(singalData)}
               className="bg-[#8c7a48] text-white cursor-pointer px-3 py-2 rounded hover:bg-[#af9859] mb-2"
             >
               Download as Excel
