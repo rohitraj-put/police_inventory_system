@@ -9,7 +9,7 @@ const ImportData = () => {
   const [data, setData] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const { importData } = useImportData();
-  console.log(importData);
+  console.log(importData)
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -27,6 +27,7 @@ const ImportData = () => {
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
       const parsedData = XLSX.utils.sheet_to_json(sheet);
+      console.log("Parsed Data:", parsedData); // Debug log
       setData(parsedData);
     };
     reader.readAsBinaryString(file);
@@ -58,10 +59,10 @@ const ImportData = () => {
       toast.success(response.data.message, {
         id: submittingToastId,
       });
-      console.log(response.data);
+      console.log("API Response:", response.data); // Debug log
     } catch (error) {
       toast.error("Upload failed", { id: submittingToastId });
-      console.error("Error uploading file:", error);
+      console.error("Error uploading file:", error); // Debug log
     } finally {
       setIsUploading(false);
     }

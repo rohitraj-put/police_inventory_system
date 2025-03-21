@@ -15,11 +15,11 @@ function Dashboard() {
   const [color, setColor] = useState("");
   const [title, setTitle] = useState("");
   const [filter, setFilter] = useState("all");
+  const [selectedPoliceStation, setSelectedPoliceStation] = useState("all");
   const tableRef = useRef(null);
 
   const { user, allUser } = useUser();
   const totalUser = allUser?.filter((userA) => userA.district === user?.district);
-  console.log(totalUser);
 
   const dashboardCards = [
     ...(user?.role === "Admin"
@@ -30,6 +30,9 @@ function Dashboard() {
             icon: <FaUsers size={28} />,
             bg: "bg-yellow-600",
             text: "text-white",
+            onClick: () => {
+              window.location.href = "/manage-users";
+            },
           },
         ]
       : []),
@@ -37,8 +40,11 @@ function Dashboard() {
       const filteredData = entry.data.filter((data) => 
         data.district === user?.district && (user?.role === "Admin" || (user?.role === "User" && data.policeStation === user?.policeStation))
       );
+      const policeStationFilteredData = selectedPoliceStation === "all"
+        ? filteredData
+        : filteredData.filter((data) => data.policeStation === selectedPoliceStation);
       return ({
-        count: filteredData.length,
+        count: policeStationFilteredData.length,
         title: `Total ${entry.collection.replace(/_/g, " ")}`,
         icon: getIcon(entry.collection),
         bg: getBgColor(entry.collection),
@@ -130,19 +136,25 @@ function Dashboard() {
     }
   }
 
-  function filterData(data, filter) {
+  function filterData(data, filter, policeStation) {
     const today = new Date();
+    let filteredData = data;
+
+    if (policeStation !== "all") {
+      filteredData = filteredData.filter((item) => item.policeStation === policeStation);
+    }
+
     switch (filter) {
       case "today":
-        return data.filter((item) => isToday(new Date(item.createdAt)));
+        return filteredData.filter((item) => isToday(new Date(item.createdAt)));
       case "yesterday":
-        return data.filter((item) => isYesterday(new Date(item.createdAt)));
+        return filteredData.filter((item) => isYesterday(new Date(item.createdAt)));
       case "last_30_days":
-        return data.filter(
+        return filteredData.filter(
           (item) => new Date(item.createdAt) >= subDays(today, 30)
         );
       default:
-        return data;
+        return filteredData;
     }
   }
 
@@ -153,15 +165,32 @@ function Dashboard() {
       ? Object.keys(showTable[0]).filter((key) => !excludedKeys.includes(key))
       : [];
 
-  const filteredTableData = filterData(showTable, filter);
+  const filteredTableData = filterData(showTable, filter, selectedPoliceStation);
 
   return (
     <>
       <div className="">
         <div className="flex justify-between items-center">
-          <h2 className="text-lg font-medium uppercase">Dashboard</h2>
+          <h2 className="text-lg font-medium uppercase">{user?.role==="Admin" ? "Admin Dashboard" : "User Dashboard"}</h2>
           <h2 className="text-lg font-medium uppercase">ID - FERPR5534C</h2>
         </div>
+        {
+          user?.role==="Admin"&&
+          <div className="flex justify-end items-center mb-4 gap-2 ">
+         Police Station:{" "}
+          <select
+            value={selectedPoliceStation}
+            onChange={(e) => setSelectedPoliceStation(e.target.value)}
+            className="p-2 border border-gray-300 rounded cursor-pointer"
+          >
+            <option value="all">All</option>
+            {allUser?.map((policeS, index) => (
+              <option className="cursor-pointer" key={index} value={policeS.policeStation}>{policeS.policeStation}</option>
+            ))}
+          </select>
+        </div>
+        }
+
         {loading ? (
           <div className="">Please Wait Data Loading.....</div>
         ) : (

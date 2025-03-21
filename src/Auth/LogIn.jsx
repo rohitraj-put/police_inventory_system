@@ -22,7 +22,7 @@ function LogIn() {
           localStorage.setItem("token", res.data.data.accessToken);
           localStorage.setItem("email", email);
           toast.dismiss(loadingToastId);
-          navigate("/dashboard");
+          navigate("/dashboard")
           toast.success("Logged in successfully!");
          
         } catch (err) {

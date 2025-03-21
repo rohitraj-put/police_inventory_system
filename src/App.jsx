@@ -35,16 +35,26 @@ import MalkhanaHelp from "./pages/MalkhanaHelp";
 import { Toaster } from "react-hot-toast";
 import MalkhanaIsReturn from "./pages/MalkhanaIsReturn";
 import OfflineNotification from "./OfflineNotification";
+import useUser from "./hooks/useUser";
 
 function App() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [hasRedirected, setHasRedirected] = useState(false);
+  const { user } = useUser();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    setIsAuthenticated(!!token);
-  }, []); 
+    if (token) {
+      setIsAuthenticated(true);
+      if (!hasRedirected && window.location.pathname === "/") {
+        setHasRedirected(true);
+        navigate("/dashboard", { replace: true });
+      }
+    }
+  }, [navigate, hasRedirected]);
+  
 
   const LogoutHandler = () => {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
@@ -103,7 +113,8 @@ function App() {
                 <img
                   title="Profile"
                   className="w-full h-full object-cover"
-                  src="https://www.pngitem.com/pimgs/m/78-786293_1240-x-1240-0-avatar-profile-icon-png.png"
+                  src={user?.avatar ||
+                    "https://pagedone.io/asset/uploads/1705471668.png"}
                   alt="profile_image"
                 />
               </Link>

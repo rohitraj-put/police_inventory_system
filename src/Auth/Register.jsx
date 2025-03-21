@@ -36,14 +36,28 @@ function Register() {
     fields.reduce((acc, field) => ({ ...acc, [field.name]: "" }), {
       district: "",
       role: "",
+      avatar: null,
     })
   );
 
+  const [previewAvatar, setPreviewAvatar] = useState(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, type, files } = e.target;
+
+    if (type === "file") {
+      const file = files[0];
+      if (file) {
+        setFormData({ ...formData, [name]: file });
+        const reader = new FileReader();
+        reader.onloadend = () => setPreviewAvatar(reader.result);
+        reader.readAsDataURL(file);
+      }
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -56,19 +70,32 @@ function Register() {
       return;
     }
 
+    const formDataToSend = new FormData();
+    Object.keys(formData).forEach((key) => {
+      formDataToSend.append(key, formData[key]);
+    });
+
     try {
       await axios.post(
-        "https://malkhanaserver-production.up.railway.app/api/v1/users/ragister",
-        formData
+        "https://malkhanaserver-production.up.railway.app/api/v1/users/register",
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          
+          }
+        }
       );
       setSuccess("Registration successful! You can now log in.");
       toast.success("Registration successful! You can now log in.");
+      window.location.href="/"
       setFormData(
         fields.reduce(
           (acc, field) => ({ ...acc, [field.name]: "" }),
-          { district: "", role: "" }
+          { district: "", role: "", avatar: null }
         )
       );
+      setPreviewAvatar(null);
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed");
       toast.error(err.response?.data?.message || "Registration failed");
@@ -135,6 +162,25 @@ function Register() {
               <option value="Admin">Admin</option>
               <option value="User">User</option>
             </select>
+            <div className="col-span-2">
+              <label className="block text-gray-700 text-xs font-medium">
+                Profile Photo
+              </label>
+              <input
+                type="file"
+                name="avatar"
+                accept="image/*"
+                onChange={handleChange}
+                className="w-full py-3 px-4 border rounded-lg text-sm"
+              />
+              {previewAvatar && (
+                <img
+                  src={previewAvatar}
+                  alt="Avatar Preview"
+                  className="mt-2 w-24 h-24 object-cover rounded-lg"
+                />
+              )}
+            </div>
           </div>
           <button
             type="submit"
