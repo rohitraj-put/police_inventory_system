@@ -9,7 +9,7 @@ import { OtherProvider } from "./context/OtherContext.jsx";
 import { UnclaimedProvider } from "./context/UnclaimedContext.jsx";
 import { MvactProvider } from "./context/MvactContext.jsx";
 import { ArtoProvider } from "./context/ArtoContaxt.jsx";
-import { IpcVehicleProvider } from "./context/IPCVehicleContext.jsx";
+import { IpcVehicleProvider } from "./context/IpcVehicleContext.jsx";
 import { ExciseVehicleProvider } from "./context/ExciseVehicleContext.jsx";
 import { UnclaimedVehicleContextProvider } from "./context/UnclaimedVehicleContext.jsx";
 import { SeizureVehicleProvider } from "./context/SeizureVehicleContext.jsx";

@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-export const IPCVehicleContext = createContext();
+export const IpcVehicleContext = createContext();
 
 export const IpcVehicleProvider = ({ children }) => {
   const [data, setData] = useState([]);
@@ -74,10 +74,10 @@ export const IpcVehicleProvider = ({ children }) => {
   };
 
   return (
-    <IPCVehicleContext.Provider
+    <IpcVehicleContext.Provider
       value={{ data, loading, error, deleteItem, updateItem }}
     >
       {children}
-    </IPCVehicleContext.Provider>
+    </IpcVehicleContext.Provider>
   );
 };

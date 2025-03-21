@@ -1,9 +1,9 @@
 // hooks/useIpc.js
 import { useContext } from "react";
-import { IPCVehicleContext } from "../context/IPCVehicleContext";
+import { IpcVehicleContext } from "../context/IpcVehicleContext";
 
 const useIpc = () => {
-  return useContext(IPCVehicleContext);
+  return useContext(IpcVehicleContext);
 };
 
 export default useIpc;

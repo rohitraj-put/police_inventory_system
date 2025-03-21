@@ -174,22 +174,23 @@ function Dashboard() {
           <h2 className="text-lg font-medium uppercase">{user?.role==="Admin" ? "Admin Dashboard" : "User Dashboard"}</h2>
           <h2 className="text-lg font-medium uppercase">ID - FERPR5534C</h2>
         </div>
-        {
-          user?.role==="Admin"&&
-          <div className="flex justify-end items-center mb-4 gap-2 ">
-         Police Station:{" "}
-          <select
-            value={selectedPoliceStation}
-            onChange={(e) => setSelectedPoliceStation(e.target.value)}
-            className="p-2 border border-gray-300 rounded cursor-pointer"
-          >
-            <option value="all">All</option>
-            {allUser?.map((policeS, index) => (
-              <option className="cursor-pointer" key={index} value={policeS.policeStation}>{policeS.policeStation}</option>
-            ))}
-          </select>
-        </div>
-        }
+        {user?.role === "Admin" &&  (
+          <div className="flex justify-end items-center mb-4 gap-2">
+            Police Station:{" "}
+            <select
+              value={selectedPoliceStation}
+              onChange={(e) => setSelectedPoliceStation(e.target.value)}
+              className="p-2 border border-gray-300 rounded cursor-pointer"
+            >
+              <option value="all">All</option>
+              {allUser?.map((policeS, index) => (
+                <option className="cursor-pointer" key={index} value={policeS.policeStation}>
+                  {policeS.policeStation}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
         {loading ? (
           <div className="">Please Wait Data Loading.....</div>
