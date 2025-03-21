@@ -21,9 +21,7 @@ export default function MalkhanaMovement() {
   const [preview, setPreview] = useState(null);
   const [mudNumbers, setMudNumbers] = useState([]);
   const { data, move, loading } = useAllData();
-
-
-
+  const {user} = useUser();
 
   useEffect(() => {
     if (formData.firNo) {
@@ -97,6 +95,13 @@ export default function MalkhanaMovement() {
       console.error("Error:", error);
     }
   };
+
+  const filteredMove = user?.role === "Admin"
+    ? move
+    : move?.filter((entry) => entry.policeStation === user?.policeStation);
+
+    console.log(move);
+    
 
   return (
     <>
@@ -215,7 +220,7 @@ export default function MalkhanaMovement() {
 
       {loading ? (
         <p className="text-gray-500">Loading entries...</p>
-      ) : move && move.length > 0 ? (
+      ) : filteredMove && filteredMove.length > 0 ? (
         <div>
           <div className="overflow-auto max-h-[500px] border border-gray-300 rounded-lg">
             <table className="w-full border-collapse text-xs">
@@ -241,7 +246,7 @@ export default function MalkhanaMovement() {
                 </tr>
               </thead>
               <tbody>
-                {move.map((entry, index) => (
+                {filteredMove.map((entry, index) => (
                   <tr
                     key={index}
                     className="text-center border border-gray-300"

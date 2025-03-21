@@ -12,7 +12,7 @@ const SummonEntry = () => {
 
   const {user}=useUser()
 
-  const singalData=data.filter((item)=>item.policeStation===user?.policeStation)
+  const singalData=user?.role==="Admin"?data:data.filter((item)=>item.policeStation===user?.policeStation)
 
 
   const [formData, setFormData] = useState({

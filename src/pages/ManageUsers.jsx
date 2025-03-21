@@ -11,7 +11,7 @@ function ManageUsers() {
     <>
       <div className="flex justify-between flex-wrap">
         {user?.role === "Admin" ? <Register /> : ""}
-        <div className="w-1/3 bg-gray-100 p-2 rounded-2xl mx-auto max-md:w-full">
+        <div className={`${user?.role==="Admin" ?"w-1/3":"w-1/2"}  bg-gray-100 p-2 rounded-2xl mx-auto max-md:w-full`}>
           {user ? (
             <>
               <div className="flex items-center justify-center relative z-10 mb-2.5">
@@ -55,7 +55,8 @@ function ManageUsers() {
         </div>
       </div>
 
-      <div className="mt-8">
+      {
+        user?.role==="Admin"&&<div className="mt-8">
         <h1 className="text-2xl font-bold mb-4">All User Data</h1>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">
@@ -88,6 +89,7 @@ function ManageUsers() {
           </table>
         </div>
       </div>
+      }
     </>
   );
 }

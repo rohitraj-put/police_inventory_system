@@ -25,11 +25,8 @@ export default function MalkhanaRelease() {
   const [previewAvatar, setPreviewAvatar] = useState(null);
   const [previewDocument, setPreviewDocument] = useState(null);
   const { data, loading, deleteItem } = useMalkhanaRelease();
-
-  const {user}=useUser()
-
-  const singalData=data.filter((item)=>item.policeStation===user?.policeStation)
-
+  const {user} = useUser();
+  console.log(data);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -100,6 +97,10 @@ export default function MalkhanaRelease() {
       console.error("Error:", error);
     }
   };
+
+  const filteredData = user?.role === "Admin"
+    ? data
+    : data?.filter((entry) => entry.policeStation === user?.policeStation);
 
   return (
     <>
@@ -180,9 +181,9 @@ export default function MalkhanaRelease() {
           <h2 className="text-lg font-semibold mb-3">
             All Malkhana Release Entries
           </h2>
-          {singalData && singalData?.length > 0 && (
+          {filteredData && filteredData.length > 0 && (
             <button
-              onClick={() => exportToExcel(singalData)}
+              onClick={() => exportToExcel(filteredData)}
               className="bg-[#8c7a48] text-white cursor-pointer px-3 py-2 rounded hover:bg-[#af9859] mb-2"
             >
               Download as Excel
@@ -192,7 +193,7 @@ export default function MalkhanaRelease() {
 
         {loading ? (
           <p className="text-gray-500">Loading entries...</p>
-        ) : singalData && singalData?.length > 0 ? (
+        ) : filteredData && filteredData.length > 0 ? (
           <div>
             <div className="overflow-auto max-h-[500px] border border-gray-300 rounded-lg">
               <table className="w-full border-collapse text-xs">
@@ -218,7 +219,7 @@ export default function MalkhanaRelease() {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((entry, index) => (
+                  {filteredData.map((entry, index) => (
                     <tr
                       key={index}
                       className="text-center border border-gray-300"
