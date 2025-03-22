@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaUsers, FaFileAlt, FaBoxOpen } from "react-icons/fa";
 import { RiMotorbikeFill } from "react-icons/ri";
 import { GrDocumentVerified, GrDocumentPerformance } from "react-icons/gr";
@@ -22,6 +22,21 @@ function Dashboard() {
 
   const { user, allUser } = useUser();
   const totalUser = allUser?.filter((userA) => userA.district === user?.district);
+
+  useEffect(() => {
+    if (AllData.length > 0) {
+      const malkhanaEntry = AllData.find((entry) => entry.collection === "Malkhana_Entry");
+      if (malkhanaEntry) {
+        const filteredData = malkhanaEntry.data.filter((data) => 
+          data.district === user?.district && (user?.role === "Admin" || (user?.role === "User" && data.policeStation === user?.policeStation))
+        );
+        setShowTable(filteredData);
+        setBgColor(getBgColor("Malkhana_Entry"));
+        setColor(getTextColor("Malkhana_Entry"));
+        setTitle("Total Malkhana Entry");
+      }
+    }
+  }, [AllData, user]);
 
   const dashboardCards = [
     ...(user?.role === "Admin"
