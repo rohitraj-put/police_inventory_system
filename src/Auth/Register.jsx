@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
-import DPlogo from "../assets/Images/dp.png"
+import DPlogo from "../assets/Images/dp.png";
 
 function Register() {
   const districts = [
@@ -25,6 +25,8 @@ function Register() {
     { name: "mobile", type: "text", placeholder: "Mobile" },
     { name: "email", type: "email", placeholder: "Email" },
     { name: "designation", type: "text", placeholder: "Designation" },
+    { name: "pisNo", type: "text", placeholder: "PIS No" },
+    { name: "beltNo", type: "text", placeholder: "Belt No" },
     { name: "password", type: "password", placeholder: "Password" },
     {
       name: "confirmPassword",
@@ -83,13 +85,12 @@ function Register() {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-          
           }
         }
       );
       setSuccess("Registration successful! You can now log in.");
       toast.success("Registration successful! You can now log in.");
-      window.location.href="/"
+      window.location.href = "/";
       setFormData(
         fields.reduce(
           (acc, field) => ({ ...acc, [field.name]: "" }),
@@ -107,11 +108,7 @@ function Register() {
     <div className="flex items-center justify-center gap-16 max-md:flex-col min-h-screen p-4 ">
       <div className="w-full max-w-md bg-white border border-gray-200 rounded-xl shadow-sm p-6 ">
         <div className="w-40 h-36 mx-auto">
-          <img
-            className="h-full w-full"
-            src={DPlogo}
-            alt="logo"
-          />
+          <img className="h-full w-full" src={DPlogo} alt="logo" />
         </div>
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-800 ">
@@ -190,9 +187,9 @@ function Register() {
             Register
           </button>
         </form>
-        <p className="mt-2 text-sm text-gray-600  text-center">
+        <p className="mt-2 text-sm text-gray-600 text-center">
           You have an account?{" "}
-          <Link className="text-blue-600 hover:underline " to={"/"}>
+          <Link className="text-blue-600 hover:underline" to={"/"}>
             Login here
           </Link>
         </p>

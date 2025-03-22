@@ -234,7 +234,7 @@ function Dashboard() {
         <div ref={tableRef}>
           <h2 className={` text-lg font-bold my-8 uppercase`}>{title}</h2>
 
-          <div className=" flex justify-between items-center"> 
+          <div className=" flex max-md:flex-col justify-between items-center "> 
           <div className="flex justify-end items-center mb-4 gap-2">
             Filter Data :{" "}
             <select
@@ -254,13 +254,13 @@ function Dashboard() {
             <input
               value={firNoFilter}
               onChange={(e) => setFirNoFilter(e.target.value)}
-              className="p-1 border border-gray-300 rounded"
+              className="p-1 border w-48 border-gray-300 rounded"
             />
             MUD No:{" "}
             <input
               value={mudNoFilter}
               onChange={(e) => setmudNoFilter(e.target.value)}
-              className="p-1 border border-gray-300 rounded"
+              className="p-1 border w-48 border-gray-300 rounded"
             />
           </div>
           </div>

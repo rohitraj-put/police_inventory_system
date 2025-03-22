@@ -46,6 +46,12 @@ function ManageUsers() {
               <p className="font-normal text-base leading-7 text-gray-500 text-center mb-2 capitalize">
                 Mobile : {user?.mobile}
               </p>
+              <p className="font-normal text-base leading-7 text-gray-500 text-center mb-2 capitalize">
+                PIS No: {user?.pisNo||"N/A"}
+              </p>
+              <p className="font-normal text-base leading-7 text-gray-500 text-center mb-2 capitalize">
+                Belt No : {user?.beltNo ||"N/A"}
+              </p>
               <p className="font-normal text-sm leading-7 text-gray-400 text-center">
                 Member since : {new Date(user?.createdAt).toLocaleDateString()}
               </p>
@@ -69,6 +75,8 @@ function ManageUsers() {
                   <th className="py-2 text-start px-4 border-b-2 border-gray-200">Email</th>
                   <th className="py-2 text-start px-4 border-b-2 border-gray-200">Police Station</th>
                   <th className="py-2 text-start px-4 border-b-2 border-gray-200">Mobile</th>
+                  <th className="py-2 text-start px-4 border-b-2 border-gray-200">PIS No</th>
+                  <th className="py-2 text-start px-4 border-b-2 border-gray-200">Belt No</th>
                   <th className="py-2 text-start px-4 border-b-2 border-gray-200">Role</th>
                   <th className="py-2 text-start px-4 border-b-2 border-gray-200">Actions</th>
                 </tr>
@@ -82,6 +90,8 @@ function ManageUsers() {
                     <td className="py-2 px-4 border-b border-gray-200">{user.email}</td>
                     <td className="py-2 px-4 border-b border-gray-200">{user.policeStation}</td>
                     <td className="py-2 px-4 border-b border-gray-200">{user.mobile}</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{user?.pisNo||"N/A"}</td>
+                    <td className="py-2 px-4 border-b border-gray-200">{user?.beltNo ||"N/A"}</td>
                     <td className="py-2 px-4 border-b border-gray-200">{user.role}</td>
                     <td className="py-2 px-4 border-b border-gray-200">
                       <button
