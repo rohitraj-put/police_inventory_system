@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import DPlogo from "../assets/Images/dp.png"
 
 function Register() {
   const districts = [
@@ -108,7 +109,7 @@ function Register() {
         <div className="w-40 h-36 mx-auto">
           <img
             className="h-full w-full"
-            src="https://vectorseek.com/wp-content/uploads/2023/09/Delhi-Police-Logo-Vector.svg-.png"
+            src={DPlogo}
             alt="logo"
           />
         </div>

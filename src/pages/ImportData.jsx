@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import * as XLSX from "xlsx";
 import axios from "axios";
 import toast from "react-hot-toast";
 import useImportData from "../hooks/useImportData";
+import useUser from "../hooks/useUser";
 
 const ImportData = () => {
   const [file, setFile] = useState(null);
   const [data, setData] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const { importData } = useImportData();
-  console.log(importData)
+  const { user } = useUser();
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -27,7 +28,6 @@ const ImportData = () => {
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
       const parsedData = XLSX.utils.sheet_to_json(sheet);
-      console.log("Parsed Data:", parsedData); // Debug log
       setData(parsedData);
     };
     reader.readAsBinaryString(file);
@@ -81,8 +81,20 @@ const ImportData = () => {
     )
   );
 
+  // Filtering logic
+  const isAdmin = user?.role === "Admin";
+  const userDistrict = user?.district;
+  const userPoliceStation = user?.policeStation;
+
   const filteredKeys =
-    filteredData.length > 0 ? Object.keys(filteredData[0]) : [];
+    isAdmin && userDistrict
+      ? filteredData.filter((item) => item.district === userDistrict)
+      : [];
+
+  const finalFilteredData =
+    isAdmin && userPoliceStation
+      ? filteredKeys.filter((item) => item.policeStation === userPoliceStation)
+      : [];
 
   return (
     <div className="p-4">
@@ -148,14 +160,14 @@ const ImportData = () => {
         </div>
       )}
       {/* ---------------------Import data-------------------- */}
-      {filteredKeys.length > 0 && (
+      {finalFilteredData.length > 0 && (
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-3">All Import Data</h3>
           <div className="overflow-x-auto">
             <table className="table-auto w-full text-left border-collapse">
               <thead>
                 <tr className="bg-gray-100">
-                  {filteredKeys.map((key) => (
+                  {Object.keys(finalFilteredData[0]).map((key) => (
                     <th key={key} className="px-4 py-2 border uppercase">
                       {key}
                     </th>
@@ -163,15 +175,19 @@ const ImportData = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredData.map((row, index) => (
-                  <tr key={index} className="even:bg-gray-50">
-                    {Object.values(row).map((value, i) => (
-                      <td key={i} className="px-4 py-2 border">
-                        {value}
-                      </td>
-                    ))}
-                  </tr>
-                ))}
+                 {finalFilteredData?.length> 0 ?
+                   <p className="text-center py-4">No data found</p>      
+                  : (
+                   finalFilteredData.map((row, index) => (
+                     <tr key={index} className="even:bg-gray-50">
+                       {Object.values(row).map((value, i) => (
+                         <td key={i} className="px-4 py-2 border">
+                           {value}
+                         </td>
+                       ))}
+                     </tr>
+                   ))
+                 )}
               </tbody>
             </table>
           </div>

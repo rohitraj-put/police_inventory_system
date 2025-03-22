@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Routes, Navigate, useNavigate, Link } from "react-router-dom";
+import { Route, Routes, useNavigate, Link } from "react-router-dom";
 import LogIn from "./Auth/LogIn";
 import Register from "./Auth/Register";
 import Dashboard from "./layout/Dashboard";
@@ -7,6 +7,7 @@ import Sidebar from "./Components/Sidebar";
 import Footer from "./Components/Footer";
 import { FaBars } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
+import DPlogo from "../src/assets/Images/dp.png"
 
 // Import all pages
 import MalkhanEntry from "./pages/MalkhanEntry";
@@ -37,6 +38,14 @@ import MalkhanaIsReturn from "./pages/MalkhanaIsReturn";
 import OfflineNotification from "./OfflineNotification";
 import useUser from "./hooks/useUser";
 
+// Function to check token expiration
+const isTokenExpired = (token) => {
+  // Decode the token to get its expiration time
+  const decodedToken = JSON.parse(atob(token.split('.')[1]));
+  const expirationTime = decodedToken.exp * 1000; // Convert to milliseconds
+  return Date.now() > expirationTime;
+};
+
 function App() {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
   const navigate = useNavigate();
@@ -54,7 +63,16 @@ function App() {
       }
     }
   }, [navigate, hasRedirected]);
-  
+
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // Get the token from local storage or wherever you store it
+    
+    if (token && isTokenExpired(token)) {
+      // If the token is expired, navigate to the home page
+      localStorage.removeItem('token'); // Optionally remove the expired token
+      navigate('/'); // Navigate to the home page
+    }
+  }, [navigate]);
 
   const LogoutHandler = () => {
     const confirmLogout = window.confirm("Are you sure you want to log out?");
@@ -89,7 +107,7 @@ function App() {
               </button>
               <div className="flex justify-center  p-1 rounded-full">
                 <img
-                  src="https://vectorseek.com/wp-content/uploads/2023/09/Delhi-Police-Logo-Vector.svg-.png"
+                  src={DPlogo}
                   alt="logo"
                   className="h-12"
                 />

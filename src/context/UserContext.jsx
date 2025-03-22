@@ -74,7 +74,7 @@ export const UserContextProvider = ({ children }) => {
   useEffect(() => {
     fetchUserDetails();
     fetchAllUser();
-  }, []);
+  }, [user,allUser]);
 
   return (
     <UserContext.Provider value={{ user, allUser, deleteUser }}>

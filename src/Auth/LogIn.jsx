@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import DPlogo from "../assets/Images/dp.png"
 
 function LogIn() {
   const [email, setEmail] = useState(localStorage.getItem("email") || "");
@@ -21,10 +22,12 @@ function LogIn() {
           );
           localStorage.setItem("token", res.data.data.accessToken);
           localStorage.setItem("email", email);
+          navigate("/dashboard");
           toast.dismiss(loadingToastId);
-          navigate("/dashboard")
           toast.success("Logged in successfully!");
-         
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
         } catch (err) {
           toast.dismiss(loadingToastId);
           setError("Invalid email or password");
@@ -52,6 +55,9 @@ function LogIn() {
       toast.dismiss(loadingToastId);
       toast.success("Logged in successfully!");
       navigate("/dashboard"); // Redirect after login
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
     } catch (err) {
       toast.dismiss(loadingToastId);
       setError("Invalid email or password");
@@ -66,7 +72,7 @@ function LogIn() {
         <div className="w-40 h-36 mx-auto">
           <img
             className="h-full w-full"
-            src="https://vectorseek.com/wp-content/uploads/2023/09/Delhi-Police-Logo-Vector.svg-.png"
+            src={DPlogo}
             alt="logo"
           />
         </div>

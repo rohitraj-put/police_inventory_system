@@ -25,6 +25,7 @@ import { UserContextProvider } from "./context/UserContext.jsx";
 // Corrected Providers Component
 const Providers = ({ children }) => (
   <UserContextProvider>
+  <AllDataProvider>
   <ThemeProvider>
     <MalkhanaProvider>
       <KurkiProvider>
@@ -41,7 +42,7 @@ const Providers = ({ children }) => (
                             <ImportDataProvider>
                               <MalkhanaReleaseProvider>
                                 <SeizedCashGoldProvider>
-                                  <AllDataProvider> {children}</AllDataProvider>
+                                   {children}
                                 </SeizedCashGoldProvider>
                               </MalkhanaReleaseProvider>
                             </ImportDataProvider>
@@ -58,6 +59,7 @@ const Providers = ({ children }) => (
       </KurkiProvider>
     </MalkhanaProvider>
   </ThemeProvider>
+  </AllDataProvider>
   </UserContextProvider>
 );
 
