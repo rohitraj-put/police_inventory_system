@@ -38,6 +38,7 @@ import MalkhanaIsReturn from "./pages/MalkhanaIsReturn";
 import OfflineNotification from "./OfflineNotification";
 import useUser from "./hooks/useUser";
 
+
 // Function to check token expiration
 const isTokenExpired = (token) => {
   // Decode the token to get its expiration time
@@ -86,6 +87,7 @@ function App() {
   return (
     <div className="flex h-screen">
       <OfflineNotification />
+     
       <Toaster />
       {/* Sidebar */}
       {isAuthenticated && (
@@ -141,6 +143,7 @@ function App() {
         )}
         {/* Page Content */}
         <div className="bg-white p-4">
+      
           <Routes>
             {/* Public Routes */}
             {!isAuthenticated ? (

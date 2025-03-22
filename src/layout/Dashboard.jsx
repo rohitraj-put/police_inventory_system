@@ -16,6 +16,8 @@ function Dashboard() {
   const [title, setTitle] = useState("");
   const [filter, setFilter] = useState("all");
   const [selectedPoliceStation, setSelectedPoliceStation] = useState("all");
+  const [firNoFilter, setFirNoFilter] = useState("");
+  const [mudNoFilter, setmudNoFilter] = useState("");
   const tableRef = useRef(null);
 
   const { user, allUser } = useUser();
@@ -136,12 +138,20 @@ function Dashboard() {
     }
   }
 
-  function filterData(data, filter, policeStation) {
+  function filterData(data, filter, policeStation, firNoFilter, mudNoFilter) {
     const today = new Date();
     let filteredData = data;
 
     if (policeStation !== "all") {
       filteredData = filteredData.filter((item) => item.policeStation === policeStation);
+    }
+
+    if (firNoFilter) {
+      filteredData = filteredData.filter((item) => item.firNo.includes(firNoFilter));
+    }
+
+    if (mudNoFilter) {
+      filteredData = filteredData.filter((item) => item.mudNo.includes(mudNoFilter));
     }
 
     switch (filter) {
@@ -165,7 +175,7 @@ function Dashboard() {
       ? Object.keys(showTable[0]).filter((key) => !excludedKeys.includes(key))
       : [];
 
-  const filteredTableData = filterData(showTable, filter, selectedPoliceStation);
+  const filteredTableData = filterData(showTable, filter, selectedPoliceStation, firNoFilter, mudNoFilter);
 
   return (
     <>
@@ -224,18 +234,35 @@ function Dashboard() {
         <div ref={tableRef}>
           <h2 className={` text-lg font-bold my-8 uppercase`}>{title}</h2>
 
+          <div className=" flex justify-between items-center"> 
           <div className="flex justify-end items-center mb-4 gap-2">
             Filter Data :{" "}
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="p-2 border border-gray-300 rounded"
+              className="p-1 border border-gray-300 rounded"
             >
               <option value="all">All</option>
               <option value="today">Today</option>
               <option value="yesterday">Yesterday</option>
               <option value="last_30_days">Last 30 Days</option>
             </select>
+          </div>
+
+          <div className="flex justify-start items-center mb-4 gap-2">
+            FIR No:{" "}
+            <input
+              value={firNoFilter}
+              onChange={(e) => setFirNoFilter(e.target.value)}
+              className="p-1 border border-gray-300 rounded"
+            />
+            MUD No:{" "}
+            <input
+              value={mudNoFilter}
+              onChange={(e) => setmudNoFilter(e.target.value)}
+              className="p-1 border border-gray-300 rounded"
+            />
+          </div>
           </div>
 
           <div className="overflow-x-auto">
