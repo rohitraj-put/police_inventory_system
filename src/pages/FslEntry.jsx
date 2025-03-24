@@ -13,18 +13,15 @@ export default function FslEntry() {
     firNo: "",
     mudNo: "",
     gdNo: "",
-    ioName: "",
-    banam: "",
-    underSection: "",
-    place: "",
     court: "",
-    firYear: "",
+    nameOfReciverPS: "",
+    nameOfReciverFSL: "",
     gdDate: new Date().toISOString().split("T")[0],
-    DakhilKarneWala: "",
+    fslTime: new Date().toISOString().substring(11, 16),
     caseProperty: "",
-    actType: "",
     status: "",
     avatar: null,
+    fslLocation: "INPS",
     description: "",
   });
 
@@ -34,11 +31,9 @@ export default function FslEntry() {
   const { data, loading, deleteItem, updateItem } = useFsl();
   const [editingId, setEditingId] = useState(null);
 
-  const {user}=useUser()
+  const { user } = useUser();
 
-  const singalData=data.filter((item)=>item.policeStation===user?.policeStation)
-
-
+  const singalData = data.filter((item) => item.policeStation === user?.policeStation);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -59,7 +54,7 @@ export default function FslEntry() {
     e.preventDefault();
     for (const key in formData) {
       if (!formData[key] && key !== "avatar") {
-        setError("All fields  are required");
+        setError("All fields are required");
         toast.error("Please fill all required fields");
         return;
       }
@@ -94,19 +89,17 @@ export default function FslEntry() {
         firNo: "",
         mudNo: "",
         gdNo: "",
-        ioName: "",
-        banam: "",
-        underSection: "",
-        place: "",
         court: "",
-        firYear: "",
+        nameOfReciverPS: "",
+        nameOfReciverFSL: "",
         gdDate: new Date().toISOString().split("T")[0],
-        DakhilKarneWala: "",
+        fslTime: new Date().toISOString().substring(11, 16),
         caseProperty: "",
-        actType: "",
         status: "",
         avatar: null,
+        fslLocation: "INPS",
         description: "",
+
       });
       setPreview(null);
     } catch (error) {
@@ -134,19 +127,17 @@ export default function FslEntry() {
       firNo: entry.firNo,
       mudNo: entry.mudNo,
       gdNo: entry.gdNo,
-      ioName: entry.ioName,
-      banam: entry.banam,
-      underSection: entry.underSection,
-      place: entry.place,
       court: entry.court,
-      firYear: entry.firYear,
       gdDate: entry.gdDate,
-      DakhilKarneWala: entry.DakhilKarneWala,
+      fslTime: entry.fslTime,
       caseProperty: entry.caseProperty,
-      actType: entry.actType,
+      nameOfReciverFSL: entry.nameOfReciverFSL,
+      nameOfReciverPS: entry.nameOfReciverPS,
       status: entry.status,
       avatar: entry.avatar,
+      fslLocation: entry.fslLocation || "INPS",
       description: entry.description,
+
     });
     setPreview(entry.avatar);
   };
@@ -173,19 +164,17 @@ export default function FslEntry() {
         firNo: "",
         mudNo: "",
         gdNo: "",
-        ioName: "",
-        banam: "",
-        underSection: "",
-        place: "",
         court: "",
-        firYear: "",
+        nameOfReciverPS: "",
+        nameOfReciverFSL: "",
         gdDate: new Date().toISOString().split("T")[0],
-        DakhilKarneWala: "",
+        fslTime: new Date().toISOString().substring(11, 16),
         caseProperty: "",
-        actType: "",
         status: "",
         avatar: null,
+        fslLocation: "INPS",
         description: "",
+
       });
       setEditingId(null);
       setPreview(null);
@@ -219,14 +208,26 @@ export default function FslEntry() {
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded mt-1 h-16 text-xs"
                 />
-              ) : field === "gdDate" ? (
+              ) : field === "gdDate" || field === "fslTime" ? (
                 <input
-                  type="date"
+                  type={field === "gdDate" ? "date" : "time"}
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
                   className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
                 />
+              ) : field === "fslLocation" ? (
+                <select
+                  name={field}
+                  value={formData[field]}
+                  onChange={handleChange}
+                  className={`w-full p-2 border border-gray-300 rounded mt-1 text-xs ${
+                    formData.fslLocation === "INPS" ? "bg-red-500 text-white" : "bg-green-500 text-white"
+                  }`}
+                >
+                  <option value="INPS">INPS</option>
+                  <option value="OUTFSL">OUTFSL</option>
+                </select>
               ) : field !== "avatar" ? (
                 <input
                   type="text"
@@ -307,17 +308,15 @@ export default function FslEntry() {
                     "FIR No",
                     "Mud No",
                     "GD No",
-                    "IO Name",
-                    "Banam",
-                    "Under Section",
                     "Description",
                     "Court",
-                    "FIR Year",
                     "GD Date",
-                    "Dakhil Karne Wala",
-                    "Act Type",
+                    "FSL Time",
                     "Case Property",
+                    "nameOfReciverFSL",
+                    "nameOfReciverPS",
                     "Status",
+                    "FSL Location",
                     "Avatar",
                     "Tracking By",
                     "Action",
@@ -342,37 +341,31 @@ export default function FslEntry() {
                     </td>
                     <td className="border border-gray-300 p-2">{entry.gdNo}</td>
                     <td className="border border-gray-300 p-2">
-                      {entry.ioName}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.banam}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.underSection}
-                    </td>
-                    <td className="border border-gray-300 p-2">
                       {entry.description}
                     </td>
                     <td className="border border-gray-300 p-2">
                       {entry.court}
                     </td>
                     <td className="border border-gray-300 p-2">
-                      {entry.firYear}
-                    </td>
-                    <td className="border border-gray-300 p-2">
                       {entry.gdDate}
                     </td>
                     <td className="border border-gray-300 p-2">
-                      {entry.DakhilKarneWala}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {entry.actType}
+                      {entry.fslTime}
                     </td>
                     <td className="border border-gray-300 p-2">
                       {entry.caseProperty}
                     </td>
                     <td className="border border-gray-300 p-2">
+                      {entry.nameOfReciverFSL}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {entry.nameOfReciverPS}
+                    </td>
+                    <td className="border border-gray-300 p-2">
                       {entry.status}
+                    </td>
+                    <td className={`border border-gray-300 p-2 ${entry.fslLocation === "INPS" ? "bg-red-500 text-white" : "bg-green-500 text-white"}`}>
+                      {entry.fslLocation}
                     </td>
                     <td className="border border-gray-300 p-2">
                       {entry.avatar ? (

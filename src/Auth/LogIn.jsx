@@ -30,8 +30,16 @@ function LogIn() {
           }, 1000);
         } catch (err) {
           toast.dismiss(loadingToastId);
-          setError("Invalid email or password");
-          toast.error("Invalid email or password");
+          if (err.response) {
+            setError("Invalid email or password");
+            toast.error("Invalid email or password");
+          } else if (err.request) {
+            setError("Network error, please try again later");
+            toast.error("Network error, please try again later");
+          } else {
+            setError("An unexpected error occurred");
+            toast.error("An unexpected error occurred");
+          }
         }
       };
 
@@ -60,8 +68,16 @@ function LogIn() {
       }, 1000);
     } catch (err) {
       toast.dismiss(loadingToastId);
-      setError("Invalid email or password");
-      toast.error("Invalid email or password");
+      if (err.response) {
+        setError("Invalid email or password");
+        toast.error("Invalid email or password");
+      } else if (err.request) {
+        setError("Network error, please try again later");
+        toast.error("Network error, please try again later");
+      } else {
+        setError("An unexpected error occurred");
+        toast.error("An unexpected error occurred");
+      }
     }
   };
 

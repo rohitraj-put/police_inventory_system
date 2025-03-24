@@ -23,20 +23,16 @@ function Dashboard() {
   const { user, allUser } = useUser();
   const totalUser = allUser?.filter((userA) => userA.district === user?.district);
 
-  useEffect(() => {
-    if (AllData.length > 0) {
-      const malkhanaEntry = AllData.find((entry) => entry.collection === "Malkhana_Entry");
-      if (malkhanaEntry) {
-        const filteredData = malkhanaEntry.data.filter((data) => 
-          data.district === user?.district && (user?.role === "Admin" || (user?.role === "User" && data.policeStation === user?.policeStation))
-        );
-        setShowTable(filteredData);
-        setBgColor(getBgColor("Malkhana_Entry"));
-        setColor(getTextColor("Malkhana_Entry"));
-        setTitle("Total Malkhana Entry");
-      }
-    }
-  }, [AllData, user]);
+  // useEffect(() => {
+  //   if (AllData.length > 0) {
+  //     const malkhanaEntry = AllData.find((entry) => entry.collection === "Malkhana_Entry");
+  //       setShowTable(malkhanaEntry);
+  //       setBgColor(getBgColor("Malkhana_Entry"));
+  //       setColor(getTextColor("Malkhana_Entry"));
+  //       setTitle("Total Malkhana Entry");
+  //     }
+  //   }
+  // , []);
 
   const dashboardCards = [
     ...(user?.role === "Admin"
@@ -228,15 +224,15 @@ function Dashboard() {
                 onClick={card.onClick}
                 className={`transform hover:scale-105 transition duration-300 shadow-lg rounded-lg p-5 ${card.bg} `}
               >
-                <div className="flex justify-between items-center">
-                  <div className={`${card.text}`}>{card.icon}</div>
-                  <div className="text-right">
+                <div className="">
+                <div className={` font-bold ${card.text} capitalize `}>
+                      {card.title}
+                    </div>
+                  <div className="flex justify-between items-center">
                     <div className={`text-3xl font-bold ${card.text}`}>
                       {card.count}
                     </div>
-                    <div className={` font-bold ${card.text} capitalize `}>
-                      {card.title}
-                    </div>
+                    <div className={`${card.text}`}>{card.icon}</div>
                   </div>
                 </div>
               </Link>
