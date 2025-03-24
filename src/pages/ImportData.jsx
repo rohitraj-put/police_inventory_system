@@ -4,6 +4,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import useImportData from "../hooks/useImportData";
 import useUser from "../hooks/useUser";
+import { jsPDF } from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const ImportData = () => {
   const [file, setFile] = useState(null);
@@ -11,6 +13,7 @@ const ImportData = () => {
   const [isUploading, setIsUploading] = useState(false);
   const { importData } = useImportData();
   const { user } = useUser();
+  console.log(importData);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -96,16 +99,48 @@ const ImportData = () => {
       ? filteredKeys.filter((item) => item.policeStation === userPoliceStation)
       : [];
 
+  const handleDownloadExcel = () => {
+    const worksheet = XLSX.utils.json_to_sheet(finalFilteredData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Data");
+    XLSX.writeFile(workbook, "data.xlsx");
+  };
+
+  const handleDownloadPDF = () => {
+    const doc = new jsPDF();
+    autoTable(doc, {
+      head: [Object.keys(finalFilteredData[0])],
+      body: finalFilteredData.map((row) => Object.values(row)),
+    });
+    doc.save("data.pdf");
+  };
+
   return (
     <div className="p-4">
-      <h2 className="text-lg font-semibold mb-3">Import Data</h2>
+     <div className=" flex justify-between items-center">
+     <h2 className="text-lg font-semibold ">Import Data</h2> 
+      <div className="mt-4 flex gap-4">
+            <button
+              onClick={handleDownloadExcel}
+              className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
+            >
+              Download Excel
+            </button>
+            <button
+              onClick={handleDownloadPDF}
+              className="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded"
+            >
+              Download PDF
+            </button>
+          </div>
+     </div>
       <div className="max-w-lg mx-auto mt-10 p-6 rounded shadow-sm">
         <h2 className="text-xl font-bold mb-4">Upload Excel File</h2>
         <input
           type="file"
           accept=".xlsx, .xls"
           onChange={handleFileChange}
-          className="border p-2 w-full"
+          className="border-2 p-2 w-full"
         />
         {file && <p>Selected file: {file.name}</p>}
         <div className="flex items-center gap-4">
@@ -158,15 +193,15 @@ const ImportData = () => {
           </div>
         </div>
       )}
-      {/* ---------------------Import data-------------------- */}
-      {finalFilteredData.length > 0 && (
+      {/* ---------------------All Import Data-------------------- */}
+      {importData.length > 0 && (
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-3">All Import Data</h3>
           <div className="overflow-x-auto">
             <table className="table-auto w-full text-left border-collapse">
               <thead>
                 <tr className="bg-gray-100">
-                  {Object.keys(finalFilteredData[0]).map((key) => (
+                  {Object.keys(filteredData[0]).map((key) => (
                     <th key={key} className="px-4 py-2 border uppercase">
                       {key}
                     </th>
@@ -174,22 +209,18 @@ const ImportData = () => {
                 </tr>
               </thead>
               <tbody>
-                 {finalFilteredData?.length> 0 ?
-                   <p className="text-center py-4">No data found</p>      
-                  : (
-                   finalFilteredData.map((row, index) => (
-                     <tr key={index} className="even:bg-gray-50">
-                       {Object.values(row).map((value, i) => (
-                         <td key={i} className="px-4 py-2 border">
-                           {value}
-                         </td>
-                       ))}
-                     </tr>
-                   ))
-                 )}
+                {filteredData.map((row, index) => (
+                  <tr key={index} className="even:bg-gray-50">
+                    {Object.values(row).map((value, i) => (
+                      <td key={i} className="px-4 py-2 border">
+                        {value}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
               </tbody>
             </table>
-          </div>
+          </div>       
         </div>
       )}
     </div>

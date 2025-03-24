@@ -232,7 +232,7 @@ export default function MalkhanEntry() {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1 h-16 text-xs"
+                  className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 h-16 text-xs"
                 />
               ) : field === "gdDate" ? (
                 <input
@@ -240,7 +240,7 @@ export default function MalkhanEntry() {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                  className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                 />
               ) : field !== "avatar" ? (
                 <input
@@ -248,7 +248,7 @@ export default function MalkhanEntry() {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                  className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                 />
               ) : (
                 <>
@@ -257,7 +257,7 @@ export default function MalkhanEntry() {
                     name="avatar"
                     accept="image/*"
                     onChange={handleChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                    className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                   />
                   {preview && (
                     <img
@@ -322,7 +322,7 @@ export default function MalkhanEntry() {
               placeholder="Enter FIR No"
               value={searchCriteria.firNo}
               onChange={handleSearchChange}
-              className="w-64 max-md:w-36 p-2 h-8 border border-gray-300 rounded "
+              className="w-64 max-md:w-36 p-2 h-8 border-[1.5px] border-gray-800 rounded "
             />
           </div>
           <div>
@@ -333,7 +333,7 @@ export default function MalkhanEntry() {
               placeholder="Enter Mud No"
               value={searchCriteria.mudNo}
               onChange={handleSearchChange}
-              className="w-64 max-md:w-36 p-2 h-8 border border-gray-300 rounded"
+              className="w-64 max-md:w-36 p-2 h-8 border-[1.5px] border-gray-800 rounded"
             />
           </div>
         </div>

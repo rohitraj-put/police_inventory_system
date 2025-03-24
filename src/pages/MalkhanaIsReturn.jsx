@@ -114,7 +114,7 @@ export default function MalkhanaIsReturn() {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                  className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                 >
                   {[
                     "Malkhana_Entry",
@@ -140,14 +140,14 @@ export default function MalkhanaIsReturn() {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                  className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                 />
               ) : field === "mudNo" ? (
                 <select
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                  className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                 >
                   <option value="">Select MUD Number</option>
                   {mudNumbers.map((mudNo) => (
@@ -161,7 +161,7 @@ export default function MalkhanaIsReturn() {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1 h-16 text-xs"
+                  className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 h-16 text-xs"
                 />
               ) : field !== "avatar" ? (
                 <input
@@ -169,7 +169,7 @@ export default function MalkhanaIsReturn() {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                  className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                 />
               ) : (
                 <>
@@ -178,7 +178,7 @@ export default function MalkhanaIsReturn() {
                     name="avatar"
                     accept="image/*"
                     onChange={handleChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                    className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                   />
                   {preview && (
                     <img

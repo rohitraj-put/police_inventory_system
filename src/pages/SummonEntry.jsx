@@ -144,7 +144,7 @@ const SummonEntry = () => {
             <select
               name="entryType"
               onChange={handleChange}
-              className="p-2 border rounded text-sm"
+              className="p-2 border-[1.5px] border-gray-800 rounded text-sm"
               value={formData.entryType}
             >
               <option value="">Select Entry Type</option>
@@ -163,7 +163,7 @@ const SummonEntry = () => {
                   name={key}
                   placeholder={key.replace(/([A-Z])/g, " $1").trim()}
                   onChange={handleChange}
-                  className="p-2 border rounded text-sm"
+                  className="p-2 border-[1.5px] border-gray-800 rounded text-sm"
                   value={formData[key]}
                 />
               ))}
@@ -171,7 +171,7 @@ const SummonEntry = () => {
               type="time"
               name="time"
               onChange={handleChange}
-              className="p-2 border rounded text-sm"
+              className="p-2 border-[1.5px] border-gray-800 rounded text-sm"
               value={formData.time}
             />
 

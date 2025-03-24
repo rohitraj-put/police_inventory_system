@@ -118,7 +118,7 @@ export default function MalkhanaRelease() {
                     name={field}
                     value={formData[field]}
                     onChange={handleChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1 text-xs cursor-pointer"
+                    className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs cursor-pointer"
                   >
                     <option value=""> Select Entry Type</option>
                     <option value="MV Act Seizure"> MV Act Seizure</option>
@@ -140,7 +140,7 @@ export default function MalkhanaRelease() {
                       name={field}
                       accept="image/*"
                       onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                      className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                     />
                     {(field === "avatar" && previewAvatar) ||
                     (field === "documentImage" && previewDocument) ? (
@@ -159,7 +159,7 @@ export default function MalkhanaRelease() {
                     name={field}
                     value={formData[field]}
                     onChange={handleChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                    className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                   />
                 )}
               </div>

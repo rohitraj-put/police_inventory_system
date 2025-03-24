@@ -206,7 +206,7 @@ export default function FslEntry() {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1 h-16 text-xs"
+                  className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 h-16 text-xs"
                 />
               ) : field === "gdDate" || field === "fslTime" ? (
                 <input
@@ -214,14 +214,14 @@ export default function FslEntry() {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                  className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                 />
               ) : field === "fslLocation" ? (
                 <select
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className={`w-full p-2 border border-gray-300 rounded mt-1 text-xs ${
+                  className={`w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs ${
                     formData.fslLocation === "INPS" ? "bg-red-500 text-white" : "bg-green-500 text-white"
                   }`}
                 >
@@ -234,7 +234,7 @@ export default function FslEntry() {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                  className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                 />
               ) : (
                 <>
@@ -243,7 +243,7 @@ export default function FslEntry() {
                     name="avatar"
                     accept="image/*"
                     onChange={handleChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                    className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                   />
                   {preview && (
                     <img
@@ -285,7 +285,7 @@ export default function FslEntry() {
             value={searchParams.firNo}
             onChange={handleSearchChange}
             placeholder="Search by FIR No"
-            className="p-2 border border-gray-300 rounded mr-2 text-xs"
+            className="p-2 border-[1.5px] border-gray-800 rounded mr-2 text-xs"
           />
           <input
             type="text"
@@ -293,7 +293,7 @@ export default function FslEntry() {
             value={searchParams.mudNo}
             onChange={handleSearchChange}
             placeholder="Search by Mud No"
-            className="p-2 border border-gray-300 rounded text-xs"
+            className="p-2 border-[1.5px] border-gray-800 rounded text-xs"
           />
         </div>
 

@@ -207,7 +207,7 @@ export default function UnclaimedVehicle() {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                  className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                 >
                   <option value="Car">Car</option>
                   <option value="Bike">Bike</option>
@@ -220,7 +220,7 @@ export default function UnclaimedVehicle() {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1 h-16 text-xs"
+                  className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 h-16 text-xs"
                 />
               ) : field === "gdDate" ? (
                 <input
@@ -228,7 +228,7 @@ export default function UnclaimedVehicle() {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                  className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                 />
               ) : field !== "avatar" ? (
                 <input
@@ -236,7 +236,7 @@ export default function UnclaimedVehicle() {
                   name={field}
                   value={formData[field]}
                   onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                  className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                 />
               ) : (
                 <>
@@ -245,7 +245,7 @@ export default function UnclaimedVehicle() {
                     name="avatar"
                     accept="image/*"
                     onChange={handleChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                    className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                   />
                   {preview && (
                     <img
@@ -291,7 +291,7 @@ export default function UnclaimedVehicle() {
             value={searchParams.mudNo}
             onChange={handleSearchChange}
             placeholder="Search by Mud No"
-            className="p-2 border border-gray-300 rounded mr-2 text-xs"
+            className="p-2 border-[1.5px] border-gray-800 rounded mr-2 text-xs"
           />
           <input
             type="text"
@@ -299,7 +299,7 @@ export default function UnclaimedVehicle() {
             value={searchParams.gdNo}
             onChange={handleSearchChange}
             placeholder="Search by GD No"
-            className="p-2 border border-gray-300 rounded text-xs"
+            className="p-2 border-[1.5px] border-gray-800 rounded text-xs"
           />
         </div>
 

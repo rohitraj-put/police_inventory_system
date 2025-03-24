@@ -185,7 +185,7 @@ export default function SeizedCashGold() {
                     name={field}
                     value={formData[field]}
                     onChange={handleChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                    className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                   >
                     <option value="">Select Item</option>
                     <option value="Cash">Cash</option>
@@ -198,7 +198,7 @@ export default function SeizedCashGold() {
                     name={field}
                     value={formData[field]}
                     onChange={handleChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                    className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                   />
                 ) : field !== "avatar" ? (
                   <input
@@ -206,7 +206,7 @@ export default function SeizedCashGold() {
                     name={field}
                     value={formData[field]}
                     onChange={handleChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                    className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                   />
                 ) : (
                   <>
@@ -215,7 +215,7 @@ export default function SeizedCashGold() {
                       name="avatar"
                       accept="image/*"
                       onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                      className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                     />
                     {preview && (
                       <img
@@ -243,7 +243,7 @@ export default function SeizedCashGold() {
                       name={field}
                       value={formData[field]}
                       onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded mt-1 h-16 text-xs"
+                      className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 h-16 text-xs"
                     />
                   ) : (
                     <input
@@ -251,7 +251,7 @@ export default function SeizedCashGold() {
                       name={field}
                       value={formData[field]}
                       onChange={handleChange}
-                      className="w-full p-2 border border-gray-300 rounded mt-1 text-xs"
+                      className="w-full p-2 border-[1.5px] border-gray-800 rounded mt-1 text-xs"
                     />
                   )}
                 </div>
