@@ -229,10 +229,11 @@ function Dashboard() {
                       {card.title}
                     </div>
                   <div className="flex justify-between items-center">
+                  <div className={`${card.text}`}>{card.icon}</div>
                     <div className={`text-3xl font-bold ${card.text}`}>
                       {card.count}
                     </div>
-                    <div className={`${card.text}`}>{card.icon}</div>
+                   
                   </div>
                 </div>
               </Link>
