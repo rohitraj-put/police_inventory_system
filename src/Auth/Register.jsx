@@ -104,6 +104,7 @@ function Register() {
     }
   };
 
+  const token=localStorage.getItem("token")
   return (
     <div className="flex items-center justify-center gap-16 max-md:flex-col min-h-screen p-4 ">
       <div className="w-full max-w-md bg-white border border-gray-200 rounded-xl shadow-sm p-6 ">
@@ -187,12 +188,15 @@ function Register() {
             Register
           </button>
         </form>
-        <p className="mt-2 text-sm text-gray-600 text-center">
+        {
+          !token  &&
+          <p className="mt-2 text-sm text-gray-600 text-center">
           You have an account?{" "}
           <Link className="text-blue-600 hover:underline" to={"/"}>
             Login here
           </Link>
         </p>
+        }
       </div>
     </div>
   );

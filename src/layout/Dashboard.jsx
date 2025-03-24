@@ -222,15 +222,15 @@ function Dashboard() {
                 key={index}
                 to="#"
                 onClick={card.onClick}
-                className={`transform hover:scale-105 transition duration-300 shadow-lg rounded-lg p-5 ${card.bg} `}
+                className={`transform hover:scale-105 transition duration-300 shadow-lg rounded-lg px-4 py-2 ${card.bg} `}
               >
                 <div className="">
-                <div className={` font-bold ${card.text} capitalize `}>
+                  <div className={` font-bold ${card.text} capitalize `}>
                       {card.title}
                     </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center py-2">
                   <div className={`${card.text}`}>{card.icon}</div>
-                    <div className={`text-3xl font-bold ${card.text}`}>
+                    <div className={`text-4xl max-md:text-3xl font-bold ${card.text}`}>
                       {card.count}
                     </div>
                    

@@ -99,7 +99,6 @@ const ImportData = () => {
   return (
     <div className="p-4">
       <h2 className="text-lg font-semibold mb-3">Import Data</h2>
-
       <div className="max-w-lg mx-auto mt-10 p-6 rounded shadow-sm">
         <h2 className="text-xl font-bold mb-4">Upload Excel File</h2>
         <input
