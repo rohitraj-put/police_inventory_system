@@ -261,7 +261,7 @@ function Dashboard() {
             </select>
           </div>
 
-          <div className="flex justify-start items-center mb-4 gap-2">
+          <div className="flex justify-start items-center mb-4 gap-2 px-2">
             <div>
             FIR No:{" "}
             <input
@@ -285,12 +285,12 @@ function Dashboard() {
             <table className="min-w-full border border-[#f1d790]">
               <thead>
               <tr className={`${bgColor} ${color} capitalize`}>
-  {tableHeaders.map((header) => (
-    <th key={header} className="px-4 py-2 text-sm border">
-      {header === 'mudNo' ? 'Mud Number' : header.replace(/([A-Z])/g, ' $1').toUpperCase()}
-    </th>
-  ))}
-</tr>
+                 {tableHeaders.map((header) => (
+                   <th key={header} className="px-4 py-2 text-sm border">
+                     {header === 'mudNo' ? 'Mud Number' : header.replace(/([A-Z])/g, ' $1').toUpperCase()}
+                   </th>
+                 ))}
+               </tr>
               </thead>
               <tbody>
                 {filteredTableData.map((movement, index) => (
