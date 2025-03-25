@@ -92,7 +92,7 @@ function App() {
       <Toaster />
       {/* Sidebar */}
       {isAuthenticated && (
-        <Sidebar isOpen={isSidebarOpen} className="fixed h-screen" />
+        <Sidebar isOpen={isSidebarOpen}   className="fixed h-screen" />
       )}
 
       {/* Main Content */}
@@ -117,7 +117,7 @@ function App() {
               </div>
             </div>
 
-            <h1 className="text-white font-bold text-xl">
+            <h1 className="text-white font-bold text-xl max-md:hidden">
               Peace, Service, Justice
             </h1>
             <div className="flex gap-2 items-center">

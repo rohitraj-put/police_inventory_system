@@ -68,7 +68,7 @@ const Sidebar = ({ isOpen, setActivePage }) => {
 
   return (
     <motion.div
-      animate={{ width: isOpen ? 230 : 0 }}
+      animate={{ width: isOpen ? 230 : window.innerWidth <= 768 ? 0 : 58 }}
       className="bg-[#8c7a48]  text-white h-screen sticky z-50 left-0 top-0 overflow-y-auto max-md:absolute"
     >
       {isOpen ? (

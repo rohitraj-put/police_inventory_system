@@ -28,8 +28,23 @@ const TranslateComponent = () => {
       }
     };
 
+    const addCustomStyles = () => {
+      const style = document.createElement('style');
+      style.innerHTML = `
+        .goog-te-banner-frame.skiptranslate {
+          display: none !important;
+        }
+        body {
+          top: 0px !important;
+          // display: none !important;
+        }
+      `;
+      document.head.appendChild(style);
+    };
+
     addGoogleTranslateScript();
     initGoogleTranslate();
+    addCustomStyles();
   }, []);
 
   return (

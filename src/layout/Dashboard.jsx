@@ -252,7 +252,7 @@ function Dashboard() {
             <select
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
-              className="p-1 border border-gray-300 rounded"
+              className="p-1 border border-gray-300 rounded "
             >
               <option value="all">All</option>
               <option value="today">Today</option>
@@ -262,18 +262,22 @@ function Dashboard() {
           </div>
 
           <div className="flex justify-start items-center mb-4 gap-2">
+            <div>
             FIR No:{" "}
             <input
               value={firNoFilter}
               onChange={(e) => setFirNoFilter(e.target.value)}
               className="p-1 border w-48 border-gray-300 rounded"
             />
-            MUD No:{" "}
+            </div>
+           <div>
+           MUD No:{" "}
             <input
               value={mudNoFilter}
               onChange={(e) => setmudNoFilter(e.target.value)}
               className="p-1 border w-48 border-gray-300 rounded"
             />
+           </div>
           </div>
           </div>
 
