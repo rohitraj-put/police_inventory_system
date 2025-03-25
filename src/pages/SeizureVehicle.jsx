@@ -22,7 +22,7 @@ const fieldLabels={
   avatar: " Avatar",
   vivechak: " Vivechak",
   firNo: " FIR Number",
-  banam: " Banam",
+  banam: " Banaam",
   vehicleOwner: " Vehicle Owner",
   result: " Result",
 }

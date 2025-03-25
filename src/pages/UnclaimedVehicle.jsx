@@ -21,7 +21,7 @@ const fieldLabels={
     actType: " Act Type",
     avatar: " Avatar",
     vivechak: " Vivechak",
-    banam: " Banam",
+    banam: " Banaam",
     result: " Result",
 }
 

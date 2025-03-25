@@ -13,7 +13,7 @@ const fieldLabels = {
   mudNo: "Mud Number",
   gdNo: "GD Number",
   ioName: "Investigating Officer Name",
-  banam: "Banam",
+  banam: "Banaam",
   underSection: "Under Section",
   place: "Place of Occurrence",
   court: "Court",
