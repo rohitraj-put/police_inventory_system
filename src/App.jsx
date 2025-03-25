@@ -92,7 +92,7 @@ function App() {
       <Toaster />
       {/* Sidebar */}
       {isAuthenticated && (
-        <Sidebar isOpen={isSidebarOpen}   className="fixed h-screen" />
+        <Sidebar isOpen={isSidebarOpen}  className="fixed h-screen" />
       )}
 
       {/* Main Content */}

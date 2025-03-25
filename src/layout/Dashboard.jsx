@@ -284,13 +284,13 @@ function Dashboard() {
           <div className="overflow-x-auto">
             <table className="min-w-full border border-[#f1d790]">
               <thead>
-                <tr className={`${bgColor} ${color} capitalize`}>
-                  {tableHeaders.map((header) => (
-                    <th key={header} className="px-4 py-2 text-sm border">
-                      {header.replace(/([A-Z])/g, " $1").toUpperCase()}
-                    </th>
-                  ))}
-                </tr>
+              <tr className={`${bgColor} ${color} capitalize`}>
+  {tableHeaders.map((header) => (
+    <th key={header} className="px-4 py-2 text-sm border">
+      {header === 'mudNo' ? 'Mud Number' : header.replace(/([A-Z])/g, ' $1').toUpperCase()}
+    </th>
+  ))}
+</tr>
               </thead>
               <tbody>
                 {filteredTableData.map((movement, index) => (
