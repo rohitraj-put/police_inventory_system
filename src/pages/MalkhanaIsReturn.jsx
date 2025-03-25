@@ -5,6 +5,16 @@ import useAllData from "../hooks/useAllData";
 import { FaPrint } from "react-icons/fa";
 import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
 
+const fieldLabels={
+  entryType: " Entry Type",
+    firNo: " FIR Number",
+    mudNo: " Mud Number",
+    receivedBy: " Received By",
+    trackingBy: " Tracking By",
+    avatar: " Avatar",
+    description: "Description",
+}
+
 export default function MalkhanaIsReturn() {
   const [formData, setFormData] = useState({
     entryType: "Malkhana_Entry",
@@ -107,7 +117,7 @@ export default function MalkhanaIsReturn() {
               className={field === "description" ? "col-span-4" : "col-span-1"}
             >
               <label className="block text-gray-700 text-xs font-medium capitalize">
-                {field.replace(/([A-Z])/g, " $1")}
+                {fieldLabels[field]}
               </label>
               {field === "entryType" ? (
                 <select
@@ -211,8 +221,8 @@ export default function MalkhanaIsReturn() {
               <thead className="sticky top-0 bg-[#8c7a48] text-white z-10">
                 <tr>
                   {[
-                    "fir No",
-                    "mud No",
+                    "FIR Number",
+                    "Mud Number",
                     "entry Type",
                     "received  By",
                     "tracking By",

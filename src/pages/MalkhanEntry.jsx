@@ -10,6 +10,25 @@ import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
 import useUser from "../hooks/useUser";
 import Compressor from "compressorjs";
 
+const fieldLabels = {
+  firNo: "FIR Number",
+  mudNo: "Mud Number",
+  gdNo: "GD Number",
+  ioName: "Investigating Officer Name",
+  banam: "Banam",
+  underSection: "Under Section",
+  place: "Place of Occurrence",
+  court: "Court",
+  firYear: "FIR Year",
+  gdDate: "GD Date",
+  DakhilKarneWala: "Person Submitting",
+  caseProperty: "Case Property",
+  actType: "Act Type",
+  status: "Status",
+  avatar: "Image",
+  description: "Description",
+};
+
 export default function MalkhanEntry() {
   const [formData, setFormData] = useState({
     firNo: "",
@@ -229,7 +248,7 @@ export default function MalkhanEntry() {
               className={field === "description" ? "col-span-4" : "col-span-1"}
             >
               <label className="block text-gray-700 text-xs font-medium capitalize">
-                {field.replace(/([A-Z])/g, " $1")}
+                {fieldLabels[field]}
               </label>
 
               {field === "description" ? (
@@ -324,7 +343,7 @@ export default function MalkhanEntry() {
             <input
               type="text"
               name="firNo"
-              placeholder="Enter FIR No"
+              placeholder="Enter FIR Number"
               value={searchCriteria.firNo}
               onChange={handleSearchChange}
               className="w-64 max-md:w-36 p-2 h-8 border-[1.5px] border-gray-800 rounded "
@@ -335,7 +354,7 @@ export default function MalkhanEntry() {
             <input
               type="text"
               name="mudNo"
-              placeholder="Enter Mud No"
+              placeholder="Enter Mud Number"
               value={searchCriteria.mudNo}
               onChange={handleSearchChange}
               className="w-64 max-md:w-36 p-2 h-8 border-[1.5px] border-gray-800 rounded"
@@ -352,9 +371,9 @@ export default function MalkhanEntry() {
                 <thead className="sticky top-0 bg-[#8c7a48] text-white z-10">
                   <tr>
                     {[
-                      "FIR No",
-                      "Mud No",
-                      "GD No",
+                      "FIR Number",
+                      "Mud Number",
+                      "GD Number",
                       "IO Name",
                       "Banam",
                       "Under Section",

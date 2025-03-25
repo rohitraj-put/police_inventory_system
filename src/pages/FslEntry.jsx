@@ -8,6 +8,23 @@ import { FaEdit, FaPrint } from "react-icons/fa";
 import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
 import useUser from "../hooks/useUser";
 
+
+const fieldLabels = {
+  firNo: "FIR Number",
+    mudNo: "Mud Number",
+    gdNo: "GD Number",
+    court: "court",
+    nameOfReciverPS: "name Of Reciver PS",
+    nameOfReciverFSL: " name Of Reciver FSL",
+    gdDate: "GD Date",
+    fslTime: "FSL Time",
+    caseProperty: " Case Property",
+    status: " Status",
+    avatar: "Avatar",
+    fslLocation: " FSl Location",
+    description: " Description",
+};
+
 export default function FslEntry() {
   const [formData, setFormData] = useState({
     firNo: "",
@@ -199,7 +216,7 @@ export default function FslEntry() {
               className={field === "description" ? "col-span-4" : "col-span-1"}
             >
               <label className="block text-gray-700 text-xs font-medium capitalize">
-                {field.replace(/([A-Z])/g, " $1")}
+                {fieldLabels[field]}
               </label>
               {field === "description" ? (
                 <textarea
@@ -225,8 +242,8 @@ export default function FslEntry() {
                     formData.fslLocation === "INPS" ? "bg-red-500 text-white" : "bg-green-500 text-white"
                   }`}
                 >
-                  <option value="INPS">INPS</option>
-                  <option value="OUTFSL">OUTFSL</option>
+                  <option value="INPS">IN PS</option>
+                  <option value="OUTFSL">OUT FSL</option>
                 </select>
               ) : field !== "avatar" ? (
                 <input
@@ -284,7 +301,7 @@ export default function FslEntry() {
             name="firNo"
             value={searchParams.firNo}
             onChange={handleSearchChange}
-            placeholder="Search by FIR No"
+            placeholder="Search by FIR Number"
             className="p-2 border-[1.5px] border-gray-800 rounded mr-2 text-xs"
           />
           <input
@@ -292,7 +309,7 @@ export default function FslEntry() {
             name="mudNo"
             value={searchParams.mudNo}
             onChange={handleSearchChange}
-            placeholder="Search by Mud No"
+            placeholder="Search by Mud Number"
             className="p-2 border-[1.5px] border-gray-800 rounded text-xs"
           />
         </div>
@@ -305,16 +322,16 @@ export default function FslEntry() {
               <thead className="sticky top-0 bg-[#8c7a48] text-white z-10">
                 <tr>
                   {[
-                    "FIR No",
-                    "Mud No",
-                    "GD No",
+                    "FIR Number",
+                    "Mud Number",
+                    "GD Number",
                     "Description",
                     "Court",
                     "GD Date",
                     "FSL Time",
                     "Case Property",
-                    "nameOfReciverFSL",
-                    "nameOfReciverPS",
+                    "name Of Reciver FSL",
+                    "name Of Reciver PS",
                     "Status",
                     "FSL Location",
                     "Avatar",

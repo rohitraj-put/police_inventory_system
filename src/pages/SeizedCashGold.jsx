@@ -277,8 +277,8 @@ export default function SeizedCashGold() {
             <thead className="sticky top-0 bg-[#8c7a48] text-white z-10">
               <tr>
                 {[
-                  "FIR No",
-                  "MUD No",
+                  "FIR Number",
+                  "Mud Number",
                   "Police Station",
                   "Seized Item",
                   "Item Name",

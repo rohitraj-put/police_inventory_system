@@ -8,6 +8,19 @@ import { FaEdit, FaPrint } from "react-icons/fa";
 import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
 import useUser from "../hooks/useUser";
 
+const fieldLabels={
+  entryType: "Entry Type",
+    mudNo: " Mud Number",
+    mudDetails: " Mud Details",
+    receiverName: " Receiver Name",
+    fatherName: " Father Name",
+    address: " Address",
+    mobile: " Phone Number",
+    releaseItems: " Release Items",
+    avatar: " Avatar",
+    documentImage: " Document Image",
+}
+
 export default function MalkhanaRelease() {
   const [formData, setFormData] = useState({
     entryType: "Type1",
@@ -111,7 +124,7 @@ export default function MalkhanaRelease() {
             {Object.keys(formData).map((field) => (
               <div key={field} className="col-span-1">
                 <label className="block text-gray-700 text-xs font-medium capitalize">
-                  {field.replace(/([A-Z])/g, " $1").replace("Type", " Type")}
+                  {fieldLabels[field]}
                 </label>
                 {field === "entryType" ? (
                   <select
@@ -200,16 +213,16 @@ export default function MalkhanaRelease() {
                 <thead className="sticky top-0 bg-[#8c7a48] text-white z-10">
                   <tr>
                     {[
-                      "entryType",
-                      "mudNo",
-                      "mudDetails",
-                      "receiverName",
-                      "fatherName",
+                      "entry Type",
+                      "Mud Number",
+                      "Mud Details",
+                      "receiver Name",
+                      "father Name",
                       "address",
-                      "mobile",
-                      "releaseItems",
+                      "phone Number",
+                      "release Items",
                       "avatar",
-                      "documentImage",
+                      "document Image",
                       "Action",
                     ].map((header) => (
                       <th key={header} className="border border-gray-300 p-2 ">

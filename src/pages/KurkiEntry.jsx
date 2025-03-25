@@ -8,6 +8,25 @@ import { FaEdit, FaPrint } from "react-icons/fa";
 import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
 import useUser from "../hooks/useUser";
 
+const fieldLabels = {
+  firNo: "FIR Number",
+  mudNo: "Mud Number",
+  gdNo: "GD Number",
+  ioName: "Investigating Officer Name",
+  banam: "Banam",
+  underSection: "Under Section",
+  place: "Place of Occurrence",
+  court: "Court",
+  firYear: "FIR Year",
+  gdDate: "GD Date",
+  DakhilKarneWala: "Person Submitting",
+  caseProperty: "Case Property",
+  actType: "Act Type",
+  status: "Status",
+  avatar: "Image",
+  description: "Description",
+};
+
 export default function KurkiEntry() {
   const [formData, setFormData] = useState({
     firNo: "",
@@ -214,7 +233,7 @@ export default function KurkiEntry() {
               className={field === "description" ? "col-span-4" : "col-span-1"}
             >
               <label className="block text-gray-700 text-xs font-medium capitalize">
-                {field.replace(/([A-Z])/g, " $1")}
+                {fieldLabels[field]}
               </label>
               {field === "description" ? (
                 <textarea
@@ -287,7 +306,7 @@ export default function KurkiEntry() {
             name="firNo"
             value={searchParams.firNo}
             onChange={handleSearchChange}
-            placeholder="Search by FIR No"
+            placeholder="Search by FIR Number"
             className="p-2 border-[1.5px] border-gray-800 rounded mr-2 text-xs"
           />
           <input
@@ -295,7 +314,7 @@ export default function KurkiEntry() {
             name="mudNo"
             value={searchParams.mudNo}
             onChange={handleSearchChange}
-            placeholder="Search by Mud No"
+            placeholder="Search by Mud Number"
             className="p-2 border-[1.5px] border-gray-800 rounded text-xs"
           />
         </div>
@@ -308,9 +327,9 @@ export default function KurkiEntry() {
               <thead className="sticky top-0 bg-[#8c7a48] text-white z-10">
                 <tr>
                   {[
-                    "FIR No",
-                    "Mud No",
-                    "GD No",
+                    "FIR Number",
+                    "Mud Number",
+                    "GD Number",
                     "IO Name",
                     "Banam",
                     "Under Section",

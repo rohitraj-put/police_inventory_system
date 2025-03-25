@@ -8,6 +8,24 @@ import { FaEdit, FaPrint } from "react-icons/fa";
 import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
 import useUser from "../hooks/useUser";
 
+const fieldLabels={
+  mudNo: " Mud Number",
+  gdNo: " GD Number",
+  underSection: " Under Section",
+  vehicleType: " vehicle Type",
+  regNo: " regestration Number",
+  chassisNo: " Chassis Number",
+  engineNo: " Engine Number",
+  colour: " Colour",
+  gdDate: " GD Date",
+  actType: " Act Type",
+  avatar: "Avatar",
+  vivechak: " Vivechak",
+  firNo: " FIR Number",
+  banam: " Banam",
+  result: " Result",
+}
+
 export default function ExciseVehicle() {
   const [formData, setFormData] = useState({
     mudNo: "",
@@ -207,7 +225,7 @@ export default function ExciseVehicle() {
               className={field === "result" ? "col-span-4" : "col-span-1"}
             >
               <label className="block text-gray-700 text-xs font-medium capitalize">
-                {field.replace(/([A-Z])/g, " $1")}
+                {fieldLabels[field]}
               </label>
               {field === "vehicleType" ? (
                 <select
@@ -297,7 +315,7 @@ export default function ExciseVehicle() {
             name="mudNo"
             value={searchParams.mudNo}
             onChange={handleSearchChange}
-            placeholder="Search by Mud No"
+            placeholder="Search by Mud Number"
             className="p-2 border-[1.5px] border-gray-800 rounded mr-2 text-xs"
           />
           <input
@@ -305,7 +323,7 @@ export default function ExciseVehicle() {
             name="gdNo"
             value={searchParams.gdNo}
             onChange={handleSearchChange}
-            placeholder="Search by GD No"
+            placeholder="Search by GD Number"
             className="p-2 border-[1.5px] border-gray-800 rounded text-xs"
           />
         </div>
@@ -318,19 +336,19 @@ export default function ExciseVehicle() {
               <thead className="sticky top-0 bg-[#8c7a48] text-white z-10">
                 <tr>
                   {[
-                    "Mud No",
-                    "GD No",
+                    "Mud Number",
+                    "GD Number",
                     "Under Section",
                     "Vehicle Type",
-                    "Reg No",
-                    "Chassis No",
+                    "Reg Number",
+                    "Chassis Number",
                     "Vivechak",
-                    "Engine No",
+                    "Engine Number",
                     "Colour",
                     "GD Date",
                     "Act Type",
                     "Avatar",
-                    "FIR No",
+                    "FIR Number",
                     "Banam",
                     "Result",
                     "Action",

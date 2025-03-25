@@ -7,6 +7,16 @@ import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
 import { Link } from "react-router-dom";
 import useUser from "../hooks/useUser";
 
+const fieldLabels={
+  entryType: " Entry Type",
+    firNo: " FIR Number",
+    mudNo: " Mud Number",
+    takenOutBy: " Taken Out By",
+    trackingBy: " Tracking By",
+    avatar: " Avatar",
+    description: " Description",
+}
+
 export default function MalkhanaMovement() {
   const [formData, setFormData] = useState({
     entryType: "Malkhana_Entry",
@@ -123,7 +133,7 @@ export default function MalkhanaMovement() {
               className={field === "description" ? "col-span-4" : "col-span-1"}
             >
               <label className="block text-gray-700 text-xs font-medium capitalize">
-                {field.replace(/([A-Z])/g, " $1")}
+                {fieldLabels[field]}
               </label>
               {field === "entryType" ? (
                 <select
@@ -227,8 +237,8 @@ export default function MalkhanaMovement() {
               <thead className="sticky top-0 bg-[#8c7a48] text-white z-10">
                 <tr>
                   {[
-                    "fir No",
-                    "mud No",
+                    "fir Number",
+                    "mud Number",
                     "entry Type",
                     "taken Out By",
                     "tracking By",
