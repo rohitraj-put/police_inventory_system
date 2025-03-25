@@ -51,7 +51,7 @@ const TranslateComponent = () => {
     <div
       id="google_translate_element"
       style={{
-        height: '40px',
+        height: '20px',
         overflow: 'hidden',
       }}
     ></div>

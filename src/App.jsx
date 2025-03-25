@@ -121,12 +121,14 @@ function App() {
               Peace, Service, Justice
             </h1>
             <div className="flex gap-2 items-center">
+            <div className=""><TranslateComponent/></div>
               <MdLogout
                 className="text-white"
                 size={28}
                 title="Log Out"
                 onClick={LogoutHandler}
               />
+              
               <Link
                 to={"/manage-users"}
                 className="w-10 h-10 rounded-full overflow-hidden"
@@ -139,7 +141,7 @@ function App() {
                   alt="profile_image"
                 />
               </Link>
-              <div className=""><TranslateComponent/></div>
+              
             </div>
             
           </div>

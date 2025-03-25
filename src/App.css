@@ -7,6 +7,23 @@
 .VIpgJd-ZVi9od-ORHb-OEVmcd {
     display: none !important;
 }
+.goog-te-gadget-icon{
+    display: none !important;
+}
+
+.goog-te-gadget-simple{
+    background-color: #8c7a48 !important;
+    padding: 2px;
+    border: 0 !important;
+}
+.VIpgJd-ZVi9od-xl07Ob-lTBxed{
+    color: white !important;
+}
+
+.goog-te-gadget-simple{
+margin: 0 !important;
+padding: 0 !important;
+}
 /* Width for both vertical and horizontal scrollbars */
 ::-webkit-scrollbar {
     width: 4px;
