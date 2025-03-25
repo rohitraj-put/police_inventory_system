@@ -1,48 +1,45 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
 const TranslateComponent = () => {
   useEffect(() => {
-    // Function to simulate a click event
-    const simulateClick = (element) => {
-      if (element) {
-        console.log("Simulating click on:", element);
-        element.click();
-      } else {
-        console.log("Element not found");
+    const addGoogleTranslateScript = () => {
+      if (!document.querySelector('#google-translate-script')) {
+        const script = document.createElement('script');
+        script.id = 'google-translate-script';
+        script.type = 'text/javascript';
+        script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+        script.async = true;
+        document.body.appendChild(script);
       }
     };
 
-    // Function to handle the button click
-    const handleButtonClick = () => {
-      // Find the "Translate to Hindi" button using a suitable selector
-      const translateButton = document.querySelector(
-        "selector-for-translate-button"
-      );
-      console.log("Translate button found:", translateButton);
-      simulateClick(translateButton);
-    };
-
-    // Add event listener to the button (assuming the button has an ID of 'auto-translate-button')
-    const autoTranslateButton = document.getElementById(
-      "auto-translate-button"
-    );
-    if (autoTranslateButton) {
-      console.log("Auto translate button found:", autoTranslateButton);
-      autoTranslateButton.addEventListener("click", handleButtonClick);
-    } else {
-      console.log("Auto translate button not found");
-    }
-
-    // Cleanup event listener on component unmount
-    return () => {
-      if (autoTranslateButton) {
-        autoTranslateButton.removeEventListener("click", handleButtonClick);
+    const initGoogleTranslate = () => {
+      if (!window.googleTranslateElementInit) {
+        window.googleTranslateElementInit = () => {
+          new window.google.translate.TranslateElement(
+            {
+              pageLanguage: 'en', // Set the default language of your website
+              includedLanguages: 'en,hi', // List of languages you want to support
+              layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
+            },
+            'google_translate_element'
+          );
+        };
       }
     };
+
+    addGoogleTranslateScript();
+    initGoogleTranslate();
   }, []);
 
   return (
-    <button id="auto-translate-button">Click to Translate to Hindi</button>
+    <div
+      id="google_translate_element"
+      style={{
+        height: '40px',
+        overflow: 'hidden',
+      }}
+    ></div>
   );
 };
 

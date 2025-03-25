@@ -8,6 +8,7 @@ import { FaEdit } from "react-icons/fa";
 import { FaPrint } from "react-icons/fa";
 import PrintMalkhanaEntry from "../Excel/PrintMalkhanaEntry";
 import useUser from "../hooks/useUser";
+import Compressor from "compressorjs";
 
 export default function MalkhanEntry() {
   const [formData, setFormData] = useState({
@@ -38,11 +39,10 @@ export default function MalkhanEntry() {
   });
   const { data, loading, deleteItem, updateItem } = useMalkhana();
   const [editingId, setEditingId] = useState(null);
-  const {user}=useUser()
+  const { user } = useUser();
 
-  const singalData=data.filter((item)=>item.policeStation===user?.policeStation)
-  console.log(singalData)
-
+  const singalData = data.filter((item) => item.policeStation === user?.policeStation);
+  console.log(singalData);
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -50,12 +50,17 @@ export default function MalkhanEntry() {
     if (type === "file") {
       const file = files[0];
       if (file) {
-        setFormData({ ...formData, avatar: file });
+        new Compressor(file, {
+          quality: 0.6, // Adjust the quality as needed (0 to 1)
+          success: (compressedResult) => {
+            setFormData({ ...formData, avatar: compressedResult });
 
-        // Show image preview
-        const reader = new FileReader();
-        reader.onloadend = () => setPreview(reader.result);
-        reader.readAsDataURL(file);
+            // Show image preview
+            const reader = new FileReader();
+            reader.onloadend = () => setPreview(reader.result);
+            reader.readAsDataURL(compressedResult);
+          },
+        });
       }
     } else {
       setFormData({ ...formData, [name]: value });

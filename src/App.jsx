@@ -5,7 +5,7 @@ import Register from "./Auth/Register";
 import Dashboard from "./layout/Dashboard";
 import Sidebar from "./Components/Sidebar";
 import Footer from "./Components/Footer";
-import { FaBars } from "react-icons/fa";
+import { GoSidebarExpand } from "react-icons/go";
 import { MdLogout } from "react-icons/md";
 import DPlogo from "../src/assets/Images/dp.png"
 
@@ -37,6 +37,7 @@ import { Toaster } from "react-hot-toast";
 import MalkhanaIsReturn from "./pages/MalkhanaIsReturn";
 import OfflineNotification from "./OfflineNotification";
 import useUser from "./hooks/useUser";
+import TranslateComponent from "./layout/TranslateComponent";
 
 
 // Function to check token expiration
@@ -105,7 +106,7 @@ function App() {
                 onClick={() => setSidebarOpen(!isSidebarOpen)}
                 className="bg-[#8c7a48] text-white rounded transition cursor-pointer"
               >
-                <FaBars size={28} />
+                <GoSidebarExpand size={32}/>
               </button>
               <div className="flex justify-center  p-1 rounded-full">
                 <img
@@ -138,7 +139,9 @@ function App() {
                   alt="profile_image"
                 />
               </Link>
+              <div className=""><TranslateComponent/></div>
             </div>
+            
           </div>
         )}
         {/* Page Content */}

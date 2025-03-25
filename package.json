@@ -13,6 +13,7 @@
     "@material/button": "^14.0.0",
     "@tailwindcss/vite": "^4.0.9",
     "axios": "^1.8.1",
+    "compressorjs": "^1.2.1",
     "date-fns": "^4.1.0",
     "file-saver": "^2.0.5",
     "framer-motion": "^12.4.7",

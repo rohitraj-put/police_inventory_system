@@ -33,6 +33,7 @@ export default function KurkiEntry() {
   const [searchParams, setSearchParams] = useState({ firNo: "", mudNo: "" });
   const { data, loading, deleteItem, updateItem } = useKurki();
   const [editingId, setEditingId] = useState(null);
+  console.log(data) 
 
   const {user}=useUser()
 

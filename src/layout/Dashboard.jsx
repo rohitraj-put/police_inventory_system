@@ -193,7 +193,7 @@ function Dashboard() {
       <div className="">
         <div className="flex justify-between items-center">
           <h2 className="text-lg font-medium uppercase">{user?.role==="Admin" ? "Admin Dashboard" : "User Dashboard"}</h2>
-          <h2 className="text-lg font-medium uppercase">ID - FERPR5534C</h2>
+          <h2 className="text-lg font-medium uppercase">PIS - {user?.pisNo||"FERPR5534C"}</h2>
         </div>
         {user?.role === "Admin" &&  (
           <div className="flex justify-end items-center mb-4 gap-2">
